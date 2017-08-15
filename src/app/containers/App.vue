@@ -25,49 +25,17 @@ const menu = [{
 
 {
   title: '元数据管理',
-  path: '/config',
+  path: '/data',
   icon: 'iconfont icon-peizhizhongxin',
   items: [{
     title: '数据源管理',
-    path: 'apps'
+    path: 'source'
   }, {
     title: '数据对象管理',
-    path: 'dbs'
+    path: 'obj'
   }, {
     title: '业务数据管理',
-    path: 'middlewares'
-  }, {
-    title: '数据业务分类管理',
-    path: 'hosts'
-  }]
-},
- {
-  title: '报表中心',
-  path: '/report',
-  icon: 'iconfont icon-baobiaozhongxin',
-  items: [{
-    title: '应用运行统计',
-    path: 'runners'
-  }, {
-    title: '事件查询',
-    path: 'events'
-  }, {
-    title: '安全攻击查询',
-    path: 'safe'
-  }, {
-    title: '黑白名单查询',
-    path: 'black'
-  }]
-}, {
-  title: '数据分析',
-  path: '/data',
-  icon: 'iconfont icon-shujufenxi',
-  items: [{
-    title: '厂商排名',
-    path: 'manufacturer'
-  }, {
-    title: '资源消耗统计',
-    path: 'resources'
+    path: 'busi'
   }]
 }];
 

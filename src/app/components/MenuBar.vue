@@ -9,16 +9,8 @@
     </div>
     <router-link v-for="(menu, idx) in menus" @click.native="menuChange(menu, idx)" :key="menu.title" :to="menu.path">
       <icon-item :distance="15" :text="menu.title" src="hack">
-        <i class="fa fa-caret-right fa-lg" :class="menu.icon" :style="{fontSize: menu.icon.indexOf('chart') > 0 ? '20px' : '24px'}" aria-hidden="true" @click="showOperations($event)"></i>
+        <i :class="menu.icon" :style="{fontSize: menu.icon.indexOf('chart') > 0 ? '20px' : '24px'}" aria-hidden="true" @click="showOperations($event)"></i>
       </icon-item>
-      <div class="operation" ref="operation">
-        <p>
-          <router-link to='/home/createSS'>创建</router-link>
-        </p>
-        <p>
-          <router-link to='/home/watchSS'>查看</router-link>
-        </p>
-      </div>
     </router-link>
   </div>
 </template>

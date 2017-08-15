@@ -1,162 +1,25 @@
 <template>
   <v-content id="title" title="实时查询服务管理">
-    <!--getBandingClientReact 获取当前元素距离父元素得值  -->
-    <div class="home_content">
-      <section>
-        <search-input placeholder="请输入对象分了名称关键词搜索"></search-input>
-  
-        <tree-node :sysTrees='sysTrees'></tree-node>
-  
-      </section>
-      <section>
-        <search placeholder="请输入对象分了名称关键词搜索"></search>
-        <m-button @click.native="search(dataSourceWid)">新建</m-button>
-  
-        <div class="system" @mouseover="showHover">
-          <div class="sys_info" v-for="item in sys">
-            <img :src="item.img" alt="">
-            <div class="detail">
-              <p class="title">{{item.title}}</p>
-              <div v-for="item2 in item.details">
-                <span class="dtitle">{{item2.dtitle}}</span>
-                <span class="desc">{{item2.desc}}</span>
-              </div>
-              <div v-if="item.isUsed">
-                <span class="dtitle">是否启用</span>
-                <switch-b></switch-b>
-              </div>
-            </div>
-  
-            <div class="system-hover">
-              <p>
-                <span>查看</span>|
-                <span>修改</span>|
-                <span>删除</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <pages :select='select'></pages>
-      </section>
-  
-    </div>
-    <!-- <create></create> -->
-    <!-- <page v-if="totalSize > 10" :totalSize="totalSize" @pageChange="pageChange" /> -->
+  <mains :sysTrees='sysTrees'></mains>
     </div>
   </v-content>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { home } from '../../constants';
-import Button from '../../components/Button';
-// import Switch from '../../components/Switch';
-import SwitchB from '../../components/SwitchB'
+// import { home } from '../../constants';
 import Content from '../../components/Content.vue';
-import WaterBall from '../../components/WaterBall.vue';
-// import FontIcon from '../../components/FontIcon.vue';
-// import NumberView from '../../components/NumberView.vue';
-import Search from '../../components/Search'
-import SearchInput from '../../components/SearchInput.vue';
-import Pages from '../../components/Pages';
 import axios from '../../utils/axios';
-import TreeNode from '../../components/TreeNode';
-// import IconItem from '../../components/IconItem.vue';
-// import DataTable from '../../components/DataTable';
+import Mains from '../../components/Mains'
 export default {
   components: {
+    Mains,
     vContent: Content,
-    SearchInput,
-    Search,
-    mButton: Button,
-    SwitchB,
-    Pages,
-    TreeNode,
   },
   data() {
     return {
-      isShow: false,
-      select: [20, 40, 60],
-      sysTrees: [
-        {
-          name: '1',
-          children: [{
-            name: '2',
-            children: [{
-              name: '3'
-            }]
-          }]
-        }
-      ],
-      sys: [{
-        img: require('../../../assets/ico1.png'),
-        title: '用户终端信息',
-        isUsed: true,
-        details: [
-          { dtitle: '描述', desc: '这里是一段描述，只显示...' },
-          { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-        ]
-      }, {
-        img: require('../../../assets/ico1.png'),
-        title: '用户终端信息',
-        details: [
-          { dtitle: '描述', desc: '这里是一段描述，只显示...' },
-          { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-        ]
-      }, {
-        img: require('../../../assets/ico1.png'),
-        title: '用户终端信息',
-        details: [
-          { dtitle: '描述', desc: '这里是一段描述，只显示...' },
-          { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-        ]
-      }, {
-        img: require('../../../assets/ico1.png'),
-        title: '用户终端信息',
-        details: [
-          { dtitle: '描述', desc: '这里是一段描述，只显示ddd' },
-          { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-        ]
-      }],
-      onColor: '#333',
-      offColor: '#999',
-      checked: true
+      sysTrees:[]
     }
-  },
-  computed:{
-    ...mapState({
-      pageNum: state => state.pageNum,
-      totalRecords: state => state.totalRecords,
-      dataSourceWid: state => state.dataSourceWid,
-      keywords: state => state.keywords,
-      pageSize: state => state.pageSize
-    })
-  },
-  methods: {
-    search() {
-      this.$store.dispatch('searchSys')
-    },
-    showHover() {
-
-    },
-    showChildrenTree(e) {
-      console.log(e.target)
-      console.log(e.target.parentNode)
-      var childN = e.target.parentNode.getElementsByTagName('ul')[0]
-      console.log(childN)
-
-      if (childN.style.display == 'block') {
-        childN.style.display = 'none';
-        e.target.getElementsByTagName('i')[0].className = 'fa fa-caret-right fa-lg'
-      } else {
-        childN.style.display = 'block';
-        e.target.getElementsByTagName('i')[0].className = 'fa fa-caret-down fa-lg'
-      }
-      e.target.className = 'liBg active'
-    }
-
-
-
   },
   mounted() {
     axios.post('/data-open-web/common/catalog/queryTree', 'busiObj', {

@@ -43,6 +43,9 @@ export default {
 </script>
 
 <style>
+.pages{
+    margin-top: 40px;
+}
 .pages-btn{
     cursor: pointer;
     font-size: 14px;

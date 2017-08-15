@@ -38,91 +38,40 @@ const router = new VueRouter({
     //   }]
     // },
      {
-      path: '/config',
-      component: App,
-      redirect: {name: 'apps'},
-      children: [{
-        name: 'apps',
-        path: 'apps',
-        component: resolve => require(['~/app/containers/config/Apps'], resolve)
-        // component: resolve => require(['./app/containers/SS/create.vue'], resolve)
-        
-      },{
-        name: 'appdetail',
-        path: 'apps/:id-:domainId/:tab?',
-        component: resolve => require(['~/app/containers/config/AppDetail'], resolve)
-      },{
-        name: 'dbs',
-        path: 'dbs',
-        component: resolve => require(['~/app/containers/config/DBs'], resolve)
-      }, {
-        name: 'middlewares',
-        path: 'middlewares',
-        component: resolve => require(['~/app/containers/config/Middlewares'], resolve)
-      }, {
-        name: 'hosts',
-        path: 'hosts',
-        component: resolve => require(['~/app/containers/config/Hosts'], resolve)
-      }, {
-        name: 'hostdetail',
-        path: 'hosts/:id/:tab?',
-        component: resolve => require(['~/app/containers/config/HostDetail'], resolve)
-      }, {
-        name: 'odis',
-        path: 'odis',
-        component: resolve => require(['~/app/containers/config/Odis'], resolve)
-      }, {
-        name: 'urls',
-        path: 'urls',
-        component: resolve => require(['~/app/containers/config/Urls'], resolve)
-      }],
-    }, 
-    {
-      path: '/report',
-      component: App,
-      redirect: {name: 'runners'},
-      children: [{
-        name: 'runners',
-        path: 'runners',
-        component: resolve => require(['./app/containers/SS/watch.vue'], resolve)
-      }, {
-        name: 'events',
-        path: 'events',
-        component: resolve => require(['~/app/containers/report/Events'], resolve)
-      }, {
-        name: 'safe',
-        path: 'safe',
-        component: resolve => require(['~/app/containers/report/Safe'], resolve)
-      }, {
-        name: 'black',
-        path: 'black',
-        component: resolve => require(['~/app/containers/report/Black'], resolve)
-      }]
-    }, {
       path: '/data',
       component: App,
-      redirect: {name: 'manufacturer'},
+      redirect: {name: 'source'},
       children: [{
-        name: 'manufacturer',
-        path: 'manufacturer',
-        component: resolve => require(['~/app/containers/data/Manufacturer'], resolve)
+        name: 'source',
+        path: 'source',
+        component: resolve => require(['~/app/containers/home/Home'], resolve)
+      },{
+        name: 'obj',
+        path: 'obj',
+        component: resolve => require(['~/app/containers/home/Home'], resolve)
       }, {
-        name: 'resources',
-        path: 'resources',
-        component: resolve => require(['~/app/containers/data/Resources'], resolve)
-      }]
-    },
-    {
-      path: '/bigscreenData',
-      component: resolve => require(['~/app/containers/report/DataScreen'], resolve)
-    },
-    {
-      path: '*',
-      component: App,
-      children: [{
-        path: '',
-        component: resolve => require(['~/app/components/404'], resolve)
-      }]
+        name: 'busi',
+        path: 'busi',
+        component: resolve => require(['~/app/containers/home/Home'], resolve)
+      }, 
+      // {
+      //   name: 'hosts',
+      //   path: 'hosts',
+      //   component: resolve => require(['~/app/containers/config/Hosts'], resolve)
+      // }, {
+      //   name: 'hostdetail',
+      //   path: 'hosts/:id/:tab?',
+      //   component: resolve => require(['~/app/containers/config/HostDetail'], resolve)
+      // }, {
+      //   name: 'odis',
+      //   path: 'odis',
+      //   component: resolve => require(['~/app/containers/config/Odis'], resolve)
+      // }, {
+      //   name: 'urls',
+      //   path: 'urls',
+      //   component: resolve => require(['~/app/containers/config/Urls'], resolve)
+      // }
+    ],
     }
   ]
 });
