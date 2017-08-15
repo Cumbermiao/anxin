@@ -9,7 +9,7 @@ const state = {
     catalogWid: '',
     dataSourceWid: '',
     pageNum: 1,
-    pageSize: 20,
+    pageSize: 2,
     pages: 0,
     res: [],
     rows: [],
@@ -23,9 +23,7 @@ const state = {
 }
 // 然后给 actions 注册一个事件处理函数，当这个函数被触发时，将状态提交到 mutaions中处理
 const actions = {
-    // saveName({ commit }, msg) {
-    //     commit('saveMsg', msg)    // 提交到mutations中处理    
-    // },
+    // 分页查询
     async searchInfo({ commit }, param) {
         const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/query', param);
         // console.log(data)
@@ -40,6 +38,7 @@ const actions = {
             // commit(APP_ERROR, { status, statusText });
         }
     },
+    //sql查询
     async askForSql({ commit }, { dataSourceWid, sqlTemplate }) {
         const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/getInOutParams', { dataSourceWid, sqlTemplate });
         if (status === 200) {
@@ -52,7 +51,7 @@ const actions = {
         else {
         }
     },
-    // { dataSourceWid,wid,queryIntfName,queryIntfDesc ,sqlTemplate }
+    //测试获取服务信息
     async testQuery({ commit }, param) {
         console.log(param)
         const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/test', param);
@@ -100,7 +99,7 @@ const mutations = {
         console.log(val)
         axios.post('/data-open-web//api/realTimeQuery/create', val)
         .then((res)=>{
-            if(res.status==200){
+            if(res.status==200&&res.returnStatus){
                 alert('创建成功')
             }
         }).catch((err)=>{
@@ -110,6 +109,9 @@ const mutations = {
     changePageSize(state, item) {
         state.pageSize = item;
         console.log('state.pageSize::::' + state.pageSize)
+    },
+    changePageNum(state,val){
+        state.pageNum = val
     },
     askForSql(state, data) {
         state.inParams = data.dataSet.inParams[0];

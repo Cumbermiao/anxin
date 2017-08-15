@@ -3,11 +3,11 @@
         <section>
             <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
     
-            <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search({catalogWid:currentId,intfName:keywords,pageNum,pageSize})'></tree-node>
+            <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search'></tree-node>
     
         </section>
         <section>
-            <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search( {catalogWid:currentId,intfName:keywords,pageNum,pageSize})'></search>
+            <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
             <router-link class="button" to="home/createSS">新建</router-link>
     
             <div class="system" @mouseover="showHover">
@@ -31,14 +31,14 @@
     
                     <div class="system-hover">
                         <p>
-                            <span>查看</span>|
-                            <span>修改</span>|
-                            <span>删除</span>
+                            <a href="#/home/watchSS">查看</a>|
+                            <a href="#/home/watchSS">修改</a>|
+                            <a href="#/home/watchSS">删除</a>
                         </p>
                     </div>
                 </div>
             </div>
-            <pages :select='select'></pages>
+             <pages :select='select' @skipTo='skipTo'></pages> 
         </section>
     </div>
 </template>
@@ -70,7 +70,7 @@ export default {
     data() {
         return {
             isShow: false,
-            select: [20, 40, 60],
+            select: [2, 4, 6],
             keys: '',
             img: require('../../assets/ico1.png'),
             onColor: '#333',
@@ -90,9 +90,11 @@ export default {
     },
     props: ['sysTrees'],
     methods: {
-        search(val) {
-            console.log(val)
-            this.$store.dispatch('searchInfo', val)
+        search() {
+            this.$store.dispatch('searchInfo', {catalogWid:this.currentId,intfName:this.keywords,pageNum:this.pageNum,pageSize:this.pageSize})
+        },
+        skipTo(){
+            this.$store.dispatch('searchInfo',{catalogWid:this.currentId,pageNum:this.pageNum,pageSize:this.pageSize})
         },
         searchSys() {
 
@@ -249,11 +251,13 @@ section:nth-of-type(2){
     margin: 0;
 }
 
-.system-hover p span {
+.system-hover p a {
+    text-decoration: none;
+    color:#fff;
     margin: 0 5px;
 }
 
-.system-hover p span:hover {
+.system-hover p a:hover {
     cursor: pointer;
 }
 </style>

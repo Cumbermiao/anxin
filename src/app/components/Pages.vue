@@ -17,7 +17,7 @@
                 <button class="pages-btn pages-next" @click="next">></button>
                 <span class="skip"> 跳转至
                     <input type="text" v-model="skipTo"> 页 </span>
-                <button class="pages-btn">GO</button>
+                <button class="pages-btn" @click="skipTo">GO</button>
     
                 <div class="totals">
                     <span>共{{pages}}页，{{totalSize}}条记录，每页显示</span>
@@ -33,8 +33,8 @@ export default {
     data() {
         return {
             up: true,
-            arr:[],
-            skipTo:''
+            arr: [],
+            skipTo: ''
         }
     },
     props: ['select'],
@@ -49,10 +49,10 @@ export default {
             pages: state => state.pages,
         })
     },
-    watch:{
-        pages(newV,oldV){
-
-            for(var i=1;i<newV+1;i++){
+    watch: {
+        pages(newV, oldV) {
+            // alert('pages change')
+            for (var i = 1; i < newV + 1; i++) {
                 this.arr.push(i)
             }
             console.log(this.arr)
@@ -62,11 +62,21 @@ export default {
         changePageSize(item, idx) {
             this.$store.commit('changePageSize', item)
         },
+        skipTo(){
+            this.$store.commit('changePageNum',this.skipTo)
+            this.$emit.commit ('skipTo')
+        },
         prev() {
 
         },
         next() {
 
+        }
+    },
+    mounted() {
+        this.arr=[];
+        for (var i = 1; i < this.pages + 1; i++) {
+            this.arr.push(i)
         }
     }
 }
@@ -76,9 +86,11 @@ export default {
 .pages {
     margin-top: 40px;
 }
-.btn-group{
+
+.btn-group {
     display: inline-block;
 }
+
 .pages-btn {
     cursor: pointer;
     font-size: 14px;
