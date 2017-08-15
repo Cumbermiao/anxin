@@ -9,14 +9,14 @@
                 </div>
                 <ul v-if="item.children!=null" class="cul" v-show="isShow">
                     <li v-for="item2 in item.children">
-                        <div class="liBg" @click="showChildrenTree($event);changeID(item2.id)">
+                        <div class="liBg" @click="showChildrenTree($event);changeID(item2.id);askForInfo(item2.children)">
                             <i v-show="item2.children!=null" class="fa fa-caret-right fa-lg"></i>
                             {{item2.name}}
                         </div>
     
                         <ul v-if="item.children!=null" class="cul" v-show="isShow">
-                            <li v-for="item3 in item2.children" @click="askForSys;changeID(item3.id)">
-                                <div class="liBg" @click="hover($event)">
+                            <li v-for="item3 in item2.children" @click="askForInfo(item3.children);changeID(item3.id)">
+                                <div class="liBg">
                                     <i v-show="item3.children!=null" class="fa fa-caret-right fa-lg"></i>
                                     {{item3.name}}
                                 </div>
@@ -71,8 +71,11 @@ export default {
             }
 
         },
-        askForSys() {
-            axios.post()
+        askForInfo(param) {
+            if(param == null){
+                this.$emit('search')
+            }
+            
         },
         changeID(id) {
             console.log('xxx')

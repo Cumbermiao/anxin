@@ -4,40 +4,22 @@
     <div class="data-table-rows">
       <table>
         <colgroup>
-          <col 
-            v-for="col in columns" 
-            v-if="!col.hidden"
-            :style="{maxWidth: getWidth(col.width), width: getWidth(col.width)}"
-          />
+          <col v-for="col in columns" v-if="!col.hidden" :style="{maxWidth: getWidth(col.width), width: getWidth(col.width)}" />
         </colgroup>
         <tr>
-          <th 
-            v-for="col in columns" 
-            v-if="!col.hidden"
-            :style="{textAlign: col.align, maxWidth: getWidth(col.width), width: getWidth(col.width)}"
-            :key="col.key">{{col.title}}</th>
+          <th v-for="col in columns" v-if="!col.hidden" :style="{textAlign: col.align, maxWidth: getWidth(col.width), width: getWidth(col.width)}" :key="col.key">{{col.title}}
+          </th>
         </tr>
-        <tr
-          v-for="(row, idx) in rows"
-          @click="itemClick(row, idx)"
-          :key="'datatablerow'+idx">
-          <td
-            v-for="(col,i) in columns"
-            v-if="!col.hidden"
-            :style="{textAlign: col.align, maxWidth: getWidth(col.width), width: getWidth(col.width)}"
-            :key="'datatablecell' + idx + i" v-html="renderCell(col.render, row[col.key], row, idx)">
+        <tr v-for="(row, idx) in rows" @click="itemClick(row, idx)" :key="'datatablerow'+idx">
+          <td v-for="(col,i) in columns" v-if="!col.hidden" :style="{textAlign: col.align, maxWidth: getWidth(col.width), width: getWidth(col.width)}" :key="'datatablecell' + idx + i" v-html="renderCell(col.render, row[col.key], row, idx)">
           </td>
         </tr>
       </table>
     </div>
     <div class="nodata" v-if="rows == 'undefined' || rows.length == 0">
-        <span v-if="!loading">没有数据</span>
+      <span v-if="!loading">没有数据</span>
     </div>
-    <page 
-      v-if="totalSize > 10"
-      :totalSize="totalSize" 
-      @pageChange="pageChange"
-      />
+    <page v-if="totalSize > 10" :totalSize="totalSize" @pageChange="pageChange" />
   </div>
 </template>
 
@@ -64,7 +46,7 @@ export default {
   computed: {
   },
   methods: {
-    getWidth: memoize(function(w) {
+    getWidth: memoize(function (w) {
       const type = typeof w;
       if (type === 'number') {
         return `${w}px`;
@@ -74,7 +56,7 @@ export default {
         return w;
       }
     }),
-    renderCell: function(funcOrStr, cell, row, index) {
+    renderCell: function (funcOrStr, cell, row, index) {
       const isFunc = typeof funcOrStr === 'function';
       if (isFunc) {
         const result = funcOrStr(cell, row);

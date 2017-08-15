@@ -2,7 +2,7 @@
   <div class="search">
     <span class="search-input">
       <i class="search-icon" @click="search"></i>
-      <input @input="changeKey" v-model="key" :placeholder="placeholder" type="text" />
+      <input @input="changeKey" v-model="keywords" :placeholder="placeholder" type="text" />
     </span>
     <m-button @click.native="search">搜索</m-button>
   </div>
@@ -12,7 +12,7 @@ import Button from './Button';
 export default {
   data() {
     return {
-      key: ''
+      keywords: ''
     }
   },
   props: {
@@ -24,7 +24,7 @@ export default {
   methods: {
     changeKey() {
       // console.log('ssss'+this.key)
-      this.$emit('changeKey', this.key);
+      this.$emit('changeKey', this.keywords);
     },
     search(){
       this.$emit('search');

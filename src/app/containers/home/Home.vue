@@ -1,7 +1,6 @@
 <template>
   <v-content id="title" title="实时查询服务管理">
   <mains :sysTrees='sysTrees'></mains>
-    </div>
   </v-content>
 </template>
 

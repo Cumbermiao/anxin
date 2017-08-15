@@ -3,26 +3,30 @@
         <section>
             <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
     
-            <tree-node :sysTrees='sysTrees' @changeID="changeID"></tree-node>
+            <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search({catalogWid:currentId,intfName:keywords,pageNum,pageSize})'></tree-node>
     
         </section>
         <section>
-            <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search( {currentId,keywords,pageNum,pageSize})'></search>
+            <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search( {catalogWid:currentId,intfName:keywords,pageNum,pageSize})'></search>
             <router-link class="button" to="home/createSS">新建</router-link>
     
             <div class="system" @mouseover="showHover">
-                <div class="sys_info" v-for="item in sys.dataSet">
+                <div class="sys_info" v-for="item in sys">
                     <img :src="img" alt="">
                     <div class="detail">
                         <p class="title">{{item.queryIntfName}}</p>
-                        <div v-for="item2 in item.details">
-                            <span class="dtitle">{{item2.dtitle}}</span>
-                            <span class="desc">{{item2.desc}}</span>
+                        <div>
+                            <span class="dtitle">描述</span>
+                            <span class="desc">{{item.queryIntfDesc}}</span>
                         </div>
-                        <div v-if="item.isUsed">
+                        <div>
+                            <span class="dtitle">最后修改时间</span>
+                            <span class="desc">{{item.lastModifiedTime}}</span>
+                        </div>
+                        <!-- <div v-if="item.isUsed">
                             <span class="dtitle">是否启用</span>
                             <switch-b></switch-b>
-                        </div>
+                        </div> -->
                     </div>
     
                     <div class="system-hover">
@@ -53,8 +57,6 @@ import SearchInput from './SearchInput.vue';
 import Pages from './Pages';
 // import axios from '../../utils/axios';
 import TreeNode from './TreeNode';
-// import IconItem from '../../components/IconItem.vue';
-// import DataTable from '../../components/DataTable';
 export default {
     components: {
         vContent: Content,
@@ -71,46 +73,16 @@ export default {
             select: [20, 40, 60],
             keys: '',
             img: require('../../assets/ico1.png'),
-            //   sys: [{
-            //     img: require('../../assets/ico1.png'),
-            //     title: '用户终端信息',
-            //     isUsed: true,
-            //     details: [
-            //       { dtitle: '描述', desc: '这里是一段描述，只显示...' },
-            //       { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-            //     ]
-            //   }, {
-            //     img: require('../../assets/ico1.png'),
-            //     title: '用户终端信息',
-            //     details: [
-            //       { dtitle: '描述', desc: '这里是一段描述，只显示...' },
-            //       { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-            //     ]
-            //   }, {
-            //     img: require('../../assets/ico1.png'),
-            //     title: '用户终端信息',
-            //     details: [
-            //       { dtitle: '描述', desc: '这里是一段描述，只显示...' },
-            //       { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-            //     ]
-            //   }, {
-            //     img: require('../../assets/ico1.png'),
-            //     title: '用户终端信息',
-            //     details: [
-            //       { dtitle: '描述', desc: '这里是一段描述，只显示ddd' },
-            //       { dtitle: '最后修改时间', desc: '2017-02-21 14:49:30' }
-            //     ]
-            //   }],
             onColor: '#333',
             offColor: '#999',
-            checked: true
+            checked: true,
+            keywords:''
         }
     },
     computed: {
         ...mapState({
             pageNum: state => state.pageNum,
             totalSize: state => state.totalSize,
-            keywords: state => state.keywords,
             pageSize: state => state.pageSize,
             currentId: state => state.currentId,
             sys:state => state.res,
@@ -126,8 +98,9 @@ export default {
 
         },
         changeKey(key) {
-            // console.log('xxxx' + key)
-            this.$store.commit('changeKey', key)
+            
+            this.keywords = key;
+            console.log('xxxx' + this.keywords)
         },
         changeID(id) {
             // console.log('xxxx' + id)
@@ -167,6 +140,9 @@ li {
     font-weight: 600;
     color: #333;
     margin: 10px 0;
+}
+section:nth-of-type(2){
+    min-height: 600px;
 }
 
 .cul {
