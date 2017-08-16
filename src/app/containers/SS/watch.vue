@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             title: '实时查询服务管理',
-            operation: '查看',
+            operation: '>查看',
             loading: true,
         }
     },

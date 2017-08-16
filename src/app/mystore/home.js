@@ -1,21 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+
 import axios from '../utils/axios'
-Vue.use(Vuex)
+
 // 首先声明一个状态 state
 const state = {
-    totalSize: 200,
+    totalSize: 0,
     currentId: '',
     catalogWid: '',
     dataSourceWid: '',
     pageNum: 1,
-    pageSize: 2,
+    pageSize: 20,
     pages: 0,
     res: [],
     rows: [],
     outParams: [],
     inParams: [],
-    testArr:[]
+    testArr: [],
+    opObj: {}
     // wid:'',
     // queryIntfName: '',
     // queryIntfDesc: '',
@@ -27,26 +27,18 @@ const actions = {
     async searchInfo({ commit }, param) {
         const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/query', param);
         // console.log(data)
-        if (status === 200) {
-            if (data.returnStatus == 1) {
-                commit('searchInfo', data)
-            } else {
-                // commit(APP_ERROR, { status, statusText});
-            }
+        if (status === 200 && data.returnStatus == 1) {
+            commit('searchInfo', data)
         }
         else {
-            // commit(APP_ERROR, { status, statusText });
+            alert('操作失败')
         }
     },
     //sql查询
     async askForSql({ commit }, { dataSourceWid, sqlTemplate }) {
         const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/getInOutParams', { dataSourceWid, sqlTemplate });
-        if (status === 200) {
-            if (data.returnStatus == 1) {
-                commit('askForSql', data)
-            } else {
-
-            }
+        if (status === 200 && data.returnStatus == 1) {
+            commit('askForSql', data)
         }
         else {
         }
@@ -57,14 +49,11 @@ const actions = {
         const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/test', param);
         console.log('xxxxx')
         console.log(data)
-        if (status === 200) {
-            if (data.returnStatus == 1) {
-                commit('testQuery', data)
-            } else {
-
-            }
+        if (status === 200 && data.returnStatus == 1) {
+            commit('testQuery', data)
         }
         else {
+            alert('操作失败')
         }
     },
 
@@ -83,44 +72,70 @@ const mutations = {
         console.log(state.res)
     },
     changeID(state, id) {
-        // console.log(state.currentId)
         state.currentId = id;
     },
     changeKey(state, key) {
         state.keywords = key;
-        // console.log('xxxx'+state.keywords)
 
     },
     changeWid(state, wid) {
         state.dataSourceWid = wid;
-        console.log(state.dataSourceWid)
     },
     create(state, val) {
-        console.log(val)
         axios.post('/data-open-web//api/realTimeQuery/create', val)
-        .then((res)=>{
-            if(res.status==200&&res.returnStatus){
-                alert('创建成功')
-            }
-        }).catch((err)=>{
-            console.log(err)
-        })
+            .then((res) => {
+                if (res.status == 200 && res.data.returnStatus == 1) {
+                    alert('创建成功')
+                } else {
+                    alert('操作失败')
+                }
+            }).catch((err) => {
+                alert(err)
+            })
     },
     changePageSize(state, item) {
         state.pageSize = item;
-        console.log('state.pageSize::::' + state.pageSize)
+
     },
-    changePageNum(state,val){
+    changePageNum(state, val) {
         state.pageNum = val
+    },
+    changeOpObj(state, val) {
+        state.opObj = val;
     },
     askForSql(state, data) {
         state.inParams = data.dataSet.inParams[0];
         state.outParams = data.dataSet.outParams;
-        console.log(state.inParams);
-        console.log(state.outParams);
     },
-    testQuery(state,data){
-        state.testArr= data.dataSet
+    testQuery(state, data) {
+        state.testArr = data.dataSet
+    },
+    modify(state, data) {
+        axios.post('/data-open-web/api/realTimeQuery/update', data)
+            .then((res) => {
+                if (res.status == 200 && res.data.returnStatus == 1) {
+                    alert('修改成功')
+                } else {
+                    alert('操作失败')
+                }
+            }).catch((err) => {
+                alert(err)
+            })
+    },
+    remove(state, data) {
+        axios.post('/data-open-web/api/realTimeQuery/deleteByWid', data, {
+            "headers": {
+                "content-type": "application/json"
+            }
+        }).then((res) => {
+            if (res.status == 200 && res.returnStatus) {
+                alert('删除成功')
+            } else {
+                alert('操作失败')
+            }
+        }).catch((err) => {
+            alert(err)
+        })
     }
 
 }
@@ -133,9 +148,9 @@ const getter = {
 
 
 // 下面这个相当关键了，所有模块，记住是所有，注册才能使用
-export default new Vuex.Store({
+export default {
     state,
     getter,
     mutations,
     actions
-})
+}

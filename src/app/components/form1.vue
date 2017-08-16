@@ -6,7 +6,7 @@
                     <span class="required">*</span>
                 </label>
                 <select class="inWidth" name="wid" v-model="wid" @change="changeWid($event)">
-                    <option v-for="item in dataSource" :value='item.wid'>{{item.zcxtzwm}}</option>
+                    <option v-for="item in dataSource" :key='item.zcxtzwm' :value='item.wid'>{{item.zcxtzwm}}</option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
                 <label class="lWidth"></label>
-                <div class="button" @click="test({dataSourceWid,sqlTemplate})">测试</div>
+                <div class="button" @click="test">测试</div>
             </div>
         </form>
     
@@ -114,41 +114,22 @@
             <div class="data-table">
                 <table>
                     <tr style="background:#f7f8fc">
-                        <th v-for="item in outParams">
+                        <th v-for="item in outParams" :key="item">
                             {{item.paramName}}
                             <br> {{item.dataType}}
                             <br> {{item.paramDesc}}
                         </th>
                     </tr>
-                    <tr v-for="item2 in testArr">
-                        <td>{{item2.SJKQDLX}}</td>
-                        <td>{{item2.CJSJ}}</td>
-                        <td>{{item2.ZHXGR}}</td>
-                        <td>{{item2.ZCXTMS}}</td>
-                        <td>{{item2.SJKLJYHMM}}</td>
-                        <td>{{item2.ZHXGSJ}}</td>
-                        <td>{{item2.CJR}}</td>
-                        <td>{{item2.ZCXTZWM}}</td>
-                        <td>{{item2.ZCXTYWM}}</td>
-                        <td>{{item2.SJKFWM}}</td>
-                        <td>{{item2.SJKLJYHM}}</td>
-                        <td>{{item2.XH}}</td>
-                        <td>{{item2.SFZSJPT}}</td>
-                        <td>{{item2.WID}}</td>
-                        <td>{{item2.SJKQD}}</td>
-                        <td>{{item2.SJKLJZFC}}</td>
-                        <td>{{item2.SJKDXSYZ}}</td>
-                        <td>{{item2.SFQY}}</td>
+                    <tr v-for="item2 in testArr" :key="item2">
+                        <td v-for="item3 in outParams" :key="item3" v-text="item2[item3.paramName]"></td>
                     </tr>
                 </table>
             </div>
         </div>
-    
         <div class="btn-group">
-            <button class="button" @click="create({catalogWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate})">保存</button>
+            <button class="button" @click="save">保存</button>
             <a class="button" href="/">取消</a>
         </div>
-    
     </div>
 </template>
 
@@ -169,6 +150,7 @@ export default {
             queryIntfDesc: '',
             sqlTemplate: '',
             count: 100,
+            //数据源id
             wid: '',
             rows: [],
             countInvalidate: '',
@@ -176,73 +158,67 @@ export default {
             requireQueryIntfName: '',
             requireQueryIntfDesc: '',
             requireSqlTemplate: '',
-            queryWid:''
+            //技术主键
+            queryWid: ''
 
 
             // totalSize:200,
         }
     },
-    props: ['dataSource'],
+    props: ['dataSource', 'opObj'],
     components: {
         vContent: Content,
         DataTable
     },
     computed: {
         ...mapState({
-            pageNum: state => state.pageNum,
-            totalSize: state => state.totalSize,
-            keywords: state => state.keywords,
-            pageSize: state => state.pageSize,
-            currentId: state => state.currentId,
-            sys: state => state.res,
-            dataSourceWid: state => state.dataSourceWid,
-            catalogWid: state => state.currentId,
-            inParams: state => state.inParams,
-            outParams: state => state.outParams,
-            testArr: state => state.testArr
+            pageNum: state => state.home.pageNum,
+            totalSize: state => state.home.totalSize,
+            keywords: state => state.home.keywords,
+            pageSize: state => state.home.pageSize,
+            currentId: state => state.home.currentId,
+            sys: state => state.home.res,
+            dataSourceWid: state => state.home.dataSourceWid,
+            catalogWid: state => state.home.currentId,
+            inParams: state => state.home.inParams,
+            outParams: state => state.home.outParams,
+            testArr: state => state.home.testArr
         }),
-        columns() {
-            return [{
-                key: 'number',
-                title: '注册系统描述',
-                width: 60,
-                align: 'center'
-            }, {
-                key: 'number',
-                title: '注册系统描述',
-                width: 60,
-                align: 'center'
-            }, {
-                key: 'number',
-                title: '注册系统描述',
-                width: 60,
-                align: 'center'
-            }, {
-                key: 'number',
-                title: '注册系统描述',
-                width: 60,
-                align: 'center'
-            }]
-        }
+
     },
     methods: {
         create(val) {
-            console.log('11111111')
             if (this.catalogWid == '') {
                 alert('请返回上一级选择分类')
             } else {
                 this.$store.commit('create', val)
             }
-
+        },
+        save() {
+            var val = {
+                catalogWid:this.catalogWid,
+                dataSourceWid: this.wid,
+                inParams: {
+                    wid: this.queryWid,
+                    pageSize: this.pageSize,
+                    pageNum: this.pageNum
+                },
+                queryIntfDesc:this.queryIntfDesc,
+                queryIntfName:this.queryIntfName,
+                sqlTemplate: this.sqlTemplate,
+                wid:this.opObj?this.opObj.wid:''
+            }
+            this.$emit('save',val)
         },
         changeWid(e) {
             this.$store.commit('changeWid', e.target.value)
+            console.log('dddddd')
+            console.log(this.wid)
         },
-        test(val) {
+        test() {
             if (this.wid != '' && this.queryIntfName != '' && this.queryIntfDesc != '' && this.sqlTemplate != '') {
                 this.isShow = true;
-                console.log(val)
-                this.$store.dispatch('askForSql', val)
+                this.$store.dispatch('askForSql', { dataSourceWid: this.wid, sqlTemplate: this.sqlTemplate })
             } else {
                 alert('请填写完整!')
             }
@@ -251,31 +227,42 @@ export default {
         checkCount() {
             if (this.count > 1000) {
                 this.countInvalidate = '查询条数不能超过1000'
+            } else {
+                this.countInvalidate = ''
             }
         },
         requireWid(val) {
             if (val == '') {
                 this.requireWid = '数据源不能为空'
+            } else {
+                this.requireWid = ''
             }
         },
         requireName(val) {
             if (val == '') {
                 this.requireQueryIntfName = '服务名称不能为空'
+            } else {
+                this.requireQueryIntfName = ''
             }
         },
         requireDesc(val) {
             if (val == '') {
                 this.requireQueryIntfDesc = '服务描述不能为空'
+            } else {
+                this.requireQueryIntfDesc = ''
             }
         },
         requireSql(val) {
+            console.log(val)
             if (val == '') {
                 this.requireSqlTemplate = 'sql模板不能为空'
+            } else {
+                this.requireSqlTemplate = ''
             }
         },
         query() {
             var param = {
-                dataSourceWid: this.dataSourceWid,
+                dataSourceWid: this.wid,
                 inParams: {
                     wid: this.queryWid,
                     pageSize: this.pageSize,
@@ -298,6 +285,17 @@ export default {
         },
 
     },
+    mounted() {
+        // catalogWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate
+
+        if (this.opObj) {
+            this.wid = this.opObj.dataSourceWid;
+            console.log(this.wid)
+            this.queryIntfDesc = this.opObj.queryIntfDesc;
+            this.queryIntfName = this.opObj.queryIntfName;
+            this.sqlTemplate = this.opObj.sqlTemplate;
+        }
+    }
 
 }
 </script>
@@ -370,22 +368,7 @@ input[type=radio] {
     margin-left: 20px;
 }
 
-.btn-group {
-    margin-top: 20px;
-    text-align: center;
-}
 
-.btn-group button {
-    margin: 0 10px;
-}
-
-.button:first-child {
-    background-color: #2196f3;
-}
-
-.button:first-child:active {
-    background: #2271f2
-}
 
 .data-table {
     overflow-x: scroll;
@@ -404,6 +387,23 @@ td {
     border: 1px solid #cacaca;
     padding: 14px 8px;
     white-space: nowrap;
+}
+
+.btn-group {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn-group button {
+    margin: 0 10px;
+}
+
+.button:first-child {
+    background-color: #2196f3;
+}
+
+.button:first-child:active {
+    background: #2271f2
 }
 </style>
 

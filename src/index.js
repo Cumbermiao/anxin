@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.css';
 import '~/index.css';
 
 import router from './route';
-import store from './app/mystore/home';
+import store from './app/mystore/index';
 
 
 export default new Vue({

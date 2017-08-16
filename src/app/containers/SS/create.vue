@@ -2,7 +2,8 @@
     <div>
         <Sheader :title="title" :operation="operation"></Sheader>
         <v-content>
-            <m-form :dataSource='dataSource'></m-form>
+            <m-form :dataSource='dataSource' @save='create'></m-form>
+            <!-- create({catalogWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate}) -->
         </v-content>
     </div>
 </template>
@@ -18,9 +19,14 @@ export default {
     data() {
         return {
             title: '数据源管理',
-            operation: '新增',
+            operation: '>新增',
             dataSource:[]
         }
+    },
+    methods:{
+        create(val){
+            this.$store.commit('create',val)
+        } 
     },
     components: {
         vContent: Content,

@@ -1,5 +1,6 @@
 <template>
-    <div class="pages" v-show="pages>=1">
+    <!-- v-show="pages>=1" -->
+    <div class="pages">
         <button class="pages-btn pages-prev" @click="prev">
             <</button>
                 <div v-if="pageNum>=6" class="btn-group">
@@ -12,7 +13,7 @@
                     <button class="pages-btn">{{pageNum}}</button>
                 </div>
                 <div v-else class="btn-group">
-                    <button v-for="item in arr" class="pages-btn">{{item}}</button>
+                    <button v-for="item in arr" class="pages-btn" @click="skipTo(e)" :key="item">{{item}}</button>
                 </div>
                 <button class="pages-btn pages-next" @click="next">></button>
                 <span class="skip"> 跳转至
@@ -33,51 +34,100 @@ export default {
     data() {
         return {
             up: true,
-            arr: [],
-            skipTo: ''
+            // arr: [],
+            skipTo: '',
+
         }
     },
-    props: ['select'],
+    props: ['select', 'pageInfo'],
     components: {
         vSelect: Select
     },
     computed: {
         ...mapState({
-            pageSize: state => state.pageSize,
-            pageNum: state => state.pageNum,
-            totalSize: state => state.totalSize,
-            pages: state => state.pages,
-        })
-    },
-    watch: {
-        pages(newV, oldV) {
-            // alert('pages change')
-            for (var i = 1; i < newV + 1; i++) {
-                this.arr.push(i)
+            // pageNum: state => state.pageNum,
+            // totalSize: state => state.totalSize,
+            // pages: state => state.pages,
+        }),
+        pageSize() {
+            return {
+                pageSize: JSON.parse(this.pageInfo).pageSize,
             }
-            console.log(this.arr)
-        }
+        },
+        pageNum() {
+            return {
+                pageNum: JSON.parse(this.pageInfo).pageNum,
+            }
+        },
+        pages() {
+            return {
+                pages: JSON.parse(this.pageInfo).pages
+            }
+        },
+        totalSize() {
+            return {
+                totalSize: JSON.parse(this.pageInfo).totalSize
+            }
+        },
+        arr() {
+            var arr = [];
+            for (var i = 1; i < this.pages + 1; i++) {
+                arr.push(i)
+            }
+            return arr
+        },
+        // pageInfo() {
+            // console.log('this.pageInfo')
+            // console.log(this.pageInfo.pages)
+        //     return this.pageInfo
+        // }
     },
+    // watch: {
+    //     pages(newV, oldV) {
+    //         // alert('pages change')
+    //         for (var i = 1; i < newV + 1; i++) {
+    //             this.arr.push(i)
+    //         }
+    //         console.log(this.arr)
+    //     }
+    // },
     methods: {
         changePageSize(item, idx) {
             this.$store.commit('changePageSize', item)
         },
-        skipTo(){
-            this.$store.commit('changePageNum',this.skipTo)
-            this.$emit.commit ('skipTo')
+        skipTo(e) {
+            alert(e.target.key)
+            // if (0 < this.skipTo <= this.pageInfo.pages) {
+            //     this.$store.commit('changePageNum', this.skipTo)
+            //     this.$emit.commit('skipTo')
+            // } else {
+            //     alert('不在范围内！！！')
+            // }
         },
         prev() {
+            if (this.pageInfo.pageNum > 1) {
+                this.pageInfo.pageNum += 1;
+            } else {
+                alert('已经是首页！！！')
+            }
 
         },
         next() {
-
+            if (this.pageInfo.pageNum < this.pageInfo.pages) {
+                this.pageInfo.pageNum += 1;
+            } else {
+                alert('已经是最后一页！！！')
+            }
         }
     },
     mounted() {
-        this.arr=[];
-        for (var i = 1; i < this.pages + 1; i++) {
-            this.arr.push(i)
-        }
+
+        // this.arr = [];
+        // for (var i = 1; i < this.pages + 1; i++) {
+        //     this.arr.push(i)
+        // }
+        console.log('this.pageInfo')
+        console.log(this.pageInfo.pages)
     }
 }
 </script>

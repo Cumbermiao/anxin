@@ -10,8 +10,10 @@
             <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
             <router-link class="button" to="home/createSS">新建</router-link>
     
-            <div class="system" @mouseover="showHover">
-                <div class="sys_info" v-for="item in sys">
+            <div class="background">
+            </div>
+            <div class="system">
+                <div class="sys_info" v-for="(item,i) in sys">
                     <img :src="img" alt="">
                     <div class="detail">
                         <p class="title">{{item.queryIntfName}}</p>
@@ -23,22 +25,24 @@
                             <span class="dtitle">最后修改时间</span>
                             <span class="desc">{{item.lastModifiedTime}}</span>
                         </div>
-                        <!-- <div v-if="item.isUsed">
-                            <span class="dtitle">是否启用</span>
-                            <switch-b></switch-b>
-                        </div> -->
                     </div>
-    
                     <div class="system-hover">
                         <p>
-                            <a href="#/home/watchSS">查看</a>|
-                            <a href="#/home/watchSS">修改</a>|
-                            <a href="#/home/watchSS">删除</a>
+                            <a href="#/home/watchSS" @click="changeOpObj(item)">查看</a>|
+                            <a href="#/home/watchSS" @click="changeOpObj(item)">修改</a>|
+                            <a href="javascript:;" @click="showRemove(i)">删除</a>
                         </p>
                     </div>
+    
+                    <div class="delete">
+                        <h4>确认删除吗？</h4>
+                        <button class="button margin" @click="remove(item,i)">确认</button>
+                        <button class="button" @click="closeRemove(i)">取消</button>
+                    </div>
+    
                 </div>
             </div>
-             <pages :select='select' @skipTo='skipTo'></pages> 
+            <pages :select='select' @skipTo='skipTo' :pageInfo='pageInfo'></pages>
         </section>
     </div>
 </template>
@@ -70,46 +74,55 @@ export default {
     data() {
         return {
             isShow: false,
-            select: [2, 4, 6],
+            select: [10, 20, 40],
             keys: '',
             img: require('../../assets/ico1.png'),
             onColor: '#333',
             offColor: '#999',
             checked: true,
-            keywords:''
+            keywords: '',
+            showCheck: false,
+
+
         }
     },
     computed: {
         ...mapState({
-            pageNum: state => state.pageNum,
-            totalSize: state => state.totalSize,
-            pageSize: state => state.pageSize,
-            currentId: state => state.currentId,
-            sys:state => state.res,
+            mpages: state => state.home.pages,
+            mpageNum: state => state.home.pageNum,
+            mtotalSize: state => state.home.totalSize,
+            mpageSize: state => state.home.pageSize,
+            currentId: state => state.home.currentId,
+            sys: state => state.home.res,
+            pageInfo() {
+                return {
+                    pageNum: this.mpageNum,
+                    pageSize: this.mpageSize,
+                    pages: this.mpages,
+                    totalSize: this.mtotalSize
+                }
+            }
         })
     },
     props: ['sysTrees'],
     methods: {
         search() {
-            this.$store.dispatch('searchInfo', {catalogWid:this.currentId,intfName:this.keywords,pageNum:this.pageNum,pageSize:this.pageSize})
+            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, intfName: this.keywords, pageNum: this.pageNum, pageSize: this.pageSize })
         },
-        skipTo(){
-            this.$store.dispatch('searchInfo',{catalogWid:this.currentId,pageNum:this.pageNum,pageSize:this.pageSize})
+        skipTo() {
+            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, pageNum: this.pageNum, pageSize: this.pageSize })
         },
         searchSys() {
 
         },
         changeKey(key) {
-            
+
             this.keywords = key;
             console.log('xxxx' + this.keywords)
         },
         changeID(id) {
             // console.log('xxxx' + id)
             this.$store.commit('changeID', id)
-        },
-        showHover() {
-
         },
         showChildrenTree(e) {
             console.log(e.target)
@@ -125,7 +138,26 @@ export default {
                 e.target.getElementsByTagName('i')[0].className = 'fa fa-caret-down fa-lg'
             }
             e.target.className = 'liBg active'
+        },
+        showRemove(e) {
+            document.getElementsByClassName('background')[0].style.display = 'block';
+            document.getElementsByClassName('delete')[e].style.display = 'block';
+        },
+        closeRemove(e) {
+            document.getElementsByClassName('background')[0].style.display = 'none';
+            document.getElementsByClassName('delete')[e].style.display = 'none';
+        },
+        remove(e, i) {
+            this.$store.commit('remove', e.wid)
+            this.closeRemove(i)
+        },
+        changeOpObj(val) {
+            this.$store.commit('changeOpObj', val)
         }
+    },
+    updated() {
+        console.log('xxxxxxxxx')
+        console.log(this.pageInfo)
     }
 }
 </script>
@@ -143,7 +175,8 @@ li {
     color: #333;
     margin: 10px 0;
 }
-section:nth-of-type(2){
+
+section:nth-of-type(2) {
     min-height: 600px;
 }
 
@@ -179,12 +212,9 @@ section:nth-of-type(2){
 
 .sys_info {
     display: inline-block;
-    height: 151px;
     width: 45%;
     border: 1px solid #d8dcf0;
-    padding: 15px;
-    margin: 15px 0;
-    position: relative;
+    margin-top: 20px;
 }
 
 .sys_info:nth-of-type(2n) {
@@ -195,14 +225,14 @@ section:nth-of-type(2){
 .sys_info img {
     padding: 20px;
     background-color: #f7f8fd;
-    float: left;
     vertical-align: top;
+    margin-left: 15px;
+    margin-top: 15px;
 }
 
 .detail {
-    /* display: inline-block; */
+    display: inline-block;
     margin-left: 15px;
-    overflow: hidden;
 }
 
 .title {
@@ -217,11 +247,40 @@ section:nth-of-type(2){
     width: 120px;
 }
 
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+.check,
+.modify,
+.delete {
+    display: none;
+    position: absolute;
+    width: 200px;
+    padding: 50px;
+    background-color: #fff;
+    left: 40%;
+    top: 30%;
+}
+
+.check i {
+    float: right;
+}
+
+.check i:hover {
+    cursor: pointer;
+}
+
 .desc {
     display: inline-block;
     font-size: 12px;
     font-weight: 600;
-    width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -231,9 +290,8 @@ section:nth-of-type(2){
     background-color: #7c88cc;
     color: #fff;
     width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    margin-top: 15px;
+    height: 25px;
     padding: 5px 0;
     padding-right: 10px;
     box-sizing: border-box;
@@ -253,11 +311,47 @@ section:nth-of-type(2){
 
 .system-hover p a {
     text-decoration: none;
-    color:#fff;
+    color: #fff;
     margin: 0 5px;
 }
 
 .system-hover p a:hover {
     cursor: pointer;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+input,
+textarea {
+    padding: 0;
+    border: 1px solid rgb(169, 169, 169);
+}
+
+textarea {
+    resize: none;
+    vertical-align: top;
+}
+
+.lWidth {
+    display: inline-block;
+    width: 100px;
+    position: relative;
+    padding-left: 8px;
+}
+
+.inWidth {
+    width: 412px;
+    padding: 5px 0;
+    border-radius: 3px;
+}
+
+.delete {
+    text-align: center;
+}
+
+.margin {
+    margin-right: 50px;
 }
 </style>

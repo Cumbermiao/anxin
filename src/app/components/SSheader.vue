@@ -1,7 +1,7 @@
 <template>
     <div class="ss-header">
         <h4>
-            <router-link to='/'>{{title}}</router-link>>{{operation}}</h4>
+            <router-link to='/'>{{title}}</router-link>{{operation}}</h4>
     </div>
 </template>
 <script>
