@@ -1,24 +1,23 @@
 <template>
-    <!-- v-show="pages>=1" -->
-    <div class="pages">
+    <div class="pages" v-show="pages>=1">
         <button class="pages-btn pages-prev" @click="prev">
             <</button>
                 <div v-if="pageNum>=6" class="btn-group">
-                    <button class="pages-btn">1</button>
-                    <button class="pages-btn">2</button>
-                    <button class="pages-btn">3</button>
-                    <button class="pages-btn">4</button>
-                    <button class="pages-btn">5</button>
-                    <button class="pages-btn">...</button>
-                    <button class="pages-btn">{{pageNum}}</button>
+                    <input class="pages-btn" value="1" @click="skipTo($event)">
+                    <input class="pages-btn" value="2" @click="skipTo($event)">
+                    <input class="pages-btn" value="3" @click="skipTo($event)">
+                    <input class="pages-btn" value="4" @click="skipTo($event)">
+                    <input class="pages-btn" value="5" @click="skipTo($event)">
+                    <input class="pages-btn" value="..." @click="skipTo($event)">
+                    <input class="pages-btn" :value="pages">
                 </div>
                 <div v-else class="btn-group">
-                    <button v-for="item in arr" class="pages-btn" @click="skipTo(e)" :key="item">{{item}}</button>
+                    <input type="button" v-for="item in arr" class="pages-btn" @click="skipTo($event)" :value="item" :key="item">
                 </div>
                 <button class="pages-btn pages-next" @click="next">></button>
                 <span class="skip"> 跳转至
-                    <input type="text" v-model="skipTo"> 页 </span>
-                <button class="pages-btn" @click="skipTo">GO</button>
+                    <input type="text" v-model="skipPage"> 页 </span>
+                <button class="pages-btn" @click="skipTos(skipPage)">GO</button>
     
                 <div class="totals">
                     <span>共{{pages}}页，{{totalSize}}条记录，每页显示</span>
@@ -35,8 +34,7 @@ export default {
         return {
             up: true,
             // arr: [],
-            skipTo: '',
-
+            skipPage: ''
         }
     },
     props: ['select', 'pageInfo'],
@@ -50,71 +48,67 @@ export default {
             // pages: state => state.pages,
         }),
         pageSize() {
-            return {
-                pageSize: JSON.parse(this.pageInfo).pageSize,
-            }
+            return this.pageInfo.pageSize
         },
         pageNum() {
-            return {
-                pageNum: JSON.parse(this.pageInfo).pageNum,
-            }
+            return this.pageInfo.pageNum
         },
         pages() {
-            return {
-                pages: JSON.parse(this.pageInfo).pages
-            }
+            return this.pageInfo.pages
+
         },
         totalSize() {
-            return {
-                totalSize: JSON.parse(this.pageInfo).totalSize
-            }
+            return this.pageInfo.totalSize
         },
         arr() {
-            var arr = [];
+            var arr1 = [];
             for (var i = 1; i < this.pages + 1; i++) {
-                arr.push(i)
+                arr1.push(i)
             }
-            return arr
+            console.log('arr1:' + arr1)
+            return arr1
         },
         // pageInfo() {
-            // console.log('this.pageInfo')
-            // console.log(this.pageInfo.pages)
+        //     console.log('this.pageInfo')
+        //     console.log(this.pageInfo.pages)
         //     return this.pageInfo
         // }
     },
-    // watch: {
-    //     pages(newV, oldV) {
-    //         // alert('pages change')
-    //         for (var i = 1; i < newV + 1; i++) {
-    //             this.arr.push(i)
-    //         }
-    //         console.log(this.arr)
-    //     }
-    // },
     methods: {
         changePageSize(item, idx) {
-            this.$store.commit('changePageSize', item)
+            this.$emit('changePageSize',item)
+            // this.$store.commit('changePageSize', item)
         },
         skipTo(e) {
-            alert(e.target.key)
-            // if (0 < this.skipTo <= this.pageInfo.pages) {
-            //     this.$store.commit('changePageNum', this.skipTo)
-            //     this.$emit.commit('skipTo')
-            // } else {
-            //     alert('不在范围内！！！')
-            // }
+            console.log(e.target.value)
+            if (e.target.value < 1 || e.target.value > this.pages) {
+                alert('超出范围！！！')
+            } else {
+                this.$emit('changePageNum', e.target.value)
+            }
+        },
+        skipTos(val) {
+            if (val < 1 || val > this.pages) {
+                alert('超出范围！！！')
+            } else {
+                this.$emit('changePageNum', val)
+            }
         },
         prev() {
+            alert(this.pageInfo.pageNum)
             if (this.pageInfo.pageNum > 1) {
                 this.pageInfo.pageNum += 1;
+                this.$emit('changePageNum', this.pageInfo.pageNum)
             } else {
                 alert('已经是首页！！！')
             }
 
         },
         next() {
+            alert(this.pageInfo.pageNum)
             if (this.pageInfo.pageNum < this.pageInfo.pages) {
                 this.pageInfo.pageNum += 1;
+                this.$emit('changePageNum', this.pageInfo.pageNum)
             } else {
                 alert('已经是最后一页！！！')
             }
@@ -126,8 +120,8 @@ export default {
         // for (var i = 1; i < this.pages + 1; i++) {
         //     this.arr.push(i)
         // }
-        console.log('this.pageInfo')
-        console.log(this.pageInfo.pages)
+        // console.log('this.pageInfo')
+        // console.log(this.pageInfo.pages)
     }
 }
 </script>

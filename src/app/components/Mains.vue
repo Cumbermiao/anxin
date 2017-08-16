@@ -8,7 +8,8 @@
         </section>
         <section>
             <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
-            <router-link class="button" to="home/createSS">新建</router-link>
+            <!--使用button跳转  -->
+            <button class="button"  @click="toCreate">新建</button>
     
             <div class="background">
             </div>
@@ -42,12 +43,13 @@
     
                 </div>
             </div>
-            <pages :select='select' @skipTo='skipTo' :pageInfo='pageInfo'></pages>
+            <pages :select='select' @changePages='skipTo' @changePageSize='changePageSize' :pageInfo='pageInfo' ></pages>
         </section>
     </div>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
+import router from '../../route'
 // import { home } from '../../constants';
 import Button from './Button';
 // import Switch from '../../components/Switch';
@@ -81,9 +83,7 @@ export default {
             offColor: '#999',
             checked: true,
             keywords: '',
-            showCheck: false,
-
-
+            showCheck: false
         }
     },
     computed: {
@@ -107,10 +107,24 @@ export default {
     props: ['sysTrees'],
     methods: {
         search() {
-            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, intfName: this.keywords, pageNum: this.pageNum, pageSize: this.pageSize })
+            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, intfName: this.keywords, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
         },
-        skipTo() {
-            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, pageNum: this.pageNum, pageSize: this.pageSize })
+        skipTo(val) {
+            this.pageInfo.pageNum = val;
+            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+        },
+        changePageSize(val){
+            this.pageInfo.pageSize = val;
+            this.$store.dispatch('searchInfo', { catalogWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+        },
+        toCreate(){
+            console.log(this.currentId)
+            if(this.currentId==''){
+                alert('请选择分类')
+            }else{
+                router.push("home/createSS")
+            }
+            
         },
         searchSys() {
 

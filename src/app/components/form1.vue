@@ -10,7 +10,7 @@
                 </select>
                 <div>
                     <label class="lWidth"></label>
-                    <span class="invalidate"> {{requireWid}}</span>
+                    <span class="invalidate"> {{requireWidText}}</span>
                 </div>
             </div>
             <div class="form-group">
@@ -154,7 +154,7 @@ export default {
             wid: '',
             rows: [],
             countInvalidate: '',
-            requireWid: '',
+            requireWidText: '',
             requireQueryIntfName: '',
             requireQueryIntfDesc: '',
             requireSqlTemplate: '',
@@ -233,9 +233,9 @@ export default {
         },
         requireWid(val) {
             if (val == '') {
-                this.requireWid = '数据源不能为空'
+                this.requireWidText = '数据源不能为空'
             } else {
-                this.requireWid = ''
+                this.requireWidText = ''
             }
         },
         requireName(val) {
