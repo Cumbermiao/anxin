@@ -12,7 +12,7 @@
                     <input class="pages-btn" :value="pages">
                 </div>
                 <div v-else class="btn-group">
-                    <input type="button" v-for="item in arr" class="pages-btn" @click="skipTo($event)" :value="item" :key="item">
+                    <input type="button" v-for="item in arr" :class="item==1?'active':''" class="pages-btn" @click="skipTo($event)" :value="item" :key="item">
                 </div>
                 <button class="pages-btn pages-next" @click="next">></button>
                 <span class="skip"> 跳转至
@@ -28,12 +28,11 @@
 
 <script>
 import Select from './Select.vue';
-import { mapState, mapActions } from 'vuex';
+// import { mapState, mapActions } from 'vuex';
 export default {
     data() {
         return {
             up: true,
-            // arr: [],
             skipPage: ''
         }
     },
@@ -42,11 +41,6 @@ export default {
         vSelect: Select
     },
     computed: {
-        ...mapState({
-            // pageNum: state => state.pageNum,
-            // totalSize: state => state.totalSize,
-            // pages: state => state.pages,
-        }),
         pageSize() {
             return this.pageInfo.pageSize
         },
@@ -68,22 +62,17 @@ export default {
             console.log('arr1:' + arr1)
             return arr1
         },
-        // pageInfo() {
-        //     console.log('this.pageInfo')
-        //     console.log(this.pageInfo.pages)
-        //     return this.pageInfo
-        // }
     },
     methods: {
         changePageSize(item, idx) {
-            this.$emit('changePageSize',item)
-            // this.$store.commit('changePageSize', item)
+            this.$emit('changePageSize', item)
         },
         skipTo(e) {
             console.log(e.target.value)
             if (e.target.value < 1 || e.target.value > this.pages) {
                 alert('超出范围！！！')
             } else {
+                this.active(e.target.value)
                 this.$emit('changePageNum', e.target.value)
             }
         },
@@ -91,13 +80,14 @@ export default {
             if (val < 1 || val > this.pages) {
                 alert('超出范围！！！')
             } else {
+                this.active(val)
                 this.$emit('changePageNum', val)
             }
         },
         prev() {
-            alert(this.pageInfo.pageNum)
             if (this.pageInfo.pageNum > 1) {
-                this.pageInfo.pageNum += 1;
+                this.pageInfo.pageNum -= 1;
+                this.active(this.pageInfo.pageNum)
                 this.$emit('changePageNum', this.pageInfo.pageNum)
             } else {
                 alert('已经是首页！！！')
@@ -105,23 +95,24 @@ export default {
 
         },
         next() {
-            alert(this.pageInfo.pageNum)
             if (this.pageInfo.pageNum < this.pageInfo.pages) {
                 this.pageInfo.pageNum += 1;
+                this.active(this.pageInfo.pageNum)
                 this.$emit('changePageNum', this.pageInfo.pageNum)
             } else {
                 alert('已经是最后一页！！！')
             }
+        },
+        active(val) {
+            var btns = document.getElementsByClassName('pages-btn')
+            for (var i = 0; i < btns.length; i++) {
+                document.getElementsByClassName('pages-btn')[i].classList.remove('active')
+            }
+            document.getElementsByClassName('pages-btn')[val].classList.add('active')
         }
     },
     mounted() {
 
-        // this.arr = [];
-        // for (var i = 1; i < this.pages + 1; i++) {
-        //     this.arr.push(i)
-        // }
-        // console.log('this.pageInfo')
-        // console.log(this.pageInfo.pages)
     }
 }
 </script>
@@ -167,6 +158,11 @@ export default {
 
 .totals span {
     color: #999;
+}
+
+.active {
+    background-color: #2196f3;
+    color: #fff;
 }
 </style>
 

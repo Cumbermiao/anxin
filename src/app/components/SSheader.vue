@@ -1,12 +1,12 @@
 <template>
     <div class="ss-header">
         <h4>
-            <router-link to='/'>{{title}}</router-link>{{operation}}</h4>
+            <router-link :to='path'>{{title}}</router-link>{{operation}}</h4>
     </div>
 </template>
 <script>
 export default {
-    props: ['title', 'operation']
+    props: ['title', 'operation','path']
 }
 </script>
 <style scoped>

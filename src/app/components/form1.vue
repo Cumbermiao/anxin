@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="form">
         <form>
             <div class="form-group">
                 <label class="lWidth">数据源
                     <span class="required">*</span>
                 </label>
-                <select class="inWidth" name="wid" v-model="wid" @change="changeWid($event)">
+                <select class="inWidth" name="wid" v-model="wid" @change="changeWid($event)" :disabled='readonly'>
                     <option v-for="item in dataSource" :key='item.zcxtzwm' :value='item.wid'>{{item.zcxtzwm}}</option>
                 </select>
                 <div>
@@ -17,7 +17,7 @@
                 <label class="lWidth">服务名称
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" name="queryIntfName" @blur="requireName(queryIntfName)" v-model="queryIntfName" required type="text">
+                <input class="inWidth" name="queryIntfName" :readonly='readonly' @blur="requireName(queryIntfName)" v-model="queryIntfName" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate"> {{requireQueryIntfName}}</span>
@@ -27,7 +27,7 @@
                 <label class="lWidth">服务描述
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" v-model="queryIntfDesc" @blur="requireDesc(queryIntfDesc)" name="queryIntfDesc" required type="text">
+                <input class="inWidth" v-model="queryIntfDesc" @blur="requireDesc(queryIntfDesc)" :readonly='readonly' name="queryIntfDesc" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate"> {{requireQueryIntfDesc}}</span>
@@ -37,7 +37,7 @@
                 <label class="lWidth">sql模板
                     <span class="required">*</span>
                 </label>
-                <textarea class="inWidth" rows="6" name="sql" @blur="requireSql(sqlTemplate)" required v-model="sqlTemplate"></textarea>
+                <textarea class="inWidth" rows="6" name="sql" @blur="requireSql(sqlTemplate)" :readonly='readonly' required v-model="sqlTemplate"></textarea>
                 <div class="notes">
                     <p>sql模板填写说明:</p>
                     <p>1.所有得表和子查询必须有别名；</p>
@@ -165,7 +165,7 @@ export default {
             // totalSize:200,
         }
     },
-    props: ['dataSource', 'opObj'],
+    props: ['dataSource', 'opObj','readonly'],
     components: {
         vContent: Content,
         DataTable

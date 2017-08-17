@@ -25,6 +25,10 @@ const router = new VueRouter({
         name: 'watchSS',
         path: 'watchSS',
         component: resolve => require(['./app/containers/SS/check.vue'], resolve)
+      }, {
+        name: 'modifySS',
+        path: 'modifySS',
+        component: resolve => require(['./app/containers/SS/modify.vue'], resolve)
       }]
     },
     {
@@ -36,10 +40,34 @@ const router = new VueRouter({
         path: 'source',
         component: resolve => require(['~/app/containers/dataSource/dataSource'], resolve)
       }, {
+        name: 'createDS',
+        path: 'createDS',
+        component: resolve => require(['~/app/containers/dataSource/createDS'], resolve)
+      },{
+        name: 'watchDS',
+        path: 'watchDS',
+        component: resolve => require(['./app/containers/dataSource/checkDS.vue'], resolve)
+      }, {
+        name: 'modifyDS',
+        path: 'modifyDS',
+        component: resolve => require(['./app/containers/dataSource/modifyDS.vue'], resolve)
+      }, {
         name: 'obj',
         path: 'obj',
-        component: resolve => require(['~/app/containers/home/Home'], resolve)
+        component: resolve => require(['~/app/containers/dataObj/dataObj'], resolve)
       }, {
+        name: 'createDO',
+        path: 'createDO',
+        component: resolve => require(['~/app/containers/dataObj/createDO'], resolve)
+      },{
+        name: 'watchDO',
+        path: 'watchDO',
+        component: resolve => require(['./app/containers/dataObj/watchDO'], resolve)
+      }, {
+        name: 'modifyDO',
+        path: 'modifyDO',
+        component: resolve => require(['./app/containers/dataObj/modifyDO'], resolve)
+      },{
         name: 'busi',
         path: 'busi',
         component: resolve => require(['~/app/containers/home/Home'], resolve)
