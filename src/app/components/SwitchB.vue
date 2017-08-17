@@ -18,7 +18,7 @@ export default {
     methods: {
         toggle() {
             if (!this.isOpen) {
-                this.$refs.switchBtn.style.left = '19px';
+                this.$refs.switchBtn.style.left = '20px';
                 this.$refs.switch.style.background = '#4ec207';
                 this.isOpen = !this.isOpen;
             } else {
@@ -26,8 +26,7 @@ export default {
                 this.$refs.switch.style.background = '#f1f1f9';
                 this.isOpen = !this.isOpen;
             }
-
-
+            this.$emit('isOpen', this.isOpen)
         }
     }
 }
@@ -71,9 +70,10 @@ export default {
 }
 
 .closed {
-    color:#999
+    color: #999
 }
-.open{
+
+.open {
     color: #4ec207
 }
 </style>

@@ -70,7 +70,7 @@ const router = new VueRouter({
       },{
         name: 'busi',
         path: 'busi',
-        component: resolve => require(['~/app/containers/home/Home'], resolve)
+        component: resolve => require(['~/app/components/form2'], resolve)
       },
         // {
         //   name: 'hosts',

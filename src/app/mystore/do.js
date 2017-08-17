@@ -25,6 +25,18 @@ const actions = {
             alert('操作失败')
         }
     },
+
+    async createDO({commit},param){
+        const {status,statusText,data}= await axios.psot('/data-open-web/metadata/dataobject/create',param);
+        if (status === 200 && data.returnStatus == 1) {
+            console.log('创建成功')
+            console.log(data)
+            commit('createDO',data)
+        }
+        else {
+            alert('操作失败')
+        }
+    }
 }
 
 const mutations = {
@@ -33,6 +45,9 @@ const mutations = {
     },
     changeID(state,data){
         state.currentId = data;
+    },
+    createDO(state,data){
+        
     }
 }
 

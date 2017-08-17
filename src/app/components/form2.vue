@@ -7,53 +7,60 @@
                 <label class="lWidth">数据对象中文名
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth"   v-model="sjdxzwm" required type="text">
+                <input class="inWidth" v-model="sjdxzwm" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-
+    
             <div class="form-group">
                 <label class="lWidth">数据对象名
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth"   v-model="sjdxmc" required type="text">
+                <input class="inWidth" v-model="sjdxmc" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-
+    
             <div class="form-group">
                 <label class="lWidth">数据对象描述
                 </label>
-                <input class="inWidth"   v-model="sjdxms" type="text">
+                <input class="inWidth" v-model="sjdxms" type="text">
             </div>
-            
+    
             <div class="form-group">
                 <label class="lWidth">是否启用
                     <span class="required">*</span>
                 </label>
-                <input  name="start"  type="radio">是
-                <input name="start"  type="radio">否
+                <switch-b @isOpen='isOpen'></switch-b>
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-
+    
             <div class="form-group">
                 <label class="lWidth">备注
                 </label>
                 <textarea class="inWidth" rows="6" v-model="bz"></textarea>
             </div>
         </form>
+        <div class="btn-group">
+            <button class="button" @click="create">创建</button>
+            <a class="button" href="/data/obj">取消</a>
+        </div>
     </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import switchB from './SwitchB'
 export default {
+    components: {
+        switchB
+    },
+    props: ['currentId'],
     data() {
         return {
             bz: "",
@@ -65,10 +72,25 @@ export default {
             // sjyWid 不用传
         }
     },
-    computed:{
-        ...mapState({
-            currentId:state=>state.dob.currentId
-        })
+    methods: {
+        isOpen(val) {
+            if (val) {
+                this.sfqy = 1
+            } else {
+                this.sfqy = 0
+            }
+        },
+        create() {
+            var val = {
+                bz: this.bz,
+                catalogWid:this.currentId,
+                sfqy: this.sfqy,
+                sjdxmc: this.sjdxmc,
+                sjdxms: this.sjdxms,
+                sjdxzwm: this.sjdxzwm
+            }
+            this.$emit('create',val)
+        }
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form></m-form>
+            <m-form :currentId='currentId' @create='create'></m-form>
         </v-content>
     </div>
 </template>
@@ -10,7 +10,8 @@
 <script>
 import Sheader from '../../components/SSheader';
 import Content from '../../components/Content';
-import form2 from '../../components/form2'
+import form2 from '../../components/form2';
+import {mapState} from 'vuex';
 export default {
     data(){
         return{
@@ -23,6 +24,16 @@ export default {
         Sheader,
         VContent:Content,
         mForm:form2
+    },
+    computed:{
+        ...mapState({
+        currentId:state=>state.do.currentId
+        })
+    },
+    methods:{
+        create(val){
+            this.$store.dispatch('createDO',val)
+        }
     }
 }
 </script>
