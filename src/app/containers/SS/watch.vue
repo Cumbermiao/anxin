@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Sheader :title='title' :operation='operation'></Sheader>
+        <Sheader :path='path' :title='title' :operation='operation'></Sheader>
         <v-content>
             <table>
                 <tr>
@@ -41,6 +41,7 @@ export default {
             title: '实时查询服务管理',
             operation: '>查看',
             loading: true,
+            path:'/'
         }
     },
     components: {

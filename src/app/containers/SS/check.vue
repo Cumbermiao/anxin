@@ -1,12 +1,8 @@
 <template>
     <div>
-        <Sheader :title="title" :operation="operation"></Sheader>
+        <Sheader :path='path' :title="title" :operation="operation"></Sheader>
         <v-content>
-            <m-form :dataSource='dataSource' :opObj='opObj' @save='modify'></m-form>
-            <!-- <div class="btn-group">
-                <button class="button" @click="modify({catalogWid:opObj.dataSourceWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate})">保存</button>
-                <a class="button" href="/">取消</a>
-            </div> -->
+            <m-form :dataSource='dataSource' :opObj='opObj' @save='modify' :readonly='readonly'></m-form>
         </v-content>
     </div>
 </template>
@@ -25,6 +21,8 @@ export default {
             title: '数据源管理',
             operation: '>查看',
             dataSource:[],
+            readonly:true,
+            path:'/'
         }
     },
     computed:{

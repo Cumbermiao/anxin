@@ -57,6 +57,38 @@ html, body, #app {
   background-color: var(--primaryColor);
   box-shadow: var(--shadow);
 }
+/*表单样式  */
+.form-group {
+    margin-top: 20px;
+}
+input,
+textarea {
+    padding: 0;
+    border: 1px solid rgb(169, 169, 169);
+}
+
+textarea {
+    resize: none;
+    vertical-align: top;
+}
+.lWidth {
+    display: inline-block;
+    width: 160px;
+    position: relative;
+    padding-left: 8px;
+}
+
+.required {
+    position: absolute;
+    left: -5px;
+    color: red;
+}
+
+.inWidth {
+    width: 412px;
+    padding: 5px 0;
+    border-radius: 3px;
+}
 
 /*组件样式*/
 .icon-item {

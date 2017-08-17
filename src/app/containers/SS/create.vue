@@ -1,10 +1,12 @@
 <template>
     <div>
-        <Sheader :title="title" :operation="operation"></Sheader>
-        <v-content>
-            <m-form :dataSource='dataSource' @save='create'></m-form>
-            <!-- create({catalogWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate}) -->
-        </v-content>
+        <div class="center">
+            <Sheader :path='path' :title="title" :operation="operation"></Sheader>
+            <v-content>
+                <m-form :dataSource='dataSource' @save='create'></m-form>
+                <!-- create({catalogWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate}) -->
+            </v-content>
+        </div>
     </div>
 </template>
 
@@ -20,13 +22,14 @@ export default {
         return {
             title: '数据源管理',
             operation: '>新增',
-            dataSource:[]
+            dataSource: [],
+            path:'/'
         }
     },
-    methods:{
-        create(val){
-            this.$store.commit('create',val)
-        } 
+    methods: {
+        create(val) {
+            this.$store.commit('create', val)
+        }
     },
     components: {
         vContent: Content,
@@ -35,16 +38,19 @@ export default {
     },
     mounted() {
         console.log('xxx')
-        axios.post('/data-open-web/metadata/datasource/selectList').then((res) => { 
-            this.dataSource=res.data.dataSet 
+        axios.post('/data-open-web/metadata/datasource/selectList').then((res) => {
+            this.dataSource = res.data.dataSet
             console.log(this.dataSource)
-            })
-        .catch((err) => { console.log(err) })
+        })
+            .catch((err) => { console.log(err) })
     }
 }
 </script>
 
 <style scoped>
-
+.center {
+    width: 500px;
+    margin: 0 auto;
+}
 </style>
 

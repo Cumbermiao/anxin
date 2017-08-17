@@ -9,7 +9,7 @@ const state = {
     dataSourceWid: '',
     pageNum: 1,
     pageSize: 10,
-    pages: 3,
+    pages: 0,
     res: [],
     rows: [],
     outParams: [],
@@ -69,6 +69,7 @@ const mutations = {
         state.totalSize = data.pageInfo.total;
         state.pages = data.pageInfo.pages;
         state.res = data.dataSet
+        console.log('state.res::::')
         console.log(state.res)
     },
     changeID(state, id) {
@@ -128,7 +129,7 @@ const mutations = {
                 "content-type": "application/json"
             }
         }).then((res) => {
-            if (res.status == 200 && res.returnStatus) {
+            if (res.status == 200 && res.data.returnStatus==1) {
                 alert('删除成功')
             } else {
                 alert('操作失败')
