@@ -68,10 +68,22 @@ const router = new VueRouter({
         path: 'modifyDO',
         component: resolve => require(['./app/containers/dataObj/modifyDO'], resolve)
       },{
-        name: 'busi',
-        path: 'busi',
-        component: resolve => require(['~/app/components/form2'], resolve)
-      },
+        name: 'busiObj',
+        path: 'busiObj',
+        component: resolve => require(['~/app/containers/busiObj/busiObj'], resolve)
+      },{
+        name:'createBO',
+        path:'createBO',
+        component: resolve => require(['~/app/containers/busiObj/createBO'], resolve)
+      },{
+        name:'watchBO',
+        path:'watchBO',
+        component: resolve => require(['~/app/containers/busiObj/watchBO'], resolve)
+      },{
+        name:'modifyBO',
+        path:'modifyBO',
+        component: resolve => require(['~/app/containers/busiObj/modifyBO'], resolve)
+      }
         // {
         //   name: 'hosts',
         //   path: 'hosts',

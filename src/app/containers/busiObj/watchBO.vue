@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :currentId='currentId' @createDO='createDO'></m-form>
+            <m-form :currentId='currentId' :readonly='readonly' :opObj='opObj'></m-form>
         </v-content>
     </div>
 </template>
@@ -11,38 +11,27 @@
 import {mapState} from 'vuex'
 import Sheader from '../../components/SSheader';
 import Content from '../../components/Content';
-import form2 from '../../components/form2';
+import form3 from '../../components/form3';
 import axios from '../../utils/axios';
 export default {
     data(){
         return{
-            title:'数据对象管理',
-            operation:'>新增',
-            path:'/data/obj',
-    
+            title:'业务对象管理',
+            operation:'>查看',
+            path:'/data/busiObj',
+            readonly:true
         }
     },
-    components:{
+  components:{
         Sheader,
         VContent:Content,
-        mForm:form2
+        mForm:form3
     },
     computed:{
         ...mapState({
-            currentId:state=>state.dob.currentId
+            opObj:state=>state.bo.opObj,
+            currentId:state=>state.bo.currentId
         })
-    },
-    methods:{
-        createDO(val){
-            this.$store.dispatch('createDO',val)
-        }
-    },
-    mounted(){
-
     }
 }
 </script>
-<style scoped>
-
-</style>
-

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="center">
+        <div>
             <Sheader :path='path' :title="title" :operation="operation"></Sheader>
             <v-content>
                 <m-form :dataSource='dataSource' @save='create'></m-form>
@@ -48,9 +48,6 @@ export default {
 </script>
 
 <style scoped>
-.center {
-    width: 500px;
-    margin: 0 auto;
-}
+
 </style>
 

@@ -34,8 +34,8 @@ const menu = [{
     title: '数据对象管理',
     path: 'obj'
   }, {
-    title: '业务数据管理',
-    path: 'busi'
+    title: '业务对象管理',
+    path: 'busiObj'
   }]
 }];
 
