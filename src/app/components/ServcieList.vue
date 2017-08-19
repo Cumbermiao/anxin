@@ -9,10 +9,10 @@
             <div class="sys_info" v-for="(item,i) in sys" :key="item">
                 <img :src="img" alt="">
                 <div class="detail">
-                    <p class="title">{{item.queryIntfName||item.zcxtzwm ||item.sjdxzwm}}</p>
+                    <p class="title">{{item.queryIntfName||item.zcxtzwm ||item.sjdxzwm ||item.mc}}</p>
                     <div>
                         <span class="dtitle">描述</span>
-                        <span class="desc">{{item.queryIntfDesc||item.zcxtms||item.sjdxms}}</span>
+                        <span class="desc">{{item.queryIntfDesc||item.zcxtms||item.sjdxms||item.ms}}</span>
                     </div>
                     <div>
                         <span class="dtitle">最后修改时间</span>

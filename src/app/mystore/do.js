@@ -26,17 +26,18 @@ const actions = {
         }
     },
 
-    async createDO({commit},param){
-        const {status,statusText,data}= await axios.psot('/data-open-web/metadata/dataobject/create',param);
+    async createDO({ commit }, param) {
+        const { status, statusText, data } = await axios.post('/data-open-web/metadata/dataobject/newCreate', param);
+        // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             console.log('创建成功')
             console.log(data)
-            commit('createDO',data)
+            commit('createDO', data)
         }
         else {
             alert('操作失败')
         }
-    }
+    },
 }
 
 const mutations = {
@@ -48,7 +49,13 @@ const mutations = {
     },
     createDO(state,data){
         
+    },
+    changeDOOpObj(state,data){
+        console.log('dddddddddddddddddata')        
+        console.log(data)
+        state.opObj=data
     }
+    
 }
 
 export default {

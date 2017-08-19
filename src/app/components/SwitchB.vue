@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    props: ['hasText'],
+    props: ['hasText', 'readonly'],
     data() {
         return {
             isOpen: false,
@@ -17,16 +17,18 @@ export default {
     },
     methods: {
         toggle() {
-            if (!this.isOpen) {
-                this.$refs.switchBtn.style.left = '20px';
-                this.$refs.switch.style.background = '#4ec207';
-                this.isOpen = !this.isOpen;
-            } else {
-                this.$refs.switchBtn.style.left = '1px';
-                this.$refs.switch.style.background = '#f1f1f9';
-                this.isOpen = !this.isOpen;
+            if (!this.readonly) {
+                if (!this.isOpen) {
+                    this.$refs.switchBtn.style.left = '19px';
+                    this.$refs.switch.style.background = '#4ec207';
+                    this.isOpen = !this.isOpen;
+                } else {
+                    this.$refs.switchBtn.style.left = '1px';
+                    this.$refs.switch.style.background = '#f1f1f9';
+                    this.isOpen = !this.isOpen;
+                }
             }
-            this.$emit('isOpen', this.isOpen)
+
         }
     }
 }

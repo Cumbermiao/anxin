@@ -1,5 +1,5 @@
 <template>
-    <v-content id="title" title="元数据管理">
+    <v-content id="title" title="数据源管理">
         <div class="home_content">
             <section>
                 <search placeholder="请输入对象分类名称关键词搜索" @changeKey='changeKey' @search='search'></search>

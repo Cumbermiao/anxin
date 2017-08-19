@@ -20,7 +20,7 @@ import { mapState, mapActions } from 'vuex';
 import router from '../../../route'
 import Content from '../../components/Content.vue';
 import axios from '../../utils/axios';
-import Search from '../../components/Search'
+import Search from '../../components/Search';
 import SearchInput from '../../components/SearchInput.vue';
 import Pages from '../../components/Pages';
 import TreeNode from '../../components/TreeNode';
@@ -86,14 +86,23 @@ export default {
     },
     changeOpObj(val) {
       console.log(val)
-      this.$store.commit('changeDSOpObj', val)
+      this.$store.commit('changeDOOpObj', val)
     },
     changePageSize(pageSize) {
       this.pageInfo.pageSize = pageSize;
       this.search()
     },
     remove(val) {
-      this.$store.commit('removeDO', val)
+      axios.post('/data-open-web/metadata/dataobject/deleteByWid', val, { "headers": { "content-type": "application/json" } })
+        .then((res) => {
+          if (res.status == 200 && res.data.returnStatus == 1) {
+            alert('删除成功')
+          } else {
+            alert('删除失败')
+          }
+        }).catch((err) => {
+          alert('删除失败')
+        })
     },
   },
 
