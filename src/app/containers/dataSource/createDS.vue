@@ -14,7 +14,8 @@ import Content from '../../components/Content';
 import Input from '../../components/Input';
 import Sheader from '../../components/SSheader';
 import axios from '../../utils/axios';
-import add from '../../components/add'
+import add from '../../components/add';
+import router from '../../../route'
 export default {
   data() {
     return {
@@ -34,6 +35,7 @@ export default {
   methods: {
     create(val) {
       this.$store.commit('createDS',val)
+      router.push("/data/source")
     },
     test(val){
       this.$store.commit('testDS',val)

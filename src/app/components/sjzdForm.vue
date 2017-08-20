@@ -1,5 +1,5 @@
 <template>
-    <div class="cForm" v-show="formShow">
+    <div class="cForm">
         <form>
             <i class="fa fa-close fa-lg" style="float:right"></i>
             <h3>创建数据字段</h3>
@@ -125,8 +125,10 @@ export default {
     props: ['list', 'opObj', 'formShow'],
     methods: {
         sure() {
-            if (this.sjzd.zdm != '' && this.sjzd.zdzwjc != '' && this.sjzd.zdlx != '' && this.sjzd.zdmrz != '' && this.sjzd.sfzj != '' && this.sjzd.sfwk != '' && this.sjzd.sfwy != '' &&
-                this.sjzd.zdms != '' && this.sjzd.bz != '') {
+            console.log('this.sjzd.zdm')
+            console.log(this.sjzd.zdm)
+            if (this.sjzd.zdm && this.sjzd.zdzwjc && this.sjzd.zdlx && this.sjzd.zdmrz && this.sjzd.sfzj && this.sjzd.sfwk && this.sjzd.sfwy &&
+                this.sjzd.zdms && this.sjzd.bz) {
                 this.$emit('isShow', false)
                 this.$emit('surenew', this.sjzd)
             } else {
@@ -138,7 +140,7 @@ export default {
         }
     },
     updated() {
-        if (this.opObj != {}) {
+        if (this.opObj) {
             this.sjzd = this.opObj
         }
     }

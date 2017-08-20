@@ -41,7 +41,7 @@ const router = new VueRouter({
         component: resolve => require(['~/app/containers/dataSource/dataSource'], resolve)
       }, {
         name: 'createDS',
-        path: 'createDS',
+        path: 'source/createDS',
         component: resolve => require(['~/app/containers/dataSource/createDS'], resolve)
       },{
         name: 'watchDS',
@@ -49,7 +49,7 @@ const router = new VueRouter({
         component: resolve => require(['./app/containers/dataSource/checkDS.vue'], resolve)
       }, {
         name: 'modifyDS',
-        path: 'modifyDS',
+        path: 'source/modifyDS',
         component: resolve => require(['./app/containers/dataSource/modifyDS.vue'], resolve)
       }, {
         name: 'obj',
@@ -57,15 +57,15 @@ const router = new VueRouter({
         component: resolve => require(['~/app/containers/dataObj/dataObj'], resolve)
       }, {
         name: 'createDO',
-        path: 'createDO',
+        path: 'obj/createDO',
         component: resolve => require(['~/app/containers/dataObj/createDO'], resolve)
       },{
         name: 'watchDO',
-        path: 'watchDO',
+        path: 'obj/watchDO',
         component: resolve => require(['./app/containers/dataObj/watchDO'], resolve)
       }, {
         name: 'modifyDO',
-        path: 'modifyDO',
+        path: 'obj/modifyDO',
         component: resolve => require(['./app/containers/dataObj/modifyDO'], resolve)
       },{
         name: 'busiObj',
@@ -73,15 +73,15 @@ const router = new VueRouter({
         component: resolve => require(['~/app/containers/busiObj/busiObj'], resolve)
       },{
         name:'createBO',
-        path:'createBO',
+        path:'busiObj/createBO',
         component: resolve => require(['~/app/containers/busiObj/createBO'], resolve)
       },{
         name:'watchBO',
-        path:'watchBO',
+        path:'busiObj/watchBO',
         component: resolve => require(['~/app/containers/busiObj/watchBO'], resolve)
       },{
         name:'modifyBO',
-        path:'modifyBO',
+        path:'busiObj/modifyBO',
         component: resolve => require(['~/app/containers/busiObj/modifyBO'], resolve)
       }
         // {

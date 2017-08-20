@@ -49,6 +49,7 @@ export default {
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     this.select = res.data.dataSet;
+                    console.log(this.select)
                 } else {
                     alert('获取下拉列表失败！！！')
                 }

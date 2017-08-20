@@ -37,11 +37,12 @@ export default {
   data() {
     return {
       sysTrees: [],
-      watchPath: '#/data/watchDO',
-      modifyPath: '#/data/modifyDO',
+      watchPath: '#/data/obj/watchDO',
+      modifyPath: '#/data/obj/modifyDO',
       createPath: '',
       select: [],
       keywords: '',
+
     }
   },
   computed: {
@@ -78,7 +79,12 @@ export default {
       this.keywords = keywords;
     },
     toCreate() {
-      router.push("/data/createDO")
+      if (this.currentId == '') {
+        alert('请选择分类')
+      } else {
+        router.push("/data/obj/createDO")
+      }
+
     },
     skipTo(pageNum) {
       this.pageInfo.pageNum = pageNum;

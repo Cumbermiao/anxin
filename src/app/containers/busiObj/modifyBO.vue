@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :currentId='currentId' @create='update' :opObj='opObj' :opArr='opArr'></m-form>
+            <m-form :isModify='isModify' :currentId='currentId' @create='update' :opObj='opObj' :opArr='opArr'></m-form>
         </v-content>
     </div>
 </template>
@@ -19,7 +19,8 @@ export default {
             title: '业务对象管理',
             operation: '>修改',
             path: '/data/busiObj',
-            opArr:[],//操作数组，修改为0，新增为1，删除为2
+            opArr:[],//操作数组，修改为0，新增为1，删除为2,
+            isModify:true
         }
     },
     components: {

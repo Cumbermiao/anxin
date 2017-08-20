@@ -6,8 +6,8 @@
                 <label class="lWidth">数据字段
                     <span class="required">*</span>
                 </label>
-                <select class="inWidth">
-                    <option v-for="item in sjzdList" :key="item" v-text="item.zdzwjc"></option>
+                <select class="inWidth" v-model="sjzdWid" @change="change">
+                    <option v-for="item in sjzdList" :key="item" :value="item.wid" v-text="item.zdzwjc"></option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -18,7 +18,7 @@
                 <label class="lWidth">名称
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" v-model="opAttr.mc" required type="text">
+                <input class="inWidth" v-model="attr.mc" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -28,7 +28,7 @@
                 <label class="lWidth">描述
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" v-model="opAttr.ms" required type="text">
+                <input class="inWidth" v-model="attr.ms" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -38,7 +38,7 @@
                 <label class="lWidth">备注
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" v-model="opAttr.bz" required type="text">
+                <input class="inWidth" v-model="attr.bz" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -48,7 +48,7 @@
                 <label class="lWidth">计算逻辑
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" v-model="opAttr.jslj" required type="text">
+                <input class="inWidth" v-model="attr.jslj" required type="text">
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -57,18 +57,18 @@
              <div class="form-group">
                 <label class="lWidth">最后修改人
                 </label>
-                <input class="inWidth" v-model="zdm" required type="text">
+                <input class="inWidth" v-model="attr.zhxgr" disabled  type="text">
             </div>
             <div class="form-group">
                 <label class="lWidth">最后修改时间
                 </label>
-                <input class="inWidth" v-model="zdm" required type="text">
+                <input class="inWidth" v-model="attr.zhxgsj" disabled  type="text">
             </div>
         </form>
          <div class="btn-group">
               <label class="lWidth"></label>
-            <button class="button" @click="createAttr">确定</button>
-            <a class="button" href="/data/obj">取消</a>
+            <button class="button" @click="save">确定</button>
+            <button class="button" @click="cancel">取消</button>
         </div>
     </div>
 </template>
@@ -77,12 +77,16 @@ export default {
     data(){
         return{
             zdm:'',
-            // attr:{
-            //     bz:'',
-            //     jslj:'',
-            //     mc:'',
-            //     ms:'',
-            // }
+            
+            attr:{
+                bz:'',
+                sjzdWid:'',
+                jslj:'',
+                mc:'',
+                ms:'',
+                zhxgr:'',
+                zhxgsj:'',
+            }
         }
     },
     // computed:{
@@ -92,13 +96,26 @@ export default {
     //         }
     //     }
     // },
-    props:['sjzdList','opAttr'],
+    props:['sjzdList','opAttr','formShow'],
     methods:{
-        createAttr(){
-            this.$emit('createAttr',{opAttr:this.opAttr})
+        save(){
+            console.log(this.attr)
+            this.$emit('isShow',false)
+            this.$emit('save',this.attr)
+        },
+        cancel() {
+            this.$emit('isShow', false)
+        },
+        change(){
+            console.log(this.attr.wid)
         }
-    },
     
+    },
+    updated() {
+        if (this.opObj) {
+            this.attr = this.opAttr
+        }
+    }
     
 }
 </script>

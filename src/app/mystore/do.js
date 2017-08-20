@@ -42,7 +42,11 @@ const actions = {
 
 const mutations = {
     searchForDO(state, data) {
-        state.res = data.dataSet
+        state.pageNum = data.pageInfo.pageNum;
+        state.pageSize = data.pageInfo.pageSize;
+        state.totalSize = data.pageInfo.total;
+        state.pages = data.pageInfo.pages;
+        state.res = data.dataSet;
     },
     changeID(state,data){
         state.currentId = data;
@@ -54,7 +58,14 @@ const mutations = {
         console.log('dddddddddddddddddata')        
         console.log(data)
         state.opObj=data
-    }
+    },
+     changePageSize(state, item) {
+        state.pageSize = item;
+
+    },
+    changePageNum(state, val) {
+        state.pageNum = val
+    },
     
 }
 

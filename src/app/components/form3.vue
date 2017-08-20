@@ -2,7 +2,7 @@
     <!--业务对象基本信息 -->
     <div class="form">
         <div class="background">
-    
+
         </div>
         <form>
             <div class="types">
@@ -19,7 +19,7 @@
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-    
+
             <div class="form-group">
                 <label class="lWidth">名称
                     <span class="required">*</span>
@@ -30,13 +30,13 @@
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-    
+
             <div class="form-group">
                 <label class="lWidth">描述
                 </label>
                 <input class="inWidth" v-model="busiData.ms" type="text" :readonly='readonly'>
             </div>
-    
+
             <div class="form-group">
                 <label class="lWidth">备注
                 </label>
@@ -45,7 +45,7 @@
         </form>
         <div class="types">
             <div class="marker"></div> 业务指标管理</div>
-        <button class="button" @click="askForList" v-show='!readonly'>创建</button>
+        <button class="button" @click="askForList" v-show='!readonly' style="margin-bottom:20px;">创建</button>
         <table class="data-table">
             <tr>
                 <!-- <th> <input type="checkbox"> </th> -->
@@ -65,11 +65,11 @@
                 </td>
             </tr>
         </table>
-    
-        <m-form @createAttr='createAttr' :sjzdList='sjzdList' :opAttr='opAttr'></m-form>
-        <div class="btn-group">
+
+        <m-form v-show="formShow" :formShow='formShow' @isShow='isShow' @save='save' :sjzdList='sjzdList' :opAttr='opAttr'></m-form>
+        <div class="btn-group" v-show="!readonly">
             <button class="button" @click="create">保存</button>
-            <a class="button" href="/data/obj">取消</a>
+            <a class="button" href="/data/busiObj">取消</a>
         </div>
     </div>
 </template>
@@ -83,7 +83,7 @@ export default {
         switchB,
         mForm,
     },
-    props: ['currentId', 'doList',"opObj",'readonly','opArr'],
+    props: ['currentId', 'doList', "opObj", 'readonly', 'opArr', 'isModify','ywzbList'],
     data() {
         return {
             dataObjWid: 0,//数据对象id
@@ -101,19 +101,29 @@ export default {
             opAttr: {},
             sjzdList: [],
             catalogWid: 0,//分类获取
-            
+            formShow: false,
             // sjyWid 不用传,
             thead: ['名称', '描述', '计算逻辑', '备注', '最后修改人', '最后修改时间'],
-            
+
         }
     },
     methods: {
+        isShow(val) {
+            this.formShow = val;
+        },
         isOpen(val) {
             if (val) {
                 this.sfqy = 1
             } else {
                 this.sfqy = 0
             }
+        },
+        deepCopy: function (source) {
+            var result = {};
+            for (var key in source) {
+                result[key] = typeof source[key] === 'object' ? deepCoyp(source[key]) : source[key];
+            }
+            return result;
         },
         create() {
             var val = {
@@ -122,45 +132,77 @@ export default {
             }
             this.$emit('create', val)
         },
-        createAttr(val) {
-            this.busiAttrs.push(val)
-            console.log('busiAttrs')
-            console.log(this.busiAttrs)
+        save(val) {
+            val = this.deepCopy(val)
+            var isRepeated = false;
+            if (this.busiAttrs.length == 0) {
+                this.busiAttrs.push(val)
+                return;
+            }
+            var that = this
+            this.busiAttrs.forEach(function (item) {
+                if (item.zdm == val.zdm) {
+                    var idx = that.busiAttrs.indexOf(item)
+                    that.busiAttrs[idx] = val
+                    isRepeated = true;
+                    return
+                }
+            })
+            if (isRepeated == false) {
+                this.busiAttrs.push(val)
+            }
         },
         askForList() {
             // dataObjWid
-            this.opAttr.opArr.push(1)
+
+            if (this.isModify) {
+                this.opAttr.opArr.push(1)
+            }
+            this.formShow = true;
             axios.post('/data-open-web/metadata/datafields/query', this.dataObjWid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     console.log(res)
                     this.sjzdList = res.data.dataSet;
+                    console.log('this.sjzdList')
                     console.log(this.sjzdList)
                 }).catch((err) => {
                     alert('获取下拉列表失败')
                 })
         },
-        modify(param){
-            this.opAttr.opArr.push(0);
-            this.opAttr=param
+        modify(param) {
+            if (this.isModify) {
+                this.opAttr.opArr.push(0)
+            }
+            this.opAttr = param;
+            this.formShow=true;
         },
-        remove(item){
-            this.opAttr.opArr.push(2);
-            this.opAttr=param;
-            
+        remove(item) {
+            if (this.isModify) {
+                this.opAttr.opArr.push(2)
+            }
+            var idx = this.busiAttrs.indexOf(item)
+            this.busiAttrs.splice(idx,1)
+
         }
     },
-    mounted(){
-        if(this.opObj){
-            this.busiData=this.opObj;
-             axios.post('/data-open-web/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
+    mounted() {
+        if (this.opObj) {
+            this.busiData = this.opObj;
+            axios.post('/data-open-web/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     console.log('res')
-                    this.busiAttrs=res.data.dataSet
+                    this.busiAttrs = res.data.dataSet;
+                    this.busiAttrs.opArr = [];
                     console.log(res)
-                    
+
                 }).catch((err) => {
                     alert('获取业务指标下拉列表失败')
                 })
+        }
+        if(this.ywzbList){
+            console.log('this.ywzbList')
+            console.log(this.ywzbList)
+            this.busiAttrs=this.ywzbList
         }
     }
 }
@@ -170,6 +212,9 @@ export default {
 .form {
     position: relative;
 }
+
+
+
 
 
 

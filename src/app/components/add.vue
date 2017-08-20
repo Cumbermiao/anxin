@@ -23,8 +23,11 @@
             <div class="form-group">
                 <label class="lWidth">
                     <span class="required">*</span>数据库类型</label>
-                <select class="inWidth" required v-model="sjklx" @change="changeLX($event)" :disabled='readonly'>
+                <select v-if="!opObj" class="inWidth" required v-model="sjklx" @change="changeLX($event)" >
                     <option v-for="item in select" :key="item" :value="item.dataValue" v-text="item.dataName"></option>
+                </select>
+                <select v-else class="inWidth" :disabled='readonly'>
+                    <option >{{sjkqdlx}}</option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -97,13 +100,13 @@
                 </div>
             </div>
     
-            <div class="form-group">
+        </form>
+         <div class="form-group">
                 <label class="lWidth"></label>
                 <button class="test" @click="test">连接测试</button>
-                <button class="save" @click="save">保存</button>
-                <button class="cancel" @click="cancel">取消</button>
+                <button class="save" v-show="!readonly" @click="save">保存</button>
+                <button class="cancel" v-show="!readonly" @click="cancel">取消</button>
             </div>
-        </form>
     
         <div class="background" v-if="loading">
             <div class="success result" v-if="isConnected">
@@ -126,7 +129,8 @@
 <script>
 
 import Loading from './Loading';
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import router from '../../route'
 export default {
     data() {
         return {
@@ -206,15 +210,16 @@ export default {
             }
         },
         cancel() {
-
+            router.go(-1)
         }
     },
     mounted() {
+        console.log("this.opObj")
         console.log(this.opObj)
         if (this.opObj) {
             this.sjkdxsyz = this.opObj.sjkdxsyz,
                 this.sjkfwm = this.opObj.sjkfwm,
-                this.sjkljyh = this.opObj.sjkljyhm,
+                this.sjkljyhm = this.opObj.sjkljyhm,
                 this.sjkljyhmm = this.opObj.sjkljyhmm,
                 this.sjkljzfc = this.opObj.sjkljzfc,
                 this.sjkqd = this.opObj.sjkqd,

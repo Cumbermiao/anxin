@@ -24,7 +24,8 @@ export default {
     },
     computed:{
         ...mapState({
-            currentId:state=>state.bo.currentId
+            currentId:state=>state.bo.currentId,
+            
         })
     },
     components:{

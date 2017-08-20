@@ -34,8 +34,8 @@ export default {
     data() {
         return {
             sysTrees: [],
-            watchPath: '#/data/watchDS',
-            modifyPath:'#/data/modifyDS',
+            watchPath: '#/data/source/watchDS',
+            modifyPath:'#/data/source/modifyDS',
             createPath:'',
             select: [],
             keywords: '',
@@ -71,7 +71,7 @@ export default {
             this.keywords=keywords;
         },
         toCreate() { 
-            router.push("/data/createDS")
+            router.push("/data/source/createDS")
         },
         skipTo(pageNum) { 
             this.pageInfo.pageNum=pageNum;
@@ -87,6 +87,7 @@ export default {
         },
         remove(val) { 
             this.$store.commit('removeDS',val)
+            this.$store.dispatch('searchForDS',{pageNum:this.pageInfo.pageNum,pageSize:this.pageInfo.pageSize,sjkljyhm:this.sjkljyhm,zcxtzwm:this.keywords})
         },
     },
     mounted() {

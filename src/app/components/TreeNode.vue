@@ -43,13 +43,13 @@ export default {
     methods: {
         showChildrenTree(e) {
             console.log(e.target)
-            var list = document.getElementsByClassName('active');
+            var list = document.getElementsByClassName('actives');
             for (var i = 0; i < list.length; i++) {
-                list[i].classList.remove('active')
+                list[i].classList.remove('actives')
             }
             console.log(e.target.parentNode.parentNode.getElementsByTagName('ul')[0])
             if (e.target.tagName == 'I') {
-                e.target.parentNode.classList.add('active')
+                e.target.parentNode.classList.add('actives')
                 var childN = e.target.parentNode.parentNode.getElementsByTagName('ul')[0]
                 if (childN.style.display == 'block') {
                     childN.style.display = 'none';
@@ -59,7 +59,7 @@ export default {
                     e.target.className = 'fa fa-caret-down fa-lg'
                 }
             } else {
-                e.target.classList.add('active')
+                e.target.classList.add('actives')
                 var childN = e.target.parentNode.getElementsByTagName('ul')[0]
                 if (childN.style.display == 'block') {
                     childN.style.display = 'none';
@@ -125,8 +125,8 @@ li {
     background-color: #eee
 }
 
-li .active,
-.active:hover {
+li .actives,
+.actives:hover {
     background-color: #595cec;
     color: #fff;
 }

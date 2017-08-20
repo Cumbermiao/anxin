@@ -50,7 +50,7 @@
         </form>
         <div class="types">
             <div class="marker"></div> 数据字段处理</div>
-        <button class="button" @click='askForList' v-show="!readonly">创建</button>
+        <button class="button" @click='askForList' v-show="!readonly" style="margin-bottom:20px;">创建</button>
         <table class="data-table">
             <tr>
                 <th v-for="item in thead" :key="item" v-text="item"></th>
@@ -61,9 +61,9 @@
                 <td>{{item2.zdzwjc}}</td>
                 <td>{{item2.zdlx}}</td>
                 <td>{{item2.zdmrz}}</td>
-                <td>{{item2.sfzj}}</td>
-                <td>{{item2.sfwk}}</td>
-                <td>{{item2.sfwy}}</td>
+                <td>{{item2.sfzj=0?'否':'是'}}</td>
+                <td>{{item2.sfwk?'否':'是'}}</td>
+                <td>{{item2.sfwy?'否':'是'}}</td>
                 <td>{{item2.zhxgr}}</td>
                 <td>{{item2.zhxgsj}}</td>
                 <td v-show="!readonly">
@@ -75,7 +75,7 @@
 
         <m-form v-show="formShow" :formShow='formShow' @isShow='isShow' :opObj='opObj' :list='list' @surenew='surenew'></m-form>
 
-        <div class="btn-group" v-show="!readonly">
+        <div class="btn-group" v-show="!readonly" style="margin-top:20px;">
             <button class="button" @click="save">保存</button>
             <a class="button" href="/data/obj">取消</a>
         </div>
@@ -106,7 +106,7 @@ export default {
             },
             doYsjSjdxzds: [],//新建的数据字段数组
             list: [],//下拉列表
-            opObj: {},//传递给数据字段的数据
+            opObj: {},//传递给数据字段的数据对象
             formShow: false
         }
     },
@@ -149,34 +149,20 @@ export default {
             val = this.deepCopy(val)
             var isRepeated = false;
             if (this.doYsjSjdxzds.length == 0) {
-                alert('第一个')
                 this.doYsjSjdxzds.push(val)
                 console.log(this.doYsjSjdxzds)
                 return;
             }
-             
-            console.log(this.doYsjSjdxzds)
             var that= this
             this.doYsjSjdxzds.forEach(function(item) {
-                console.log(item.zdm)
-                console.log(val.zdm)
-                console.log(item.zdm == val.zdm)
                 if (item.zdm == val.zdm) {
-                    alert('替换')
                     var idx = that.doYsjSjdxzds.indexOf(item)
                     that.doYsjSjdxzds[idx]=val
-                    console.log(that.doYsjSjdxzds[idx])
-                    console.log('>>>>>>>>>>>>')
-                    console.log(that.doYsjSjdxzds)
-                    // console.log()
-                    // item = val;
-                    // console.log(item)
                     isRepeated = true;
                     return
                 }
             })
             if (isRepeated == false) {
-                alert('新增')
                 this.doYsjSjdxzds.push(val)
             }
             console.log(this.doYsjSjdxzds)
@@ -195,12 +181,14 @@ export default {
         }
     },
     mounted() {
+        console.log("this.obj")
         console.log(this.obj)
-        if(this.obj!={}){
+
+        if(this.obj){
             this.doYsjSjdx=this.obj
         }
         console.log(this.sjzd)
-        if(this.sjzd!=[]){
+        if(this.sjzd){
             this.doYsjSjdxzds=this.sjzd
         }
     }

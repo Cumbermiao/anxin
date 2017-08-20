@@ -7,6 +7,7 @@ const state = {
     pageNum: 1,
     pageSize: 10,
     pages: 0,
+    totalSize:0,
     opObj: {},
     res: []
 }
@@ -28,7 +29,7 @@ const actions = {
         const { status, statusText, data } = await axios.post('/data-open-web/metadata/busiData/create', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
-            console.log('操作成功')
+            alert('操作成功')
             console.log(data)
             commit('createBO', data)
         }
@@ -53,7 +54,11 @@ const actions = {
 
 const mutations = {
     searchForBO(state, data) {
-        state.res = data.dataSet
+        state.res = data.dataSet;
+        // state.pageNum = data.pageInfo.pageNum;
+        // state.pageSize = data.pageInfo.pageSize;
+        // state.totalSize = data.pageInfo.total;
+        // state.pages = data.pageInfo.pages;
     },
     changeBOID(state, data) {
         state.currentId = data;

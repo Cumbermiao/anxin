@@ -37,8 +37,8 @@ export default {
     data() {
         return {
             sysTrees: [],
-            watchPath: '#/data/watchBO',
-            modifyPath: '#/data/modifyBO',
+            watchPath: '#/data/busiObj/watchBO',
+            modifyPath: '#/data/busiObj/modifyBO',
             createPath: '',
             select: [],
             keywords: '',
@@ -80,7 +80,7 @@ export default {
             if (this.currentId == '') {
                 alert('请选择分类')
             } else {
-                router.push("/data/createBO")
+                router.push("/data/busiObj/createBO")
             }
 
         },

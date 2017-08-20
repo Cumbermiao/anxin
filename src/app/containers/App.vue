@@ -69,9 +69,17 @@ export default {
 
   watch: {
     '$route'(route) {
+      console.log('route')
+      console.log(route)
       const currentRoute = route.fullPath;
+      // this.active = this.menus[1].items.
+      // this.menus.findIndex(function(m){
+      //   currentRoute.indexOf(m.path)
+      // })
       this.active = this.menus.findIndex(m => currentRoute.indexOf(m.path) >= 0);
+      console.log(this.active)
       this.activeTab = this.menus[this.active].items.findIndex(m => currentRoute.indexOf(m.path) >= 0);
+      console.log(this.activeTab)
     }
   }
 }

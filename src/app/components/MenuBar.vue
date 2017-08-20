@@ -7,9 +7,9 @@
       <icon-item :width="24" :distance="15" text="admin" :src="userDefaultIcon" />
       <div class="operator">注销</div>
     </div>
-    <router-link v-for="(menu, idx) in menus" @click.native="menuChange(menu, idx)" :key="menu.title" :to="menu.path">
+    <router-link class="tabItem" v-for="(menu, idx) in menus" @click.native="menuChange(menu, idx)" :key="menu.title" :to="menu.path">
       <icon-item :distance="15" :text="menu.title" src="hack">
-        <i :class="menu.icon" :style="{fontSize: menu.icon.indexOf('chart') > 0 ? '20px' : '24px'}" aria-hidden="true" @click="showOperations($event)"></i>
+        <i :class="menu.icon" :style="{fontSize: menu.icon.indexOf('chart') > 0 ? '20px' : '24px'}" aria-hidden="true" ></i>
       </icon-item>
     </router-link>
   </div>
@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     menuChange(menu, idx) {
+      // document.getElementsByClassName('navi-item')[idx].color='blue'
       this.active = idx;
       this.$emit('click', idx, menu);
     },
