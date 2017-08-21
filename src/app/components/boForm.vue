@@ -7,7 +7,7 @@
                     <span class="required">*</span>
                 </label>
                 <!--v-model="sjzdWid"  -->
-                <select class="inWidth"  @change="change">
+                <select class="inWidth" @change="change">
                     <option v-for="item in sjzdList" :key="item" :value="item.wid" v-text="item.zdzwjc"></option>
                 </select>
                 <div>
@@ -25,7 +25,7 @@
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label class="lWidth">描述
                     <span class="required">*</span>
                 </label>
@@ -35,7 +35,7 @@
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label class="lWidth">备注
                     <span class="required">*</span>
                 </label>
@@ -45,7 +45,7 @@
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label class="lWidth">计算逻辑
                     <span class="required">*</span>
                 </label>
@@ -55,19 +55,19 @@
                     <span class="invalidate">必填</span>
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label class="lWidth">最后修改人
                 </label>
-                <input class="inWidth" v-model="attr.zhxgr" disabled  type="text">
+                <input class="inWidth" v-model="attr.zhxgr" disabled type="text">
             </div>
             <div class="form-group">
                 <label class="lWidth">最后修改时间
                 </label>
-                <input class="inWidth" v-model="attr.zhxgsj" disabled  type="text">
+                <input class="inWidth" v-model="attr.zhxgsj" disabled type="text">
             </div>
         </form>
-         <div class="btn-group">
-              <label class="lWidth"></label>
+        <div class="btn-group">
+            <label class="lWidth"></label>
             <button class="button" @click="save">确定</button>
             <button class="button" @click="cancel">取消</button>
         </div>
@@ -75,56 +75,73 @@
 </template>
 <script>
 export default {
-    data(){
-        return{
-            zdm:'',
-            
-            attr:{
-                bz:'',
-                sjzdWid:'',
-                jslj:'',
-                mc:'',
-                ms:'',
-                zhxgr:'',
-                zhxgsj:'',
+    data() {
+        return {
+            zdm: '',
+
+            // attr: {
+            //     bz: '',
+            //     sjzdWid: '',
+            //     jslj: '',
+            //     mc: '',
+            //     ms: '',
+            //     zhxgr: '',
+            //     zhxgsj: '',
+            // }
+        }
+    },
+    computed: {
+        attr() {
+            if (this.opAttr) {
+                console.log(this.opAttr)
+                return this.opAttr
+            } else {
+                alert('kong')
+                return {
+                    bz: '',
+                    sjzdWid: '',
+                    jslj: '',
+                    mc: '',
+                    ms: '',
+                    zhxgr: '',
+                    zhxgsj: '',
+                }
+                
             }
         }
     },
-    // computed:{
-    //     attr(){
-    //         if(this.opAttr!=''){
-    //             return this.opAttr
-    //         }
-    //     }
-    // },
-    props:['sjzdList','opAttr','formShow'],
-    methods:{
-        save(){
+    props: ['sjzdList', 'opAttr', 'formShow'],
+    methods: {
+        save() {
             console.log(this.attr)
-            this.$emit('isShow',false)
-            this.$emit('save',this.attr)
+            this.$emit('isShow', false)
+            this.$emit('save', this.attr)
         },
         cancel() {
             this.$emit('isShow', false)
         },
-        change(){
+        change() {
             console.log(this.attr.wid)
         }
-    
+
     },
-    updated() {
-        if (this.opObj) {
-            this.attr = this.opAttr
-        }
-    }
-    
+    // updated() {
+    //     console.log('this.opAttr')
+    //     console.log(this.opAttr)
+    //     if (this.opAttr) {
+    //         this.attr = this.opAttr
+    //     }
+    // }
+
 }
 </script>
 
 <style scoped>
-.btn-group{
-    margin:20px 0;
+.btn-group {
+    margin: 20px 0;
 }
+
+
 /* .attrForm{
     position:absolute;
     left: 10%;

@@ -91,7 +91,7 @@ const router = new VueRouter({
       ],
     },
     {
-      path: '/dataCacl',
+      path: '/datCacl',
       component: App,
       redirect: { name: 'scriptType' },
       children: [

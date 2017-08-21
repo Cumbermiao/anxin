@@ -22,7 +22,8 @@ const menu = [{
   title: '元数据管理',
   path: '/data',
   icon: 'iconfont icon-peizhizhongxin',
-  items: [{
+  items: [
+    {
     title: '数据源管理',
     path: 'source'
   }, {
@@ -34,11 +35,12 @@ const menu = [{
   }, {
     title: '数据业务分类管理',
     path: 'busiM'
-  }]
+  }
+  ]
 },
 {
   title: '数据计算管理',
-  path: '/dataCacl',
+  path: '/datCacl',
   icon: 'iconfont icon-shujufenxi',
   items: [{
     title: '计算脚本管理',
@@ -47,19 +49,7 @@ const menu = [{
     title: '计算脚本分类管理',
     path: 'scriptType'
   }]
-}
-// {
-//   title: '数据计算管理',
-//   path: '/dataCacl',
-//   icon: 'iconfont icon-gaikuang',
-//   items: [{
-//     title: '计算脚本管理',
-//     path: 'script',
-//   }, {
-//     title: '计算脚本分类管理',
-//     path: 'scriptType'
-//   }]
-// }
+},
 ];
 
 

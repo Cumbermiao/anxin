@@ -121,7 +121,7 @@ export default {
         deepCopy: function (source) {
             var result = {};
             for (var key in source) {
-                result[key] = typeof source[key] === 'object' ? deepCoyp(source[key]) : source[key];
+                result[key] = typeof source[key] === 'object' ? this.deepCopy(source[key]) : source[key];
             }
             return result;
         },
@@ -149,15 +149,15 @@ export default {
                 }
             })
             if (isRepeated == false) {
+                if(this.isModify){
+                    val.opAttr.push(1)
+                }
                 this.busiAttrs.push(val)
+
             }
         },
         askForList() {
             // dataObjWid
-
-            if (this.isModify) {
-                this.opAttr.opArr.push('modify')
-            }
             this.formShow = true;
             axios.post('/data-open-web/metadata/datafields/query', this.dataObjWid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
@@ -172,29 +172,32 @@ export default {
         modify(param) {
             console.log('param')
             console.log(param)
-            if (this.isModify) {
-                this.opAttr.opArr.push('0')
-            }
             this.opAttr = param;
+            if (this.isModify) {
+                this.opAttr.opArr.push(0)
+                console.log(this.opAttr)
+            }
             this.formShow=true;
         },
         remove(item) {
             if (this.isModify) {
-                this.opAttr.opArr.push('2')
+                this.opAttr.opArr.push(2)
             }
             var idx = this.busiAttrs.indexOf(item)
             this.busiAttrs.splice(idx,1)
 
         }
     },
-    beforeMount() {
+    mounted() {
         if (this.opObj) {
             this.busiData = this.opObj;
             axios.post('/data-open-web/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     console.log('res')
                     this.busiAttrs = res.data.dataSet;
-                    this.busiAttrs.opArr = [-1];
+                    this.busiAttrs.forEach((item)=>{
+                        item.opArr=[]
+                    })
                     console.log(this.busiAttrs)
 
                 }).catch((err) => {
