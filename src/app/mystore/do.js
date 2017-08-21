@@ -30,7 +30,7 @@ const actions = {
         const { status, statusText, data } = await axios.post('/data-open-web/metadata/dataobject/newCreate', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
-            console.log('创建成功')
+            alert('创建成功')
             console.log(data)
             commit('createDO', data)
         }

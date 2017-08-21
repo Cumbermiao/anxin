@@ -1,20 +1,15 @@
 <template>
   <div id="app">
-    <menu-bar 
-      :index="active"
-      :menus="menus" />
-      <v-main 
-        :tabs="tabs"
-        :tabIndex="activeTab"
-        :title="title">
-        <router-view></router-view>
-      </v-main>
+    <menu-bar :index="active" :menus="menus" />
+    <v-main :tabs="tabs" :tabIndex="activeTab" :title="title">
+      <router-view></router-view>
+    </v-main>
   </div>
 </template>
 <script>
 import MenuBar from '../components/MenuBar';
 import Main from '../components/Main';
-import {mapState, mapMutations} from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 const menu = [{
   title: '数据开放服务管理',
@@ -36,8 +31,36 @@ const menu = [{
   }, {
     title: '业务对象管理',
     path: 'busiObj'
+  }, {
+    title: '数据业务分类管理',
+    path: 'busiM'
   }]
-}];
+},
+{
+  title: '数据计算管理',
+  path: '/dataCacl',
+  icon: 'iconfont icon-shujufenxi',
+  items: [{
+    title: '计算脚本管理',
+    path: 'script'
+  }, {
+    title: '计算脚本分类管理',
+    path: 'scriptType'
+  }]
+}
+// {
+//   title: '数据计算管理',
+//   path: '/dataCacl',
+//   icon: 'iconfont icon-gaikuang',
+//   items: [{
+//     title: '计算脚本管理',
+//     path: 'script',
+//   }, {
+//     title: '计算脚本分类管理',
+//     path: 'scriptType'
+//   }]
+// }
+];
 
 
 export default {

@@ -8,11 +8,20 @@
 
 <script>
 export default {
-    props: ['hasText', 'readonly'],
+    props: ['hasText', 'readonly', 'open'],
     data() {
         return {
-            isOpen: false,
             onText: '否'
+        }
+    },
+    computed: {
+        isOpen() {
+            if (this.open) {
+                this.$refs.switchBtn.style.left = '19px';
+                this.$refs.switch.style.background = '#4ec207';
+                return this.open
+            }
+
         }
     },
     methods: {
@@ -22,10 +31,12 @@ export default {
                     this.$refs.switchBtn.style.left = '19px';
                     this.$refs.switch.style.background = '#4ec207';
                     this.isOpen = !this.isOpen;
+                    this.$emit('isOpen', 1)
                 } else {
                     this.$refs.switchBtn.style.left = '1px';
                     this.$refs.switch.style.background = '#f1f1f9';
                     this.isOpen = !this.isOpen;
+                    this.$emit('isOpen', 0)
                 }
             }
 

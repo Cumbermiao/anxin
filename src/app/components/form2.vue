@@ -35,7 +35,7 @@
                 <label class="lWidth">是否启用
                     <span class="required">*</span>
                 </label>
-                <switch-b @isOpen='isOpen' :readonly='readonly'></switch-b>
+                <switch-b @isOpen='isOpen' :readonly='readonly' :open='open'></switch-b>
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -77,7 +77,7 @@
 
         <div class="btn-group" v-show="!readonly" style="margin-top:20px;">
             <button class="button" @click="save">保存</button>
-            <a class="button" href="/data/obj">取消</a>
+            <a class="button" href="#/data/obj">取消</a>
         </div>
     </div>
 </template>
@@ -107,16 +107,22 @@ export default {
             doYsjSjdxzds: [],//新建的数据字段数组
             list: [],//下拉列表
             opObj: {},//传递给数据字段的数据对象
-            formShow: false
+            formShow: false,
+            // open:false
+        }
+    },
+    computed:{
+        open(){
+            if(this.doYsjSjdx.sfqy==1){
+                return true
+            }else{
+                return false
+            }
         }
     },
     methods: {
         isOpen(val) {
-            if (val) {
-                this.doYsjSjdx.sfqy = 1
-            } else {
-                this.doYsjSjdx.sfqy = 0
-            }
+                this.doYsjSjdx.sfqy = val
         },
         save() {
             var val = {
@@ -187,7 +193,7 @@ export default {
         if(this.obj){
             this.doYsjSjdx=this.obj
         }
-        console.log(this.sjzd)
+        console.log(this.open)
         if(this.sjzd){
             this.doYsjSjdxzds=this.sjzd
         }

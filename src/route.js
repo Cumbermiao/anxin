@@ -43,9 +43,9 @@ const router = new VueRouter({
         name: 'createDS',
         path: 'source/createDS',
         component: resolve => require(['~/app/containers/dataSource/createDS'], resolve)
-      },{
+      }, {
         name: 'watchDS',
-        path: 'watchDS',
+        path: 'source/watchDS',
         component: resolve => require(['./app/containers/dataSource/checkDS.vue'], resolve)
       }, {
         name: 'modifyDS',
@@ -59,7 +59,7 @@ const router = new VueRouter({
         name: 'createDO',
         path: 'obj/createDO',
         component: resolve => require(['~/app/containers/dataObj/createDO'], resolve)
-      },{
+      }, {
         name: 'watchDO',
         path: 'obj/watchDO',
         component: resolve => require(['./app/containers/dataObj/watchDO'], resolve)
@@ -67,41 +67,44 @@ const router = new VueRouter({
         name: 'modifyDO',
         path: 'obj/modifyDO',
         component: resolve => require(['./app/containers/dataObj/modifyDO'], resolve)
-      },{
+      }, {
         name: 'busiObj',
         path: 'busiObj',
         component: resolve => require(['~/app/containers/busiObj/busiObj'], resolve)
-      },{
-        name:'createBO',
-        path:'busiObj/createBO',
+      }, {
+        name: 'createBO',
+        path: 'busiObj/createBO',
         component: resolve => require(['~/app/containers/busiObj/createBO'], resolve)
-      },{
-        name:'watchBO',
-        path:'busiObj/watchBO',
+      }, {
+        name: 'watchBO',
+        path: 'busiObj/watchBO',
         component: resolve => require(['~/app/containers/busiObj/watchBO'], resolve)
-      },{
-        name:'modifyBO',
-        path:'busiObj/modifyBO',
+      }, {
+        name: 'modifyBO',
+        path: 'busiObj/modifyBO',
         component: resolve => require(['~/app/containers/busiObj/modifyBO'], resolve)
+      }, {
+        name: 'busiM',
+        path: 'busiM',
+        component: resolve => require(['~/app/containers/busiManage/busiManage'], resolve)
       }
-        // {
-        //   name: 'hosts',
-        //   path: 'hosts',
-        //   component: resolve => require(['~/app/containers/config/Hosts'], resolve)
-        // }, {
-        //   name: 'hostdetail',
-        //   path: 'hosts/:id/:tab?',
-        //   component: resolve => require(['~/app/containers/config/HostDetail'], resolve)
-        // }, {
-        //   name: 'odis',
-        //   path: 'odis',
-        //   component: resolve => require(['~/app/containers/config/Odis'], resolve)
-        // }, {
-        //   name: 'urls',
-        //   path: 'urls',
-        //   component: resolve => require(['~/app/containers/config/Urls'], resolve)
-        // }
       ],
+    },
+    {
+      path: '/dataCacl',
+      component: App,
+      redirect: { name: 'scriptType' },
+      children: [
+        {
+          name: 'script',
+          path: 'script',
+          component: resolve => require(['~/app/containers/dataCacl/script'], resolve)
+        },
+        {
+          name: 'scriptType',
+          path: 'scriptType',
+          component: resolve => require(['~/app/containers/dataCacl/scriptType'], resolve)
+        }]
     }
   ]
 });

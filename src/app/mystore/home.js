@@ -1,5 +1,6 @@
 
 import axios from '../utils/axios'
+import router from '../../route'
 
 // 首先声明一个状态 state
 const state = {
@@ -87,6 +88,8 @@ const mutations = {
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     alert('创建成功')
+                    // dispatch('searchInfo',)
+                    router.go(-1)
                 } else {
                     alert('操作失败')
                 }
@@ -124,7 +127,7 @@ const mutations = {
             })
     },
     remove(state, data) {
-        axios.post('/data-open-web/api/realTimeQuery/deleteByWid', data, {
+        axios.post('/data-open-web/api/realTimeQuery/deleteByWid',data, {
             "headers": {
                 "content-type": "application/json"
             }

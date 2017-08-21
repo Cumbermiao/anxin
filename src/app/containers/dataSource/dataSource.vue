@@ -35,8 +35,8 @@ export default {
         return {
             sysTrees: [],
             watchPath: '#/data/source/watchDS',
-            modifyPath:'#/data/source/modifyDS',
-            createPath:'',
+            modifyPath: '#/data/source/modifyDS',
+            createPath: '',
             select: [],
             keywords: '',
         }
@@ -50,7 +50,8 @@ export default {
             currentId: state => state.ds.currentId,
             //查询的服务信息
             sys: state => state.ds.res,
-            sjkljyhm:state=>state.ds.sjkljyhm,
+            opObj: state => state.ds.opObj,
+            sjkljyhm: state => state.ds.sjkljyhm,
             pageInfo() {
                 return {
                     pageNum: this.mpageNum,
@@ -59,39 +60,44 @@ export default {
                     totalSize: this.mtotalSize
                 }
             },
-            
+
         })
     },
     methods: {
         searchSys() { },
-        search() { 
-            this.$store.dispatch('searchForDS',{pageNum:this.pageInfo.pageNum,pageSize:this.pageInfo.pageSize,sjkljyhm:this.sjkljyhm,zcxtzwm:this.keywords})
+        search() {
+            this.$store.dispatch('searchForDS', { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, sjkljyhm: this.sjkljyhm, zcxtzwm: this.keywords })
         },
-        changeKey(keywords) { 
-            this.keywords=keywords;
+        changeKey(keywords) {
+            this.keywords = keywords;
         },
-        toCreate() { 
+        toCreate() {
             router.push("/data/source/createDS")
         },
-        skipTo(pageNum) { 
-            this.pageInfo.pageNum=pageNum;
+        skipTo(pageNum) {
+            this.pageInfo.pageNum = pageNum;
             this.search();
         },
-        changeOpObj(val) { 
+        changeOpObj(val) {
             console.log(val)
-            this.$store.commit('changeDSOpObj',val)
+            this.$store.commit('changeDSOpObj', val)
         },
-        changePageSize(pageSize) { 
-            this.pageInfo.pageSize=pageSize;
+        changePageSize(pageSize) {
+            this.pageInfo.pageSize = pageSize;
             this.search()
         },
-        remove(val) { 
-            this.$store.commit('removeDS',val)
-            this.$store.dispatch('searchForDS',{pageNum:this.pageInfo.pageNum,pageSize:this.pageInfo.pageSize,sjkljyhm:this.sjkljyhm,zcxtzwm:this.keywords})
+        remove(val) {
+            this.$store.commit('removeDS', val)
         },
     },
     mounted() {
-        
+        console.log(this.opObj=={})
+        if (this.opObj!={}) {
+            console.log('this.opObj')
+            console.log(this.opObj)
+            this.search();
+        }
+
     },
 }
 </script>
@@ -101,7 +107,6 @@ export default {
     border: 1px solid #d8dcf0;
     min-height: 400px;
 }
-
 </style>
 
 

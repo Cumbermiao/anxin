@@ -23,12 +23,13 @@
             <div class="form-group">
                 <label class="lWidth">
                     <span class="required">*</span>数据库类型</label>
-                <select v-if="!opObj" class="inWidth" required v-model="sjklx" @change="changeLX($event)" >
-                    <option v-for="item in select" :key="item" :value="item.dataValue" v-text="item.dataName"></option>
+                    <!-- v-if="!opObj" -->
+                <select  class="inWidth" required v-model="sjkqdlx" @change="changeLX($event)" >
+                    <option v-for="item in select" :key="item" :value="item.dataValue" :selected='sjkqdlx==item.dataValue?"selected":""' v-text="item.dataName"></option>
                 </select>
-                <select v-else class="inWidth" :disabled='readonly'>
+                <!-- <select v-else class="inWidth" :disabled='readonly'>
                     <option >{{sjkqdlx}}</option>
-                </select>
+                </select> -->
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate" v-show="isShow">必填</span>
@@ -93,7 +94,7 @@
                 <label class="lWidth">注册系统描述
                     <span class="required">*</span>
                 </label>
-                <textarea class="inWidth" required rows="6" :readonly='readonly' required></textarea>
+                <textarea class="inWidth" required rows="6" v-model="zcxtms" :readonly='readonly' required></textarea>
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate" v-show="isShow"> 必填</span>
@@ -144,7 +145,6 @@ export default {
             sjkljzfc: '',
             sjkqd: '',
             sjkqdlx: '',
-            sjklx: '',
             wid: '',
             zcxtms: '',
             zcxtywm: '',
@@ -162,13 +162,13 @@ export default {
     },
     methods: {
         changeLX(e) {
-            if (this.sjklx == 'oracle') {
+            if (this.sjkqdlx == 'oracle') {
                 this.sjkqd = 'oracle.jdbc.driver.OracleDriver';
                 this.sjkljzfc = 'jdbc:oracle:thin:@127.0.0.1:1521:dbname';
-            } else if (this.sjklx == 'postgresql') {
+            } else if (this.sjkqdlx == 'postgresql') {
                 this.sjkqd = 'org.postgresql.Driver';
                 this.sjkljzfc = 'jdbc:postgresql://127.0.0.1:3306/mydb';
-            } else if (this.sjklx == 'mySql') {
+            } else if (this.sjkqdlx == 'mySql') {
                 this.sjkqd = 'com.mysql.jdbc.Driver';
                 this.sjkljzfc = 'jdbc:mysql://127.0.0.1:3306/mydb';
             }
@@ -193,7 +193,7 @@ export default {
                 sjkljzfc: this.sjkljzfc,
                 sjkqd: this.sjkqd,
                 sjkqdlx: this.sjkqdlx,
-                sjklx: this.sjklx,
+                // sjklx: this.sjklx,
                 wid: this.wid,
                 zcxtms: this.zcxtms,
                 zcxtywm: this.zcxtywm,
@@ -213,9 +213,10 @@ export default {
             router.go(-1)
         }
     },
-    mounted() {
-        console.log("this.opObj")
-        console.log(this.opObj)
+    beforeMount() {
+        // console.log("this.opObj")
+        // console.log(this.opObj)
+        // console.log(this.select)
         if (this.opObj) {
             this.sjkdxsyz = this.opObj.sjkdxsyz,
                 this.sjkfwm = this.opObj.sjkfwm,

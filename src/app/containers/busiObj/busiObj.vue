@@ -3,7 +3,7 @@
         <div class="home_content">
             <section>
                 <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
-                <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search'></tree-node>
+                <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search' :indent='indent' :sType='sType'></tree-node>
             </section>
             <section>
                 <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
@@ -42,6 +42,9 @@ export default {
             createPath: '',
             select: [],
             keywords: '',
+            indent:0,
+            sType:'bo'
+            // searchType:'BO'
         }
     },
     computed: {
@@ -53,6 +56,7 @@ export default {
             currentId: state => state.bo.currentId,
             //查询的服务信息
             sys: state => state.bo.res,
+            searchType:state=>state.bo.searchType
         }),
         pageInfo() {
             return {
@@ -63,6 +67,11 @@ export default {
             }
         },
     },
+    // watch:{
+    //     '$route'(to,from){
+    //         alert(to.fullPath)
+    //     }
+    // },
     methods: {
         searchSys() { },
         changeID(id) {
@@ -71,7 +80,7 @@ export default {
             this.$store.commit('changeBOID', id)
         },
         search() {
-            this.$store.dispatch('searchForBO', { ywdxflWid : this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, zwmc: this.keywords })
+            this.$store.dispatch('searchForBO', { ywdxflWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, zwmc: this.keywords })
         },
         changeKey(keywords) {
             this.keywords = keywords;
@@ -98,10 +107,12 @@ export default {
         },
         remove(val) {
             this.$store.commit('removeBO', val)
+            this.search();
         },
     },
 
     mounted() {
+
         axios.post('/data-open-web/common/catalog/queryTree', 'busiObj', {
             "headers": {
                 "content-type": "application/json"
@@ -112,6 +123,10 @@ export default {
             console.log(this.sysTrees)
         })
     },
+    updated() {
+        console.log('this.pageInfo')
+        console.log(this.pageInfo)
+    }
 
 }
 
@@ -119,23 +134,28 @@ export default {
 
 </script>
 <style scoped>
-section:nth-of-type(2) {
-    min-height: 600px;
-}
-
 .home_content {
     border: 1px solid #d8dcf0;
 }
 
-.home_content section:first-child {
-    float: left;
-    padding: 15px;
+.home_content>section {
+    display: inline-block
+}
+
+section {
+    vertical-align: top;
     height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.home_content section:first-child {
+    border-right: 1px solid #d8dcf0;
+    min-height: 600px;
+    width: 25%;
 }
 
 .home_content section:last-child {
-    overflow: hidden;
-    padding: 15px;
-    border-left: 1px solid #d8dcf0;
+    width: 74%;
 }
 </style>

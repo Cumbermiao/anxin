@@ -2,7 +2,7 @@
     <div class="home_content">
         <section>
             <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
-            <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search'></tree-node>
+            <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search' :indent='indent'></tree-node>
         </section>
         <section>
             <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
@@ -51,7 +51,8 @@ export default {
             keywords: '',
             showCheck: false,
             watchPath:'#/home/watchSS',
-            modifyPath:'#/home/modifySS'
+            modifyPath:'#/home/modifySS',
+            indent:0
         }
     },
     computed: {
@@ -81,13 +82,10 @@ export default {
             console.log('searching')
             this.pageInfo.pageNum = val;
             this.search();
-            // this.$store.dispatch('searchInfo', { catalogWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
         },
         changePageSize(val){
-            
             this.pageInfo.pageSize = val;
             this.search();
-            // this.$store.dispatch('searchInfo', { catalogWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
         },
         toCreate(){
             console.log(this.currentId)
@@ -126,7 +124,7 @@ export default {
 
         remove(e) {
             this.$store.commit('remove', e.wid)
-            
+            this.search();
         },
         changeOpObj(val) {
             this.$store.commit('changeOpObj', val)
@@ -140,24 +138,26 @@ export default {
 </script>
 
 <style scoped>
-section:nth-of-type(2) {
-    min-height: 600px;
-}
 
 .home_content {
     border: 1px solid #d8dcf0;
 }
-
-.home_content section:first-child {
-    float: left;
-    padding: 15px;
-    height: 100%;
+.home_content>section{
+    display: inline-block
 }
-
-.home_content section:last-child {
-    overflow: hidden;
+section{
+    vertical-align: top;
+    height: 100%;
     padding: 15px;
-    border-left: 1px solid #d8dcf0;
+    box-sizing: border-box;
+}
+.home_content section:first-child{
+    border-right: 1px solid #d8dcf0;
+    min-height: 600px;
+    width: 25%;
+}
+.home_content section:last-child{
+    width: 74%;
 }
 
 

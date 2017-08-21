@@ -69,7 +69,7 @@
         <m-form v-show="formShow" :formShow='formShow' @isShow='isShow' @save='save' :sjzdList='sjzdList' :opAttr='opAttr'></m-form>
         <div class="btn-group" v-show="!readonly">
             <button class="button" @click="create">保存</button>
-            <a class="button" href="/data/busiObj">取消</a>
+            <a class="button" href="#/data/busiObj">取消</a>
         </div>
     </div>
 </template>
@@ -156,7 +156,7 @@ export default {
             // dataObjWid
 
             if (this.isModify) {
-                this.opAttr.opArr.push(1)
+                this.opAttr.opArr.push('modify')
             }
             this.formShow = true;
             axios.post('/data-open-web/metadata/datafields/query', this.dataObjWid, { "headers": { "content-type": "application/json" } })
@@ -170,30 +170,32 @@ export default {
                 })
         },
         modify(param) {
+            console.log('param')
+            console.log(param)
             if (this.isModify) {
-                this.opAttr.opArr.push(0)
+                this.opAttr.opArr.push('0')
             }
             this.opAttr = param;
             this.formShow=true;
         },
         remove(item) {
             if (this.isModify) {
-                this.opAttr.opArr.push(2)
+                this.opAttr.opArr.push('2')
             }
             var idx = this.busiAttrs.indexOf(item)
             this.busiAttrs.splice(idx,1)
 
         }
     },
-    mounted() {
+    beforeMount() {
         if (this.opObj) {
             this.busiData = this.opObj;
             axios.post('/data-open-web/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     console.log('res')
                     this.busiAttrs = res.data.dataSet;
-                    this.busiAttrs.opArr = [];
-                    console.log(res)
+                    this.busiAttrs.opArr = [-1];
+                    console.log(this.busiAttrs)
 
                 }).catch((err) => {
                     alert('获取业务指标下拉列表失败')
@@ -211,6 +213,9 @@ export default {
 <style scoped>
 .form {
     position: relative;
+}
+td,th{
+    min-width: 100px;
 }
 
 

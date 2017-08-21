@@ -9,7 +9,8 @@ const state = {
     pages: 0,
     totalSize:0,
     opObj: {},
-    res: []
+    res: [],
+    searchType:'searchForBO'
 }
 
 const actions = {
@@ -55,10 +56,10 @@ const actions = {
 const mutations = {
     searchForBO(state, data) {
         state.res = data.dataSet;
-        // state.pageNum = data.pageInfo.pageNum;
-        // state.pageSize = data.pageInfo.pageSize;
-        // state.totalSize = data.pageInfo.total;
-        // state.pages = data.pageInfo.pages;
+        state.pageNum = data.pageInfo.pageNum;
+        state.pageSize = data.pageInfo.pageSize;
+        state.totalSize = data.pageInfo.total;
+        state.pages = data.pageInfo.pages;
     },
     changeBOID(state, data) {
         state.currentId = data;

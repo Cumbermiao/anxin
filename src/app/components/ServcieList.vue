@@ -74,6 +74,7 @@ export default {
 <style scoped>
 .sys_info {
     display: inline-block;
+    min-width: 388px;
     width: 45%;
     border: 1px solid #d8dcf0;
     margin-top: 20px;

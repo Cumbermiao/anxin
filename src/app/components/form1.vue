@@ -5,8 +5,9 @@
                 <label class="lWidth">数据源
                     <span class="required">*</span>
                 </label>
-                <select class="inWidth" name="wid" v-model="wid" @change="changeWid($event)" :disabled='readonly'>
-                    <option v-for="item in dataSource" :key='item.zcxtzwm' :value='item.wid'>{{item.zcxtzwm}}</option>
+                 <!-- v-if="!this.opObj"    -->
+                <select class="inWidth" name="wid" v-model="wid" @change="changeWid($event)" :disabled='readonly' >
+                    <option v-for="item in dataSource" :key='item.zcxtzwm' :value='item.wid' :selected='wid==item.wid?"selected":""'>{{item.zcxtzwm}}</option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -159,7 +160,8 @@ export default {
             requireQueryIntfDesc: '',
             requireSqlTemplate: '',
             //技术主键
-            queryWid: ''
+            queryWid: '',
+            pageSize:10
 
 
             // totalSize:200,
@@ -175,7 +177,7 @@ export default {
             pageNum: state => state.home.pageNum,
             totalSize: state => state.home.totalSize,
             keywords: state => state.home.keywords,
-            pageSize: state => state.home.pageSize,
+            // pageSize: state => state.home.pageSize,
             currentId: state => state.home.currentId,
             sys: state => state.home.res,
             dataSourceWid: state => state.home.dataSourceWid,
@@ -187,20 +189,14 @@ export default {
 
     },
     methods: {
-        create(val) {
-            if (this.catalogWid == '') {
-                alert('请返回上一级选择分类')
-            } else {
-                this.$store.commit('create', val)
-            }
-        },
         save() {
+            
             var val = {
                 catalogWid:this.catalogWid,
                 dataSourceWid: this.wid,
                 inParams: {
                     wid: this.queryWid,
-                    pageSize: this.pageSize,
+                    pageSize: this.pagination?this.pageSize:this.count,
                     pageNum: this.pageNum
                 },
                 queryIntfDesc:this.queryIntfDesc,
@@ -208,11 +204,15 @@ export default {
                 sqlTemplate: this.sqlTemplate,
                 wid:this.opObj?this.opObj.wid:''
             }
-            this.$emit('save',val)
+            if (this.catalogWid == '') {
+                alert('请返回上一级选择分类')
+            } else {
+                this.$emit('save',val)
+            }
         },
         changeWid(e) {
+            console.log('this.wid')
             this.$store.commit('changeWid', e.target.value)
-            console.log('dddddd')
             console.log(this.wid)
         },
         test() {
@@ -285,9 +285,11 @@ export default {
         },
 
     },
-    mounted() {
+    beforeMount() {
         // catalogWid,dataSourceWid,queryIntfDesc,queryIntfName,sqlTemplate
-
+        console.log('this.opObj')
+        console.log(this.opObj)
+        console.log(this.wid)
         if (this.opObj) {
             this.wid = this.opObj.dataSourceWid;
             console.log(this.wid)

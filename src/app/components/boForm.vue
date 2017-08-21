@@ -6,7 +6,8 @@
                 <label class="lWidth">数据字段
                     <span class="required">*</span>
                 </label>
-                <select class="inWidth" v-model="sjzdWid" @change="change">
+                <!--v-model="sjzdWid"  -->
+                <select class="inWidth"  @change="change">
                     <option v-for="item in sjzdList" :key="item" :value="item.wid" v-text="item.zdzwjc"></option>
                 </select>
                 <div>
