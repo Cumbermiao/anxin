@@ -93,9 +93,11 @@ export default {
     computed: {
         attr() {
             if (this.opAttr) {
+                alert('oooooooooooooooooo')
                 console.log(this.opAttr)
                 return this.opAttr
             } else {
+                alert('xxxxxxxxxxxxxxxx')
                 return {
                     wid:0,
                     bz: '',

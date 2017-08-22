@@ -127,7 +127,14 @@ export default {
         deepCopy: function (source) {
             var result = {};
             for (var key in source) {
-                result[key] = typeof source[key] === 'object' ? this.deepCopy(source[key]) : source[key];
+                if (source[key] instanceof Array) {
+                    result[key] = source[key]
+                } else if (source[key] == null) {
+                    result[key] = null
+                } else {
+                    result[key] = typeof source[key] === 'object' ? this.deepCopy(source[key]) : source[key];
+                }
+
             }
             return result;
         },
@@ -209,7 +216,7 @@ export default {
         askForList() {
             // dataObjWid
             this.formShow = true;
-            axios.post('/metadata/datafields/query', this.dataObjWid, { "headers": { "content-type": "application/json" } })
+            axios.post('/metadata/datafields/query', this.busiData.sjdxWid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     if (res.status == 200 && res.data.returnStatus == 1) {
                         console.log(res)
@@ -226,6 +233,7 @@ export default {
         },
         modify(param) {
             console.log('param')
+
             console.log(param)
             this.opAttr = param;
             if (this.isModify) {
@@ -246,7 +254,7 @@ export default {
     mounted() {
         console.log('this.doList')
         console.log(this.doList)
-        
+
         if (this.opObj) {
             this.busiData = this.opObj;
             console.log('this.busiData')
@@ -284,6 +292,7 @@ td,
 th {
     min-width: 100px;
 }
+
 
 
 
