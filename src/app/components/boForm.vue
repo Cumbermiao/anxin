@@ -7,8 +7,8 @@
                     <span class="required">*</span>
                 </label>
                 <!--v-model="sjzdWid"  -->
-                <select class="inWidth" @change="change">
-                    <option v-for="item in sjzdList" :key="item" :value="item.wid" v-text="item.zdzwjc"></option>
+                <select class="inWidth" v-model="attr.wid" @change="change">
+                    <option v-for="item in sjzdList" :key="item" :value="item.wid" :selected='attr.wid==item.wid?selected:unselected' v-text="item.zdzwjc"></option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -78,7 +78,7 @@ export default {
     data() {
         return {
             zdm: '',
-
+            
             // attr: {
             //     bz: '',
             //     sjzdWid: '',
@@ -96,8 +96,8 @@ export default {
                 console.log(this.opAttr)
                 return this.opAttr
             } else {
-                alert('kong')
                 return {
+                    wid:0,
                     bz: '',
                     sjzdWid: '',
                     jslj: '',

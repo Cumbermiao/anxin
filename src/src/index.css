@@ -1,0 +1,758 @@
+:root {
+  --fontColor: #464c5b; /* 主要字体颜色 */
+  --fontSize: 14px; /* 字体大小 */
+  --bgColor: color(black alpha(28%));
+  --shadow: 0 1px 4px var(--bgColor); /* 纸张效果 */
+  --primaryColor: white; /* 主色调 */
+  --borderTransparent: 2px solid transparent;
+  --border: 2px solid #2196f3;
+  --padding: 10px;
+  --paddingMiddle: calc(var(--padding) * 1.5);
+  --menuWidth: 45px;
+  --dataTableBorderStyle: 1px solid #d8dcf0;
+  --fullScreen: {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+/*通用样式*/
+body{
+  min-width: 1314px;
+}
+html, body, #app {
+  margin: 0;
+  padding:0;
+  height: 100%;
+  color: var(--fontColor);
+  font-size: var(--fontSize);
+  font-family: system-ui;
+}
+.clearfix::after {
+  content: '.';
+  visibility: hidden;
+  height: 0;
+  display: block;
+  clear: both;
+}
+.icon {
+   width: 1em; height: 1em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+}
+/*过渡效果*/
+/*模糊效果*/
+.blur-enter-active, .blur-leave-active {
+  transition: filter .5s;
+}
+.blur-enter, .blur-leave-active {
+  filter: blur(4px);
+}
+
+/*纸张效果*/
+.paper {
+  background-color: var(--primaryColor);
+  box-shadow: var(--shadow);
+}
+/*表单样式  */
+.form-group {
+    margin-top: 20px;
+}
+input,
+textarea {
+    padding: 0;
+    border: 1px solid rgb(169, 169, 169);
+}
+
+textarea {
+    resize: none;
+    vertical-align: top;
+}
+.lWidth {
+    display: inline-block;
+    width: 160px;
+    position: relative;
+    padding-left: 8px;
+}
+
+.required {
+    position: absolute;
+    left: -5px;
+    color: red;
+}
+
+.inWidth {
+    width: 412px;
+    padding: 5px 0;
+    border-radius: 3px;
+}
+
+/*组件样式*/
+.icon-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  vertical-align: middle;
+  white-space: nowrap;
+  & .icons {
+    margin-top: 1px;
+    font-size: 0;
+  }
+  & .texts {
+    font-size: 1em;
+  }
+  & img {
+    vertical-align: top;
+  }
+  & .texts-num {
+    color: red;
+  }
+}
+/*搜索框*/
+.search {
+  margin: var(--padding) 0;
+  & .search-input {
+    position: relative;
+    margin-right: calc(var(--padding) * 0.5);
+    & .search-icon {
+      position: absolute;
+      left: 0.2em;
+      top: 0;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      background: url(assets/search.png) no-repeat;
+      background-size: cover;
+      cursor: pointer;
+    }
+    & input {
+      height: 26px;
+      width: 200px;
+      padding: 0 calc(var(--padding) * 0.5);
+      padding-left: 2em;
+      border: 1px solid #d8dcf0;
+      border-radius: 2px;
+      &:focus {
+        outline: 0;
+        border-color: #2196f3;
+        box-shadow: inset 0 0 2px #2196f3;
+      }
+    }
+  }
+}
+/*按钮*/
+.button {
+  cursor: pointer;
+  display: inline-block;
+  background: #f17a08;
+  color: white;
+  padding: calc(var(--padding) * 0.5) var(--paddingMiddle);
+  font-size: 12px;
+  line-height: 18px;
+  border-radius: 1px;
+  vertical-align: middle;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.32);
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  &:active {
+    background: color(#f57a08 blackness(20%));
+  }
+}
+
+/* tag-group */
+.tag-group {
+  margin: var(--padding) 0;
+  & .tag-group-label {
+    font-size: 12px;
+  }
+  & .tag {
+    margin: 0 calc(var(--padding) * 0.5);
+  }
+}
+.tag {
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 5px 10px;
+  background: white;
+  color: var(--fontColor);
+  font-size: 12px;
+  outline: none;
+  &:hover {
+    background: color(#2196f3 whiteness(70%));
+  }
+  &.active {
+   background: #2196f3; 
+   color: white;
+  }
+}
+/* loading */
+.loading {
+  @apply --fullScreen;
+  &::after {
+    content: '';
+    @apply --fullScreen;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  & .spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: 0 auto;
+    margin-left: -50px;
+    width: 100px;
+    text-align: center;
+    & > div {
+      width: 30px;
+      height: 30px;
+      background-color: #67CF22;
+      border-radius: 50%;
+      display: inline-block;
+      animation: bouncedelay 1.4s infinite ease-in-out;
+      animation-fill-mode: both;
+    }
+    & .bounce1 {
+      animation-delay: -0.32s;
+    }
+    & .bounce2 {
+      animation-delay: -0.16s;
+    }
+  }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+  }
+}
+
+/* 分页组件 */
+.page {
+  background-color: #f7f8fc;
+  padding: calc(var(--padding) * 0.5);
+  border-bottom: var(--dataTableBorderStyle);
+  font-size: 12px;
+  & .page-prev, & .page-next {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    padding: calc(var(--padding) * 0.5) calc(var(--padding) * 0.8);
+    border: 0;
+    outline: none;
+    background: white;
+    box-shadow: var(--shadow);
+  }
+  & .page-range {
+    margin-left: calc(var(--padding));
+  }
+  & .page-total {
+    margin-right: calc(var(--padding));
+  }
+  & .page-jump {
+    & input {
+      margin: 0 calc(var(--padding) * 0.5);
+      width: 15px;
+      text-align: center;
+    }
+  }
+  & .page-size {
+    float: right;
+    line-height: 30px;
+  }
+}
+
+
+/*左侧菜单*/
+.menu1 {
+  position: fixed;
+  left:0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  overflow: hidden;
+  width: calc(24px + var(--paddingMiddle) * 2);
+  background-image: url(assets/bitmap.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: width .5s ease-out;
+  color: white;
+  &:hover {
+    width: 230px;
+  }
+  & > .logo {
+    font-size: 1.4em;
+    padding: var(--paddingMiddle);
+    background-color: var(--bgColor);
+  }
+  & > .user {
+    width: 230px;
+    display: flex;
+    font-size: 1.2em;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: none;
+    border-right: none;
+    white-space: nowrap;
+    & > div {
+      flex: 1;
+      padding: var(--paddingMiddle);
+      padding-top: calc(var(--paddingMiddle) * 0.5);
+      padding-bottom: calc(var(--paddingMiddle) * 0.5);
+    }
+    & > .operator {
+      cursor: pointer;
+      text-align: right;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+  }
+  & > a {
+    text-decoration: none;
+    color: white;
+  }
+  & > a .icon-item {
+    position: relative;
+    padding: var(--paddingMiddle);
+    cursor: pointer;
+    &:matches(:hover, .active) {
+      background: rgba(70, 149, 255, 0.4);
+      &::before {
+        content: '';
+        position: absolute;
+        width: 4px;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: #4695ff;
+      }
+    }
+  }
+}
+
+/*主要内容*/
+.content {
+  margin-left: var(--menuWidth);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/*头部导航*/
+
+header.navi {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1em;
+  & .navi-item {
+    position: relative;
+    & .navi-count {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      display: inline-block;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 12px;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+    }
+  }
+  & > :matches(div, a) {
+    line-height: 1;
+    text-decoration: none;
+    color: var(--fontColor);
+    float: left;
+    padding: calc(var(--padding) * 1.5);
+    border-top: var(--borderTransparent);
+    border-bottom: var(--borderTransparent);
+    &.navi-item:hover {
+      border-bottom: var(--border);
+      cursor: pointer;
+    }
+    &.navi-item.active {
+      border-bottom: var(--border);
+      font-weight: bolder;
+      color: #2196f3;
+    }
+  }
+  & > .navi-title {
+    color: #bbb;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: -2px;
+    padding-left: calc(var(--padding) * 2);
+    padding-right: calc(var(--padding) * 2);
+  }
+}
+/* 内容区 */
+.main {
+  margin: calc(var(--padding) * 2);
+  padding: var(--padding) calc(var(--padding) * 1.5);
+  max-height: 100%;
+  overflow-y: scroll;
+  & > div > h4 {
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0.6em 0 1em 0;
+    color: #666;
+  }
+}
+
+/* 面包屑 */
+.bread {
+  font-size: 1.1em;
+  & a {
+    text-decoration: none;
+    color: #666;
+  }
+}
+
+/* 数据展示列表组件 */
+.data-table {
+  /*display: inline-block;
+  max-width: 100%;*/
+  empty-cells: show;
+  overflow: hidden;
+  border-left: var(--dataTableBorderStyle);
+  border-right: var(--dataTableBorderStyle);
+  position: relative;
+  & .nodata {
+    border-bottom: var(--dataTableBorderStyle);
+    text-align: center;
+    padding: 10em;
+  }
+  & div.data-table-rows {
+    overflow-x: scroll;
+    & table {
+      width: 100%;
+      font-size: 12px;
+      line-height: 1.6;
+      border-collapse: collapse;
+      border-left: hidden;
+      border-right: hidden;
+      & tr:hover {
+        background-color: #eef7fe;
+      }
+      & th {
+        background-color: #f7f8fc;
+      }
+      & td, & th {
+        text-align: left;
+        border: var(--dataTableBorderStyle);
+        padding: 5px 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+        min-width: 100px;
+      }
+    }
+  } 
+}
+
+/* 下拉选择组件 */
+.select-wrap {
+  display: inline-block;
+}
+.label {
+  vertical-align: middle;
+  font-size: 12px;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 40px;
+  max-width: 250px;
+  margin-right: 1em;
+  outline: none;
+  & .select-selectbox {
+    position: relative;
+    height: 22px;
+    line-height: 22px;
+    padding: 0;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 3px;
+    cursor: pointer;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+    border: 1px solid #DDD;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #B7B7B7;
+    outline: 0 none;
+    background: #fafafa;
+    /* background: linear-gradient(to bottom, #fafafa 0%,#e5e5e5 100%); */
+    background:#fff;
+    transition: all linear 0.2s;
+    & > div {
+      outline: none;
+    }
+    & .select-selectbox-inner {
+      padding: 0 0 0 5px;
+      margin-right: 15px;
+      font-size: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    &[disabled="disabled"] {
+      color: #CCC;
+      border: 1px solid #B7B7B7;
+      cursor: default;
+      box-shadow: none;
+      opacity: .7;
+      user-select: none;
+    }
+  }
+  & .select-selectbox-icon {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    margin-top: -2px;
+    border-top: 5px solid #A7A7A7;
+    border-left: 5px dashed rgba(0, 0, 0, 0);
+    border-right: 5px dashed rgba(0, 0, 0, 0);
+    border-bottom: 0 none;
+    display: block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    line-height: 0;
+    font-size: 0;
+  }
+  & .select-dropdown {
+    background: white;
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    outline: none;
+    & .select-selectbox-dropdown {
+      max-height: 200px;
+      overflow-x: scroll;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto; 
+      font-size: 12px;
+      list-style: none;
+      border: 1px solid #ccc;
+      background: #FFF;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      border: solid 1px #DCDCDC;
+      line-height: 2em;
+      & li, & div {
+        margin: 0;
+        padding: 0px 10px;
+        white-space: nowrap;
+        cursor: pointer;
+        color: #333;
+        background: rgba(0, 0, 0, 0);
+        outline: 0 none;
+        &:hover {
+          background: #EEE;
+        }
+        &.selected {
+          background: #3870F3;
+          color: #FFF;
+        }
+      }
+    }
+  }
+}
+/* 状态小圆点 */
+.status-ball {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: rgb(255,255,0);
+}
+.status-ball.normal {
+  background: rgb(105,184,74);
+}
+.status-ball.error {
+  background: rgb(255,0,0);
+}
+/*列表里的进度条*/
+.progress {
+  background-color: #e5e5e5;
+  text-align: center;
+  border-radius: 2px;
+  overflow: hidden;
+  font-size: 12px;
+  position: relative;
+  & > .progress-text {
+    line-height: 1.4;
+    transform: scale(0.8);
+  }
+  & > .progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(45deg,#7fe625,#1ecc2f);
+  }
+}
+
+/*时间选择器*/
+.datepicker {
+  & .select-dropdown {
+    background: #f7f8fc;
+    box-shadow: 2px 3px 4px rgba(0,0,0,.32);
+    padding: 1em;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 1em;
+      top: -5px;
+      border-bottom: 5px solid #f7f8fc;
+      border-left: 5px dashed rgba(0, 0, 0, 0);
+      border-right: 5px dashed rgba(0, 0, 0, 0);
+      border-top: 0 none;
+    }
+    & table.calendar, .calendar caption, .calendar a {
+      border-collapse: separate;
+      text-decoration: none;
+      text-align: center;
+      background: #d4dde6;
+      color: #333;
+    }
+    & .calendar caption {
+      padding: 0.6em 0;
+    }
+    & .calendar span[rel='prev'] {
+      cursor: pointer;
+      text-decoration: none;
+      float: left;
+      margin-left: 0.618em;
+      user-select: none;
+    }
+    & .calendar span[rel='next'] {
+      cursor: pointer;
+      text-decoration: none;
+      float: right;
+      margin-right: 0.618em;
+      user-select: none;
+    }
+    & .calendar th {
+      font-size: 0.8em;
+      line-height: 2em;
+      border-bottom: 1px solid #a9bacb;
+    }
+    & .calendar td {
+      padding: 0.4em;
+      cursor: pointer;
+      text-align: center;
+    }
+    & .calendar td:hover, & .calendar td.active {
+      background: #aef7fe;
+    }
+    & .calendar .outdate {
+      color: #c0c8d2;
+      /*cursor:  no-drop;*/
+    }
+  }
+}
+.custom-datepicker {
+  & .select-selectbox {
+    & > div {
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      outline: none;
+    }
+    & > i {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      line-height: 0;
+      font-size: 0;
+    }
+    & > i.select-prev {
+      border-right: 5px solid #A7A7A7;
+      border-top: 5px dashed rgba(0, 0, 0, 0);
+      border-bottom: 5px dashed rgba(0, 0, 0, 0);
+      border-left: 0 none;
+      padding: 0 2px;
+      user-select: none;
+    }
+    & > i.select-next {
+      border-left: 5px solid #A7A7A7;
+      border-top: 5px dashed rgba(0, 0, 0, 0);
+      border-bottom: 5px dashed rgba(0, 0, 0, 0);
+      border-right: 0 none;
+      padding: 0 2px;
+      user-select: none;
+    }
+  }
+  & .select {
+    & .select-dropdown {
+      background: white;
+      text-align: center;
+      box-shadow: 2px 3px 4px rgba(0,0,0,.32);
+      width: 26em;
+      & .navi .navi-item {
+        padding: 10px 0;
+        width: 13em;
+        text-align: center;
+        white-space: nowrap;
+      }
+      & .select-content {
+        padding: 1em;
+        padding-top: 0;
+        & > .button {
+          width: 25em;
+          margin-top: 1em;
+        }
+      }
+      & .custom-select .select-dropdown {
+        width: 5em;
+        text-align: left;
+      }
+      & .inner-date-picker .select {
+        margin-right: 0;
+      }
+      & .inner-date-picker .select-dropdown {
+        width: auto;
+      }
+      & .second-select {
+          & .select-selectbox {
+            display: inline-block;
+            & .select-selectbox-inner {
+              text-align: center;
+              margin: 0;
+              margin-right: 10px;
+              width: 6em;
+            }
+          }
+          & .select-month {
+            padding: 1em 0;
+            width: 12em;
+            margin: 0 auto;
+            & > span {
+              cursor: pointer;
+              display: inline-block;
+              width: 2.5em;
+              height: 2.5em;
+              line-height: 2.5em;
+              text-align: center;
+              border: 1px solid #d8dcf0;
+              &:matches(.active, :hover) {
+                background: #3190f6;
+                color: white;
+              }
+            }
+          }
+      }
+    }
+  }
+}

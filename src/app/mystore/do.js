@@ -1,5 +1,5 @@
 import axios from '../utils/axios'
-
+import router from '../../route'
 const state = {
     totalSize: 0,
     currentId: '',
@@ -14,7 +14,7 @@ const state = {
 
 const actions = {
     async searchForDO({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/metadata/dataobject/query', param);
+        const { status, statusText, data } = await axios.post('/metadata/dataobject/query', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             console.log('查询成功')
@@ -27,10 +27,11 @@ const actions = {
     },
 
     async createDO({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/metadata/dataobject/newCreate', param);
+        const { status, statusText, data } = await axios.post('/metadata/dataobject/newCreate', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             alert('创建成功')
+            router.go(-1)
             console.log(data)
             commit('createDO', data)
         }

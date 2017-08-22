@@ -47,7 +47,7 @@ const menu = [{
     path: 'script'
   }, {
     title: '计算脚本分类管理',
-    path: 'scriptType'
+    path: 'sType'
   }]
 },
 ];

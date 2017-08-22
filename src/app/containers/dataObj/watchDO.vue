@@ -40,7 +40,7 @@ export default {
         }
     },
     mounted() {
-        axios.post('/data-open-web/metadata/datafields/query', this.obj.wid, { "headers": { "content-type": "application/json" } })
+        axios.post('metadata/datafields/query', this.obj.wid, { "headers": { "content-type": "application/json" } })
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     this.sjzd = res.data.dataSet

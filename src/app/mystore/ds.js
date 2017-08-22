@@ -1,5 +1,6 @@
 
 import axios from '../utils/axios'
+import router from '../../route'
 
 // 首先声明一个状态 state
 const state = {
@@ -20,7 +21,7 @@ const state = {
 const actions = {
     // 数据源分页查询
     async searchForDS({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/metadata/datasource/query', param);
+        const { status, statusText, data } = await axios.post('/metadata/datasource/query', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             console.log('查询成功')
@@ -44,10 +45,11 @@ const mutations = {
         console.log(state.res)
     },
     createDS(state, val) {
-        axios.post('/data-open-web/metadata/datasource/create', val)
+        axios.post('/metadata/datasource/create', val)
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     alert('创建成功')
+                    router.go(-1)
                 } else {
                     alert('操作失败')
                 }
@@ -56,7 +58,7 @@ const mutations = {
             })
     },
     testDS(state, val) {
-        axios.post('/data-open-web/metadata/datasource/testConnection', val).
+        axios.post('/metadata/datasource/testConnection', val).
             then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     alert('测试成功')
@@ -71,11 +73,12 @@ const mutations = {
         state.opObj = val;
     },
     modifyDS(state, val) {
-        axios.post('/data-open-web/metadata/datasource/update', val).
+        axios.post('/metadata/datasource/update', val).
             then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     alert('修改成功')
                     state.testRes = true
+                    router.go(-1)
                 } else {
                     alert('操作失败')
                     state.testRes = false
@@ -83,13 +86,14 @@ const mutations = {
             })
     },
     removeDS(state, data) {
-        axios.post('/data-open-web/metadata/datasource/deleteByWid', data, {
+        axios.post('/metadata/datasource/deleteByWid', data, {
             "headers": {
                 "content-type": "application/json"
             }
         }).then((res) => {
             if (res.status == 200 && res.data.returnStatus == 1) {
                 alert('删除成功')
+                router.go(0)
             } else {
                 alert('操作失败')
             }

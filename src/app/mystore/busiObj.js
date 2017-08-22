@@ -1,4 +1,5 @@
 import axios from '../utils/axios'
+import router from '../../route'
 const state = {
 
     currentId: '',
@@ -15,7 +16,7 @@ const state = {
 
 const actions = {
     async searchForBO({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/metadata/busiData/queryPage', param);
+        const { status, statusText, data } = await axios.post('/metadata/busiData/queryPage', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             console.log('查询成功')
@@ -27,7 +28,7 @@ const actions = {
         }
     },
     async createBO({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/metadata/busiData/create', param);
+        const { status, statusText, data } = await axios.post('/metadata/busiData/create', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             alert('操作成功')
@@ -40,12 +41,12 @@ const actions = {
     },
 
     async updateBO({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/metadata/busiData/update', param);
+        const { status, statusText, data } = await axios.post('/metadata/busiData/update', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             console.log('操作成功')
             console.log(data)
-            commit('createBO', data)
+            commit('updateBO', data)
         }
         else {
             alert('操作失败')
@@ -65,7 +66,7 @@ const mutations = {
         state.currentId = data;
     },
     changeBOOpObj(state, val) {
-        console.log('changeOpObj')
+        console.log('changeOpObj!!!')
         console.log(val)
         state.opObj = val;
     },
@@ -74,7 +75,7 @@ const mutations = {
     },
     removeBO(state, val) {
         console.log('val:::' + val)
-        axios.post('/data-open-web/metadata/busiData/deleteByWid', val, { "headers": { "content-type": "application/json" } })
+        axios.post('/metadata/busiData/deleteByWid', val, { "headers": { "content-type": "application/json" } })
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')

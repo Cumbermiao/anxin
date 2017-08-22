@@ -40,7 +40,7 @@ export default {
       watchPath: '#/data/obj/watchDO',
       modifyPath: '#/data/obj/modifyDO',
       createPath: '',
-      select: [],
+      select: [10,20,40],
       keywords: '',
       indent:0
     }
@@ -71,7 +71,8 @@ export default {
     changeID(id) {
       console.log('changeid')
       console.log(id)
-      this.$store.commit('changeID', id)
+      this.$store.commit('changeID', id);
+      this.search();
     },
     search() {
       this.$store.dispatch('searchForDO', { catalogWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, sjdxzwm: this.keywords })
@@ -87,23 +88,24 @@ export default {
       }
 
     },
-    skipTo(pageNum) {
-      this.pageInfo.pageNum = pageNum;
-      this.search();
-    },
     changeOpObj(val) {
       console.log(val)
       this.$store.commit('changeDOOpObj', val)
+    },
+     skipTo(pageNum) {
+      this.pageInfo.pageNum = pageNum;
+      this.search();
     },
     changePageSize(pageSize) {
       this.pageInfo.pageSize = pageSize;
       this.search()
     },
     remove(val) {
-      axios.post('/data-open-web/metadata/dataobject/deleteByWid', val, { "headers": { "content-type": "application/json" } })
+      axios.post('/metadata/dataobject/deleteByWid', val, { "headers": { "content-type": "application/json" } })
         .then((res) => {
           if (res.status == 200 && res.data.returnStatus == 1) {
             alert('删除成功')
+            router.go(0)
           } else {
             alert('删除失败')
           }
@@ -114,11 +116,10 @@ export default {
   },
 
   mounted() {
-    // this.search();
     if(this.opObj){
       this.opObj
     }
-    axios.post('/data-open-web/common/catalog/queryTree', 'busiObj', {
+    axios.post('/common/catalog/queryTree', 'busiObj', {
       "headers": {
         "content-type": "application/json"
       }
@@ -127,6 +128,10 @@ export default {
       this.sysTrees = res.data.dataSet.children
       console.log(this.sysTrees)
     })
+
+    if(this.currentId!=''){
+      this.search()
+    }
   },
 
 }

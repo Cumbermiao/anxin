@@ -185,7 +185,7 @@ export default {
 
     mounted() {
 
-        axios.post('/data-open-web/common/catalog/queryTree', 'busiObj', {
+        axios.post('/common/catalog/queryTree', 'busiObj', {
             "headers": {
                 "content-type": "application/json"
             }
@@ -194,21 +194,8 @@ export default {
             this.sysTrees = res.data.dataSet.children
             console.log(this.sysTrees)
         })
-
-
     },
-    updated() {
-        // console.log('this.opObj')
-        // console.log(this.opObj)
-        // if (this.opObj) {
-        //     this.mc = this.opObj.catalogName,
-        //         this.ms = this.opObj.catalogDesc,
-        //         this.bz = this.opObj.bak,
-        //         this.zhxgr = this.opObj.lastModifiedOperator,
-        //         this.zhxgsj = this.opObj.lastModifiedTime
-        // }
-    }
-
+   
 }
 
 

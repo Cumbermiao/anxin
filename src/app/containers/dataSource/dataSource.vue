@@ -97,7 +97,8 @@ export default {
             console.log(this.opObj)
             this.search();
         }
-
+        
+    
     },
 }
 </script>

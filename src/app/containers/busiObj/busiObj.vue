@@ -78,6 +78,7 @@ export default {
             console.log('changeid')
             console.log(id)
             this.$store.commit('changeBOID', id)
+            this.search()
         },
         search() {
             this.$store.dispatch('searchForBO', { ywdxflWid: this.currentId, pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, zwmc: this.keywords })
@@ -113,7 +114,7 @@ export default {
 
     mounted() {
 
-        axios.post('/data-open-web/common/catalog/queryTree', 'busiObj', {
+        axios.post('/common/catalog/queryTree', 'busiObj', {
             "headers": {
                 "content-type": "application/json"
             }

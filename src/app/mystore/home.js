@@ -26,7 +26,7 @@ const state = {
 const actions = {
     // 分页查询
     async searchInfo({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/query', param);
+        const { status, statusText, data } = await axios.post('/api/realTimeQuery/query', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
             commit('searchInfo', data)
@@ -37,7 +37,7 @@ const actions = {
     },
     //sql查询
     async askForSql({ commit }, { dataSourceWid, sqlTemplate }) {
-        const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/getInOutParams', { dataSourceWid, sqlTemplate });
+        const { status, statusText, data } = await axios.post('/api/realTimeQuery/getInOutParams', { dataSourceWid, sqlTemplate });
         if (status === 200 && data.returnStatus == 1) {
             commit('askForSql', data)
         }
@@ -47,7 +47,7 @@ const actions = {
     //测试获取服务信息
     async testQuery({ commit }, param) {
         console.log(param)
-        const { status, statusText, data } = await axios.post('/data-open-web/api/realTimeQuery/test', param);
+        const { status, statusText, data } = await axios.post('/api/realTimeQuery/test', param);
         console.log('xxxxx')
         console.log(data)
         if (status === 200 && data.returnStatus == 1) {
@@ -84,7 +84,7 @@ const mutations = {
         state.dataSourceWid = wid;
     },
     create(state, val) {
-        axios.post('/data-open-web//api/realTimeQuery/create', val)
+        axios.post('//api/realTimeQuery/create', val)
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     alert('创建成功')
@@ -115,10 +115,11 @@ const mutations = {
         state.testArr = data.dataSet
     },
     modify(state, data) {
-        axios.post('/data-open-web/api/realTimeQuery/update', data)
+        axios.post('/api/realTimeQuery/update', data)
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     alert('修改成功')
+                    router.go(-1)
                 } else {
                     alert('操作失败')
                 }
@@ -127,13 +128,14 @@ const mutations = {
             })
     },
     remove(state, data) {
-        axios.post('/data-open-web/api/realTimeQuery/deleteByWid',data, {
+        axios.post('/api/realTimeQuery/deleteByWid',data, {
             "headers": {
                 "content-type": "application/json"
             }
         }).then((res) => {
             if (res.status == 200 && res.data.returnStatus==1) {
                 alert('删除成功')
+                router.go(0)
             } else {
                 alert('操作失败')
             }

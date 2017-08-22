@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+
+
 const schoolid = window.SCHOOL = 'WISEDU';
 const instance = axios.create({
   // baseURL: 'http://axsh-demo.wisedu.com/'
-  baseURL: '/'
+  baseURL: '/ampa/do'
 });
 
 // 网络请求之前的预处理

@@ -7,7 +7,7 @@
                 </label>
                  <!-- v-if="!this.opObj"    -->
                 <select class="inWidth" name="wid" v-model="wid" @change="changeWid($event)" :disabled='readonly' >
-                    <option v-for="item in dataSource" :key='item.zcxtzwm' :value='item.wid' :selected='wid==item.wid?"selected":""'>{{item.zcxtzwm}}</option>
+                    <option v-for="item in dataSource" :readonly='readonly' :key='item.zcxtzwm' :value='item.wid' :selected='wid==item.wid?selected:unselected'>{{item.zcxtzwm}}</option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -127,7 +127,7 @@
                 </table>
             </div>
         </div>
-        <div class="btn-group">
+        <div v-show="!readonly" class="btn-group">
             <button class="button" @click="save">保存</button>
             <a class="button" href="/">取消</a>
         </div>
@@ -161,7 +161,9 @@ export default {
             requireSqlTemplate: '',
             //技术主键
             queryWid: '',
-            pageSize:10
+            pageSize:10,
+            selected:'selected',
+            unselected:''
 
 
             // totalSize:200,

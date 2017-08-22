@@ -105,6 +105,7 @@ export default {
         changeID(id) {
             // console.log('xxxx' + id)
             this.$store.commit('changeID', id)
+            this.search()
         },
         showChildrenTree(e) {
             console.log(e.target)
@@ -123,16 +124,17 @@ export default {
         },
 
         remove(e) {
-            this.$store.commit('remove', e.wid)
-            this.search();
+            console.log(e)
+            this.$store.commit('remove', e)
         },
         changeOpObj(val) {
             this.$store.commit('changeOpObj', val)
         }
     },
-    updated() {
-        console.log('xxxxxxxxx')
-        console.log(this.pageInfo)
+    mounted(){
+        if(this.currentId!=''){
+            this.search()
+        }
     }
 }
 </script>

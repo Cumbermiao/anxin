@@ -1,0 +1,4 @@
+// 厂商排名
+export const MANUFACTURER_QUERY_LIST = 'MANUFACTURER_QUERY_LIST';
+// 资源消耗统计
+export const RESOURCES_QUERY_LIST = 'RESOURCES_QUERY_LIST';

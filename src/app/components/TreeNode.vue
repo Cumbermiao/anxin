@@ -1,7 +1,7 @@
 <template>
 
     
-    <ul>
+    <!-- <ul>
         <li class="sysTree" v-for="item in sysTrees">
             <div class="liBg" @click="showChildrenTree($event);changeID(item.id)">
                 <i v-show="item.children!=null" class="fa fa-caret-right fa-lg"></i>
@@ -25,18 +25,18 @@
                 </li>
             </ul>
         </li>
-    </ul>
+    </ul> -->
     
-    <!-- <ul :style="{textIndent:indent+'em'}">
+     <ul :style="{textIndent:indent+'em'}">
             <li v-for="item in sysTrees" :key="item">
                 <div class="liBg" @click="showChildrenTree($event);changeID(item.id);askForInfo(item.children)">
                     <i v-show="item.children!=null" class="fa fa-caret-right fa-lg"></i>
                     {{item.name}}
                 </div>
         
-                <tree-node :searchType='searchType' style="display:none" v-if="item.children && item.children.length>0" :indent='indent+2' :sysTrees='item.children'></tree-node>
+                <tree-node @search="askForInfo" style="display:none" @changeID="changeID" v-if="item.children && item.children.length>0" :indent='indent+2' :sysTrees='item.children'></tree-node>
             </li>
-        </ul> -->
+        </ul> 
     
 
 </template>
@@ -95,13 +95,6 @@ export default {
                 }
 
             }
-
-
-
-            // if(e.target.tagName == 'I'){
-
-            // }
-
         },
         askForInfo(param) {
             console.log('param')
@@ -114,6 +107,7 @@ export default {
 
         },
         changeID(id) {
+            // alert('changeID')
             console.log('xxx')
             this.$emit('changeID', id)
         }

@@ -11,8 +11,8 @@
                 <label class="lWidth">数据对象
                     <span class="required">*</span>
                 </label>
-                <select class="inWidth" v-model="dataObjWid" :readonly='readonly'>
-                    <option v-for="aitem in doList" :key="aitem" :value="aitem.wid" v-text="aitem.sjdxzwm"></option>
+                <select class="inWidth" v-model="busiData.sjdxWid" :readonly='readonly'>
+                    <option v-for="aitem in doList" :key="aitem" :value="aitem.wid" :selected='busiData.sjdxWid==aitem.wid?selected:unselected' v-text="aitem.sjdxzwm"></option>
                 </select>
                 <div>
                     <label class="lWidth"></label>
@@ -83,9 +83,11 @@ export default {
         switchB,
         mForm,
     },
-    props: ['currentId', 'doList', "opObj", 'readonly', 'opArr', 'isModify','ywzbList'],
+    props: ['currentId', 'doList', "opObj", 'readonly', 'isModify', 'ywzbList'],
     data() {
         return {
+            selected: true,
+            unselected: '',
             dataObjWid: 0,//数据对象id
             busiData: {
                 bz: "",
@@ -98,6 +100,10 @@ export default {
                 zhxgsj: '',
             },
             busiAttrs: [],
+            addBusiAttrs: [],//新增数组
+            deleteBusiAttrWids: [],//删除数组
+            updateBusiAttrs: [],//修改数组
+            opArr: [],//操作数组，修改为0，新增为1，删除为2,
             opAttr: {},
             sjzdList: [],
             catalogWid: 0,//分类获取
@@ -126,14 +132,54 @@ export default {
             return result;
         },
         create() {
-            var val = {
-                busiData: this.busiData,
-                busiAttrs: this.busiAttrs
+            if (this.isModify) {
+                var that = this
+                console.log('this.busiAttrs')
+                console.log(this.busiAttrs)
+                this.busiAttrs.forEach((item) => {
+                    if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2) != -1) {
+                        console.log('012不做操作')
+                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(1)) {
+                        that.addBusiAttrs.push(item)
+                        console.log('01新增')
+                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(2)) {
+                        that.deleteBusiAttrWids.push(item.wid)
+                        console.log('02删除')
+                    } else if (item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2)) {
+                        console.log('12不做操作')
+                    } else if (item.opArr.indexOf(0) != -1) {
+                        console.log('0修改')
+                        that.updateBusiAttrs.push(item)
+                    } else if (item.opArr.indexOf(1) != -1) {
+                        console.log('1新增')
+                        that.addBusiAttrs.push(item)
+                    } else if (item.opArr.indexOf(2) != -1) {
+                        console.log('2删除')
+                        that.addBusiAttrs.push(item.wid)
+                    }
+                })
+                var val = {
+                    busiData: this.busiData,
+                    addBusiAttrs: this.addBusiAttrs,
+                    updateBusiAttrs: this.updateBusiAttrs,
+                    deleteBusiAttrWids: this.deleteBusiAttrWids
+                }
+                this.$emit('modify', val)
+            } else {
+                var val = {
+                    busiData: this.busiData,
+                    busiAttrs: this.busiAttrs
+                }
+                console.log('val')
+                console.log(val)
+                this.$emit('create', val)
             }
-            this.$emit('create', val)
+
         },
         save(val) {
             val = this.deepCopy(val)
+            console.log('val')
+            console.log(val)
             var isRepeated = false;
             if (this.busiAttrs.length == 0) {
                 this.busiAttrs.push(val)
@@ -149,22 +195,31 @@ export default {
                 }
             })
             if (isRepeated == false) {
-                if(this.isModify){
-                    val.opAttr.push(1)
+                if (this.isModify) {
+                    console.log('val')
+                    console.log(val)
+                    val.opArr.push(1)
+                    console.log(val)
                 }
                 this.busiAttrs.push(val)
-
             }
+            console.log('this.busiAttrs')
+            console.log(this.busiAttrs)
         },
         askForList() {
             // dataObjWid
             this.formShow = true;
-            axios.post('/data-open-web/metadata/datafields/query', this.dataObjWid, { "headers": { "content-type": "application/json" } })
+            axios.post('/metadata/datafields/query', this.dataObjWid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
-                    console.log(res)
-                    this.sjzdList = res.data.dataSet;
-                    console.log('this.sjzdList')
-                    console.log(this.sjzdList)
+                    if (res.status == 200 && res.data.returnStatus == 1) {
+                        console.log(res)
+                        this.sjzdList = res.data.dataSet;
+                        console.log('this.sjzdList')
+                        console.log(this.sjzdList)
+                    } else {
+                        alert('获取下拉列表失败')
+                    }
+
                 }).catch((err) => {
                     alert('获取下拉列表失败')
                 })
@@ -177,38 +232,45 @@ export default {
                 this.opAttr.opArr.push(0)
                 console.log(this.opAttr)
             }
-            this.formShow=true;
+            this.formShow = true;
         },
         remove(item) {
             if (this.isModify) {
                 this.opAttr.opArr.push(2)
             }
             var idx = this.busiAttrs.indexOf(item)
-            this.busiAttrs.splice(idx,1)
+            this.busiAttrs.splice(idx, 1)
 
         }
     },
     mounted() {
+        console.log('this.doList')
+        console.log(this.doList)
+        
         if (this.opObj) {
             this.busiData = this.opObj;
-            axios.post('/data-open-web/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
+            console.log('this.busiData')
+            console.log(this.busiData)
+            axios.post('/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
-                    console.log('res')
-                    this.busiAttrs = res.data.dataSet;
-                    this.busiAttrs.forEach((item)=>{
-                        item.opArr=[]
-                    })
-                    console.log(this.busiAttrs)
-
+                    if (res.status == 200 && res.data.returnStatus == 1) {
+                        console.log('res')
+                        this.busiAttrs = res.data.dataSet;
+                        if (this.isModify) {
+                            this.busiAttrs.forEach((item) => {
+                                item.opArr = []
+                            })
+                            console.log("this.busiAttrs")
+                            console.log(this.busiAttrs)
+                        }
+                    } else {
+                        alert('获取业务指标下拉列表失败')
+                    }
                 }).catch((err) => {
                     alert('获取业务指标下拉列表失败')
                 })
         }
-        if(this.ywzbList){
-            console.log('this.ywzbList')
-            console.log(this.ywzbList)
-            this.busiAttrs=this.ywzbList
-        }
+
     }
 }
 </script>
@@ -217,9 +279,20 @@ export default {
 .form {
     position: relative;
 }
-td,th{
+
+td,
+th {
     min-width: 100px;
 }
+
+
+
+
+
+
+
+
+
 
 
 

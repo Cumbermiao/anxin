@@ -50,7 +50,7 @@ export default {
     },
     mounted() {
         console.log('xxx')
-        axios.post('/data-open-web/metadata/datasource/selectList').then((res) => { 
+        axios.post('/metadata/datasource/selectList').then((res) => { 
             this.dataSource=res.data.dataSet 
             console.log(this.dataSource)
             })

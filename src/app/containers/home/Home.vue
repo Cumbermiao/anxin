@@ -20,17 +20,22 @@ export default {
       sysTrees:[]
     }
   },
+  computed:{
+    ...mapState({
+      currentId: state => state.home.currentId,
+    })
+  },
   mounted() {
-    axios.post('/data-open-web/common/catalog/queryTree', 'busiObj', {
+    axios.post('/common/catalog/queryTree', 'busiObj', {
       "headers": {
         "content-type": "application/json"
       }
     }).then((res) => {
       console.log(res)
       this.sysTrees = res.data.dataSet.children
-      console.log(this.sysTrees)
     })
-  },
+  }
+ 
 
 }
 

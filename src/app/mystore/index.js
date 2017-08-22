@@ -7,6 +7,7 @@ import dob from './do'
 import bo from './busiObj'
 import bm from './busiManage'
 import st from './scriptType'
+import sp from './script'
 Vue.use(Vuex)
 export default new Vuex.Store({
     modules:{
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         dob,
         bo,
         bm,
-        st
+        st,
+        sp
     }
 })

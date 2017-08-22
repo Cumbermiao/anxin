@@ -61,7 +61,7 @@
                 <td>{{item2.zdzwjc}}</td>
                 <td>{{item2.zdlx}}</td>
                 <td>{{item2.zdmrz}}</td>
-                <td>{{item2.sfzj=0?'否':'是'}}</td>
+                <td>{{item2.sfzj?'否':'是'}}</td>
                 <td>{{item2.sfwk?'否':'是'}}</td>
                 <td>{{item2.sfwy?'否':'是'}}</td>
                 <td>{{item2.zhxgr}}</td>
@@ -93,16 +93,16 @@ export default {
     props: ['currentId','readonly','sjzd','obj','idModify'],
     data() {
         return {
-
+            sfqy:0,
             // sjyWid 不用传,
             thead: ['字段名', '中文名', '字段类型', '默认值', '是否主键', '是否为空', '是否唯一', '最后修改人', '最后修改时间'],
             doYsjSjdx: {
-                bz: this.bz,
-                catalogWid: this.currentId,
-                sfqy: this.sfqy,
-                sjdxmc: this.sjdxmc,
-                sjdxms: this.sjdxms,
-                sjdxzwm: this.sjdxzwm
+                bz:'',
+                catalogWid:this.currentId,
+                sfqy: 0,
+                sjdxmc: '',
+                sjdxms: '',
+                sjdxzwm: ''
             },
             doYsjSjdxzds: [],//新建的数据字段数组
             list: [],//下拉列表
@@ -133,7 +133,7 @@ export default {
         },
         askForList() {
             this.formShow = true;
-            axios.post('/data-open-web/metadata/datafields/DBDataTypeList', this.currentId, { "headers": { "content-type": "application/json" } })
+            axios.post('metadata/datafields/DBDataTypeList', this.currentId, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     console.log('res')
                     this.list = res.data.dataSet
@@ -156,6 +156,7 @@ export default {
             var isRepeated = false;
             if (this.doYsjSjdxzds.length == 0) {
                 this.doYsjSjdxzds.push(val)
+                console.log('this.doYsjSjdxzds')
                 console.log(this.doYsjSjdxzds)
                 return;
             }

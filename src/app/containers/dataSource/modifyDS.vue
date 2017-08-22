@@ -45,7 +45,7 @@ export default {
         }
     },
     mounted() {
-        axios.post('/data-open-web/metadata/sysdatadic/DBTypeList')
+        axios.post('/metadata/sysdatadic/DBTypeList')
             .then((res) => {
                 if (res.status == 200 && res.data.returnStatus == 1) {
                     this.select = res.data.dataSet;

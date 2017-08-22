@@ -93,7 +93,7 @@ const router = new VueRouter({
     {
       path: '/datCacl',
       component: App,
-      redirect: { name: 'scriptType' },
+      redirect: { name: 'script' },
       children: [
         {
           name: 'script',
@@ -101,10 +101,26 @@ const router = new VueRouter({
           component: resolve => require(['~/app/containers/dataCacl/script'], resolve)
         },
         {
-          name: 'scriptType',
-          path: 'scriptType',
+          name: 'watchSp',
+          path: 'script/watchSp',
+          component: resolve => require(['~/app/containers/dataCacl/watchScript'], resolve)
+        },
+        {
+          name: 'modifySp',
+          path: 'script/modifySp',
+          component: resolve => require(['~/app/containers/dataCacl/modifyScript'], resolve)
+        },
+        {
+          name: 'createSp',
+          path: 'script/createSp',
+          component: resolve => require(['~/app/containers/dataCacl/createScript'], resolve)
+        },
+        {
+          name: 'sType',
+          path: 'sType',
           component: resolve => require(['~/app/containers/dataCacl/scriptType'], resolve)
-        }]
+        },
+        ]
     }
   ]
 });

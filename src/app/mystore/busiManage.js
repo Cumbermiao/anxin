@@ -1,4 +1,5 @@
 import axios from '../utils/axios'
+import router from '../../route'
 const state = {
     currentId: '',
     // catalogWid: '',
@@ -14,7 +15,7 @@ const state = {
 
 const actions = {
     async  SearchForBM({ commit }, param) {
-        const { status, statusText, data } = await axios.post('/data-open-web/common/catalog/queryByWid', param, { "headers": { "content-type": "application/json" } })
+        const { status, statusText, data } = await axios.post('/common/catalog/queryByWid', param, { "headers": { "content-type": "application/json" } })
         if (status === 200 && data.returnStatus == 1) {
             // alert('查询成功')
             console.log(data)
@@ -36,7 +37,7 @@ const mutations = {
         state.opObj = data.dataSet
     },
     modifyBM(state, data) {
-        axios.post('/data-open-web/common/catalog/update', data)
+        axios.post('/common/catalog/update', data)
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')
@@ -48,7 +49,7 @@ const mutations = {
             })
     },
     removeBM(state, data) {
-        axios.post('/data-open-web/common/catalog/deleteByWid', data, { "headers": { "content-type": "application/json" } })
+        axios.post('/common/catalog/deleteByWid', data, { "headers": { "content-type": "application/json" } })
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')
@@ -60,7 +61,7 @@ const mutations = {
             })
     },
     createBM(state, data) {
-        axios.post('/data-open-web/common/catalog/create', data)
+        axios.post('/common/catalog/create', data)
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')

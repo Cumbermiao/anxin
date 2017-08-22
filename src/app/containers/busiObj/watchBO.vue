@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :currentId='currentId' :readonly='readonly' :opObj='opObj' :ywzbList='ywzbList'></m-form>
+            <m-form :currentId='currentId' :readonly='readonly' :opObj='opObj' :doList='doList' :ywzbList='ywzbList'></m-form>
         </v-content>
     </div>
 </template>
@@ -20,7 +20,8 @@ export default {
             operation:'>查看',
             path:'/data/busiObj',
             readonly:true,
-            ywzbList:[]
+            ywzbList:[],
+            doList:[]
         }
     },
   components:{
@@ -35,15 +36,27 @@ export default {
         })
     },
     mounted(){
-        axios.post('/data-open-web/metadata/busiIndicator/queryByDataWid',this.opObj.wid,{"headers":{"content-type":"application/json"}})
+        axios.post('/metadata/busiIndicator/queryByDataWid',this.opObj.wid,{"headers":{"content-type":"application/json"}})
         .then((res=>{
             if(res.status==200&&res.data.returnStatus==1){
                 this.ywzbList=res.data.dataSet
+                console.log('this.ywzbList')
+                console.log(this.ywzbList)
             }else{
                 alert('获取业务指标失败')
             }
         })).catch((err)=>{
             alert('获取业务指标失败')
+        })
+
+        axios.post('/metadata/dataobject/selectList',this.currentId,{"headers":{"content-type": "application/json"}})
+        .then((res)=>{
+            
+            this.doList=res.data.dataSet;
+            console.log('this.doList')
+            console.log(this.doList)
+        }).catch((err)=>{
+            alert('获取下拉列表失败')
         })
     }
 }

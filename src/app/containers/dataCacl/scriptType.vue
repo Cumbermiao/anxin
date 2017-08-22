@@ -3,7 +3,7 @@
         <div class="home_content" style="position:relative">
             <section>
                 <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
-                <tree-node :sysTrees='sysTrees' @changeID="changeID"></tree-node>
+                <tree-node :sysTrees='sysTrees' @changeID="changeID" :indent='indent'></tree-node>
             </section>
             <section>
                 <h3>业务分类信息</h3>
@@ -82,6 +82,7 @@ export default {
     },
     data() {
         return {
+            indent:0,
             isShow: false,
             mc: '',
             ms: '',
@@ -175,7 +176,7 @@ export default {
 
     mounted() {
 
-        axios.post('/data-open-web/common/catalog/queryTree', 'computeScript', {
+        axios.post('/common/catalog/queryTree', 'computeScript', {
             "headers": {
                 "content-type": "application/json"
             }

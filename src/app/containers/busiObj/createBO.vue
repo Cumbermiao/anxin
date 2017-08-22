@@ -39,7 +39,7 @@ export default {
         }
     },
     mounted(){
-        axios.post('/data-open-web/metadata/dataobject/selectList',this.currentId,{"headers":{"content-type": "application/json"}})
+        axios.post('/metadata/dataobject/selectList',this.currentId,{"headers":{"content-type": "application/json"}})
         .then((res)=>{
             console.log(res)
             this.doList=res.data.dataSet;
