@@ -15,7 +15,15 @@ const menu = [{
   title: '数据开放服务管理',
   path: '/home',
   icon: 'iconfont icon-gaikuang',
-  items: []
+  items: [
+    {
+      title: '实时查询服务',
+      path: ''
+    }, {
+      title: '即时查询',
+      path: 'querySS'
+    }
+  ]
 },
 
 {
@@ -24,18 +32,18 @@ const menu = [{
   icon: 'iconfont icon-peizhizhongxin',
   items: [
     {
-    title: '数据源管理',
-    path: 'source'
-  }, {
-    title: '数据对象管理',
-    path: 'obj'
-  }, {
-    title: '业务对象管理',
-    path: 'busiObj'
-  }, {
-    title: '数据业务分类管理',
-    path: 'busiM'
-  }
+      title: '数据源管理',
+      path: 'source'
+    }, {
+      title: '数据对象管理',
+      path: 'obj'
+    }, {
+      title: '业务对象管理',
+      path: 'busiObj'
+    }, {
+      title: '数据业务分类管理',
+      path: 'busiM'
+    }
   ]
 },
 {

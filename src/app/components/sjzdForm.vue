@@ -1,7 +1,6 @@
 <template>
     <div class="cForm">
         <form>
-            <i class="fa fa-close fa-lg" style="float:right"></i>
             <h3>创建数据字段</h3>
             <div class="form-group">
                 <label class="lWidth">字段名

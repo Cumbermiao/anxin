@@ -10,6 +10,7 @@ const state = {
     pages: 0,
     totalSize:0,
     opObj: {},
+    obj:{},
     res: [],
     searchType:'searchForBO'
 }
@@ -44,7 +45,7 @@ const actions = {
         const { status, statusText, data } = await axios.post('/metadata/busiData/update', param);
         // console.log(data)
         if (status === 200 && data.returnStatus == 1) {
-            console.log('操作成功')
+            alert('操作成功')
             console.log(data)
             commit('updateBO', data)
         }
@@ -69,6 +70,7 @@ const mutations = {
         console.log('changeOpObj!!!')
         console.log(val)
         state.opObj = val;
+        console.log(state.opObj)
     },
     createBO(state, val) {
 

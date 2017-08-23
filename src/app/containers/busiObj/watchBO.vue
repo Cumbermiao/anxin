@@ -11,7 +11,7 @@
 import {mapState} from 'vuex'
 import Sheader from '../../components/SSheader';
 import Content from '../../components/Content';
-import form3 from '../../components/form3';
+import form3 from '../../components/form33';
 import axios from '../../utils/axios';
 export default {
     data(){

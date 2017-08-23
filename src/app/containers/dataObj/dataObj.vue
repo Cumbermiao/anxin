@@ -143,6 +143,7 @@ export default {
 .home_content {
     border: 1px solid #d8dcf0;
 }
+
 .home_content>section{
     display: inline-block
 }
@@ -152,12 +153,12 @@ section{
     box-sizing: border-box;
 }
 .home_content section:first-child{
-    border-right: 1px solid #d8dcf0;
-    min-height: 600px;
     width: 25%;
     height: 100%;
 }
 .home_content section:last-child{
     width: 74%;
+    border-left: 1px solid #d8dcf0;
+    min-height: 851px;
 }
 </style>

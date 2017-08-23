@@ -3,7 +3,7 @@
         <!-- <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search> -->
         <!--使用button跳转  -->
         <!-- <button class="button" @click="toCreate">新建</button> -->
-    
+
         <div class="background"></div>
         <div class="system">
             <div class="sys_info" v-for="(item,i) in sys" :key="item">
@@ -16,23 +16,23 @@
                     </div>
                     <div>
                         <span class="dtitle">最后修改时间</span>
-                        <span class="desc">{{item.lastModifiedTime||item.zhxgsj ||item.zhxgsj}}</span>
+                        <span class="desc">{{item.lastModifiedTime||item.zhxgsj}}</span>
                     </div>
                 </div>
                 <div class="system-hover">
                     <p>
-                        <a :href="watchPath" @click="changeOpObj(item)">查看</a>|
-                        <a :href="modifyPath" @click="changeOpObj(item)">修改</a>|
+                        <a :href="watchPath" @click="changeOpObj(item,i)">查看</a>|
+                        <a :href="modifyPath" @click="changeOpObj(item,i)">修改</a>|
                         <a href="javascript:;" @click="showRemove(i)">删除</a>
                     </p>
                 </div>
-    
+
                 <div class="delete">
                     <h4>确认删除吗？</h4>
                     <button class="button margin" @click="remove(item,i)">确认</button>
                     <button class="button" @click="closeRemove(i)">取消</button>
                 </div>
-    
+
             </div>
         </div>
     </div>
@@ -45,10 +45,18 @@ export default {
             keys: ''
         }
     },
-    props: ['sys','modifyPath','watchPath'],
+    props: ['sys', 'modifyPath', 'watchPath'],
     methods: {
-        changeOpObj(val){
-            this.$emit('changeOpObj',val)
+        changeOpObj(item, i) {
+            console.log('serverlist')
+            console.log(this.sys[i])
+            console.log(item)
+            console.log(i)
+            this.$emit('changeOpObj', Object.assign({}, this.sys[i]))
+            // this.$store.commit('changeBOOpObj',this.sys[i]);
+            console.log('serverlist')
+            console.log(this.sys[i])
+            console.log(item)
         },
         showRemove(e) {
             document.getElementsByClassName('background')[0].style.display = 'block';
@@ -58,17 +66,17 @@ export default {
             document.getElementsByClassName('background')[0].style.display = 'none';
             document.getElementsByClassName('delete')[e].style.display = 'none';
         },
-        remove(e,i){
-            this.$emit('remove',e.wid)
+        remove(e, i) {
+            this.$emit('remove', e.wid)
             this.closeRemove(i)
         }
-        
+
     },
-    mounted(){console.log('xxxxxxxxx')},
-    updated(){
-        
+    updated() {
+        console.log('xxxxxxxxx')
         console.log(this.sys)
-    }
+    },
+
 }
 </script>
 <style scoped>
@@ -96,11 +104,16 @@ export default {
 .detail {
     display: inline-block;
     margin-left: 15px;
+    width: 68%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .title {
     font-size: 16px;
     font-weight: 700;
+    overflow: hidden;
 }
 
 .dtitle {
@@ -173,6 +186,7 @@ export default {
 .system-hover p a:hover {
     cursor: pointer;
 }
+
 .margin {
     margin-right: 50px;
 }

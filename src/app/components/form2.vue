@@ -105,10 +105,16 @@ export default {
                 sjdxzwm: ''
             },
             doYsjSjdxzds: [],//新建的数据字段数组
+            doYsjSjdxzds2:[],//存放所有被删除的数组
+
+            addDoYsjSjdxzds:[],//新增数组
+            delelteDoYsjSjdxzds:[],//删除数组
+            updateDoYsjSjdxzds:[],//修改数组
             list: [],//下拉列表
             opObj: {},//传递给数据字段的数据对象
             formShow: false,
             // open:false
+            // 操作数组，修改为0，新增为1，删除为2,
         }
     },
     computed:{

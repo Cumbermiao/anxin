@@ -51,7 +51,7 @@ const mutations = {
                     alert('创建成功')
                     router.go(-1)
                 } else {
-                    alert('操作失败')
+                    alert(res.data.errorMsg)
                 }
             }).catch((err) => {
                 alert(err)
@@ -64,7 +64,7 @@ const mutations = {
                     alert('测试成功')
                     state.testRes = true
                 } else {
-                    alert('操作失败')
+                    alert(res.data.errorMsg)
                     state.testRes = false
                 }
             })

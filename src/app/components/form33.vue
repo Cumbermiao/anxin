@@ -11,10 +11,15 @@
                 <label class="lWidth">数据对象
                     <span class="required">*</span>
                 </label>
-                <select class="inWidth" :value='busiData.sjdxWid' :readonly='readonly'>
-                    <!-- :selected='busiData.sjdxWid==aitem.wid?selected:unselected' -->
-                    <option v-for="aitem in doList" :key="aitem" :value="aitem.wid"     v-text="aitem.sjdxzwm"></option>
+                <select class="inWidth" v-model='sjdxWid' :readonly='readonly' @change="changeSelect">
+                    <!-- :selected='sjdxWid==aitem.wid?selected:unselected' -->
+                    <option v-for="aitem in doList" :key="aitem" :value="aitem.wid" v-text="aitem.sjdxzwm"></option>
                 </select>
+
+                <!-- <select v-else class="inWidth" :value='sjdxWid' :readonly='readonly' @change="changeSelect">
+                  
+                    <option v-for="aitem in doList" :key="aitem" :selected='sjdxWid==aitem.wid?selected:unselected' :value="aitem.wid" v-text="aitem.sjdxzwm"></option>
+                </select> -->
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -25,7 +30,7 @@
                 <label class="lWidth">名称
                     <span class="required">*</span>
                 </label>
-                <input class="inWidth" v-model="busiData.mc" required type="text" :readonly='readonly'>
+                <input class="inWidth" v-model="mc" required type="text" :readonly='readonly'>
                 <div>
                     <label class="lWidth"></label>
                     <span class="invalidate">必填</span>
@@ -35,13 +40,13 @@
             <div class="form-group">
                 <label class="lWidth">描述
                 </label>
-                <input class="inWidth" v-model="busiData.ms" type="text" :readonly='readonly'>
+                <input class="inWidth" v-model="ms" type="text" :readonly='readonly'>
             </div>
 
             <div class="form-group">
                 <label class="lWidth">备注
                 </label>
-                <textarea class="inWidth" rows="6" v-model="busiData.bz" :readonly='readonly'></textarea>
+                <textarea class="inWidth" rows="6" v-model="bz" :readonly='readonly'></textarea>
             </div>
         </form>
         <div class="types">
@@ -67,7 +72,7 @@
             </tr>
         </table>
 
-        <m-form v-show="formShow" :formShow='formShow' @isShow='isShow' @save='save' :sjzdList='sjzdList' :opAttr='opAttr'></m-form>
+        <m-form v-if="formShow" :formShow='formShow' @isShow='isShow' @save='save' :sjzdList='sjzdList' :opAttr='opAttr'></m-form>
         <div class="btn-group" v-show="!readonly">
             <button class="button" @click="create">保存</button>
             <a class="button" href="#/data/busiObj">取消</a>
@@ -84,22 +89,26 @@ export default {
         switchB,
         mForm,
     },
-    props: ['currentId', 'doList', "opObj", 'readonly', 'isModify', 'ywzbList'],
+    props: ['currentId', 'doList', "opObj", 'readonly', 'isModify', 'ywzbList','isCreate'],
     data() {
         return {
             selected: 'selected',
             unselected: '',
             dataObjWid: 0,//数据对象id
-            busiData: {
-                bz: "",
-                mc: '',
-                ms: '',
-                sjdxzwm: "",
-                sjdxWid: "",
-                ysjYwdxflWid: this.currentId,
-                zhxgr: '',
-                zhxgsj: '',
-            },
+
+            bz: "",
+            cjr: "",
+            cjsj: "",
+            mc: '',
+            ms: '',
+            sjdxWid: "",
+            wid: "",
+            ysjYwdxflWid: this.currentId,
+            zhxgr: '',
+            zhxgsj: '',
+            zwmc: "",
+
+            // sjdxzwm: "",
             busiAttrs: [],
             busiAttrs2: [],//修改时，存放删除的对象
             addBusiAttrs: [],//新增数组
@@ -140,6 +149,22 @@ export default {
             }
             return result;
         },
+        changeSelect() {
+            axios.post('/metadata/datafields/query', this.sjdxWid, { "headers": { "content-type": "application/json" } })
+                .then((res) => {
+                    if (res.status == 200 && res.data.returnStatus == 1) {
+                        console.log(res)
+                        this.sjzdList = res.data.dataSet;
+                        console.log('this.sjzdList')
+                        console.log(this.sjzdList)
+                    } else {
+                        // alert('获取下拉列表失败')
+                    }
+
+                }).catch((err) => {
+                    // alert('获取下拉列表失败')
+                })
+        },
         create() {
             if (this.isModify) {
                 var that = this
@@ -148,10 +173,10 @@ export default {
                 this.busiAttrs2.forEach((item) => {
                     if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2) != -1) {
                         console.log('012不做操作')
-                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(2)!=-1) {
+                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(2) != -1) {
                         that.deleteBusiAttrWids.push(item.wid)
                         console.log('02删除')
-                    } else if (item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2)!=-1) {
+                    } else if (item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2) != -1) {
                         console.log('12不做操作')
                     } else if (item.opArr.indexOf(2) != -1) {
                         console.log('2删除')
@@ -161,13 +186,13 @@ export default {
                 this.busiAttrs.forEach((item) => {
                     if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2) != -1) {
                         console.log('012不做操作')
-                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(1)!=-1) {
+                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(1) != -1) {
                         that.addBusiAttrs.push(item)
                         console.log('01新增')
-                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(2)!=-1) {
+                    } else if (item.opArr.indexOf(0) != -1 && item.opArr.indexOf(2) != -1) {
                         that.deleteBusiAttrWids.push(item.wid)
                         console.log('02删除')
-                    } else if (item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2)!=-1) {
+                    } else if (item.opArr.indexOf(1) != -1 && item.opArr.indexOf(2) != -1) {
                         console.log('12不做操作')
                     } else if (item.opArr.indexOf(0) != -1) {
                         console.log(item)
@@ -182,7 +207,19 @@ export default {
                     }
                 })
                 var val = {
-                    busiData: this.busiData,
+                    busiData: {
+                        bz: this.bz,
+                        cjr: this.cjr,
+                        cjsj: this.cjsj,
+                        mc: this.mc,
+                        ms: this.ms,
+                        sjdxWid: this.sjdxWid,
+                        wid: this.wid,
+                        ysjYwdxflWid: this.ysjYwdxflWid,
+                        zhxgr: this.zhxgr,
+                        zhxgsj: this.zhxgsj,
+                        zwmc: this.zwmc,
+                    },
                     addBusiAttrs: this.addBusiAttrs,
                     updateBusiAttrs: this.updateBusiAttrs,
                     deleteBusiAttrWids: this.deleteBusiAttrWids
@@ -190,7 +227,19 @@ export default {
                 this.$emit('modify', val)
             } else {
                 var val = {
-                    busiData: this.busiData,
+                    busiData: {
+                        bz: this.bz,
+                        cjr: this.cjr,
+                        cjsj: this.cjsj,
+                        mc: this.mc,
+                        ms: this.ms,
+                        sjdxWid: this.sjdxWid,
+                        wid: this.wid,
+                        ysjYwdxflWid: this.ysjYwdxflWid,
+                        zhxgr: this.zhxgr,
+                        zhxgsj: this.zhxgsj,
+                        zwmc: this.zwmc,
+                    },
                     busiAttrs: this.busiAttrs
                 }
                 console.log('val')
@@ -229,7 +278,7 @@ export default {
                 if (that.isModify) {
                     console.log('val')
                     console.log(val)
-                    val.opArr=[1]
+                    val.opArr = [1]
                     console.log(val)
                 }
                 this.busiAttrs.push(val)
@@ -239,14 +288,19 @@ export default {
         },
         askForList() {
             // dataObjWid
-            this.formShow = true;
-           
+            console.log(this.sjdxWid)
+            if (this.sjdxWid == '') {
+                alert('请选择数据对象')
+            } else {
+                this.formShow = true;
+            }
         },
         modify(param) {
             console.log('param')
             alert('modify')
             console.log(param)
             this.opAttr = param;
+            this.changeSelect();
             // if (this.isModify) {
             //     this.opAttr.opArr.push(0)
             //     console.log(this.opAttr)
@@ -255,7 +309,7 @@ export default {
         },
         remove(item) {
             if (this.isModify) {
-                console.log(item)
+                console.log('item')
                 console.log(this.busiAttrs)
                 item.opArr.push(2)
                 this.busiAttrs2.push(item)
@@ -267,30 +321,26 @@ export default {
 
         }
     },
-    mounted() {
-         axios.post('/metadata/datafields/query', this.busiData.sjdxWid, { "headers": { "content-type": "application/json" } })
-                .then((res) => {
-                    if (res.status == 200 && res.data.returnStatus == 1) {
-                        console.log(res)
-                        this.sjzdList = res.data.dataSet;
-                        console.log('this.sjzdList')
-                        console.log(this.sjzdList)
-                    } else {
-                        // alert('获取下拉列表失败')
-                    }
-
-                }).catch((err) => {
-                    // alert('获取下拉列表失败')
-                })
-
+    created() {
         console.log('this.doList')
+        console.log(this.sjdxWid)
         console.log(this.doList)
 
         if (this.opObj) {
-            this.busiData = this.deepCopy(this.opObj);
-            console.log('this.busiData')
-            console.log(this.busiData)
-            axios.post('/metadata/busiIndicator/queryByDataWid', this.busiData.wid, { "headers": { "content-type": "application/json" } })
+            console.log('this.busiDataddddddddd')
+            this.bz = this.opObj.bz
+            this.cjr = this.opObj.cjr
+            this.cjsj = this.opObj.cjsj
+            this.mc = this.opObj.mc
+            this.ms = this.opObj.ms
+            this.sjdxWid = this.opObj.sjdxWid
+            this.wid = this.opObj.wid
+            this.ysjYwdxflWid = this.opObj.ysjYwdxflWid
+            this.zhxgr = this.opObj.zhxgr
+            this.zhxgsj = this.opObj.zhxgsj
+            this.zwmc = this.opObj.zwmc
+            console.log(this.opObj)
+            axios.post('/metadata/busiIndicator/queryByDataWid', this.wid, { "headers": { "content-type": "application/json" } })
                 .then((res) => {
                     if (res.status == 200 && res.data.returnStatus == 1) {
                         console.log('res')
@@ -311,7 +361,7 @@ export default {
         }
 
 
-        
+
     }
 }
 </script>

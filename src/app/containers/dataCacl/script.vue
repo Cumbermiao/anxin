@@ -166,7 +166,6 @@ export default {
 <style scoped>
 .home_content {
     border: 1px solid #d8dcf0;
-    /* height: 600px; */
 }
 
 .home_content>section {
@@ -180,13 +179,13 @@ section {
 }
 
 .home_content section:first-child {
-    border-right: 1px solid #d8dcf0;
-    min-height: 600px;
+
     width: 25%;
 }
 
 .home_content section:last-child {
     width: 74%;
-    height: 100%;
+    border-left: 1px solid #d8dcf0;
+    min-height: 851px;
 }
 </style>

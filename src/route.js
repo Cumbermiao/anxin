@@ -29,6 +29,10 @@ const router = new VueRouter({
         name: 'modifySS',
         path: 'modifySS',
         component: resolve => require(['./app/containers/SS/modify.vue'], resolve)
+      }, {
+        name: 'querySS',
+        path: 'querySS',
+        component: resolve => require(['./app/containers/SS/query.vue'], resolve)
       }]
     },
     {
@@ -120,7 +124,7 @@ const router = new VueRouter({
           path: 'sType',
           component: resolve => require(['~/app/containers/dataCacl/scriptType'], resolve)
         },
-        ]
+      ]
     }
   ]
 });

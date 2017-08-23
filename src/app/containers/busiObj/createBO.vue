@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :doList='doList' :currentId='currentId' @create='createBO'></m-form>
+            <m-form :doList='doList' :currentId='currentId' @create='createBO' :isCreate='isCreate'></m-form>
         </v-content>
     </div>
 </template>
@@ -11,7 +11,7 @@
 import {mapState} from 'vuex'
 import Sheader from '../../components/SSheader';
 import Content from '../../components/Content';
-import form3 from '../../components/form3';
+import form3 from '../../components/form33';
 import axios from '../../utils/axios';
 export default {
     data(){
@@ -20,6 +20,7 @@ export default {
             operation:'>新增',
             path:'/data/busiObj',
             doList:[],//数据对象下拉选项
+            isCreate:true
         }
     },
     computed:{
