@@ -18,7 +18,7 @@ const menu = [{
   items: [
     {
       title: '实时查询服务',
-      path: ''
+      path: 'realtime'
     }, {
       title: '即时查询',
       path: 'querySS'

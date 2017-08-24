@@ -10,6 +10,10 @@
                 <img :src="img" alt="">
                 <div class="detail">
                     <p class="title">{{item.queryIntfName||item.zcxtzwm ||item.sjdxzwm ||item.mc ||item.scriptNameCn}}</p>
+                    <!-- <div v-if="isScript">
+                        <span class="dtitle">中文名称</span>
+                        <span class="desc">{{item.scriptNameCn}}</span>
+                    </div> -->
                     <div>
                         <span class="dtitle">描述</span>
                         <span class="desc">{{item.queryIntfDesc||item.zcxtms||item.sjdxms||item.ms||item.scriptDesc}}</span>
@@ -18,6 +22,7 @@
                         <span class="dtitle">最后修改时间</span>
                         <span class="desc">{{item.lastModifiedTime||item.zhxgsj}}</span>
                     </div>
+
                 </div>
                 <div class="system-hover">
                     <p>
@@ -45,7 +50,7 @@ export default {
             keys: ''
         }
     },
-    props: ['sys', 'modifyPath', 'watchPath'],
+    props: ['sys', 'modifyPath', 'watchPath', 'isScript'],
     methods: {
         changeOpObj(item, i) {
             console.log('serverlist')
@@ -82,7 +87,7 @@ export default {
 <style scoped>
 .sys_info {
     display: inline-block;
-    min-width: 388px;
+    min-width: 450px;
     width: 45%;
     border: 1px solid #d8dcf0;
     margin-top: 20px;

@@ -1,11 +1,11 @@
 <template>
   <v-content id="title" title="数据对象管理">
     <div class="home_content">
-      <section>
+      <section class="sec1">
         <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
         <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search' :indent='indent'></tree-node>
       </section>
-      <section>
+      <section class="sec2">
         <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
         <button class="button" @click="toCreate">新建</button>
         <service-list :sys='sys' :watchPath='watchPath' :modifyPath='modifyPath' :keywords='keywords' @changeOpObj='changeOpObj' @remove='remove'></service-list>

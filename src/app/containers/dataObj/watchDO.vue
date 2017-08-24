@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :readonly='readonly' :sjzd='sjzd' :obj='obj' :currentId='currentId' @createDO='createDO'></m-form>
+            <m-form :readonly='readonly'  :obj='obj' :currentId='currentId' @createDO='createDO'></m-form>
         </v-content>
     </div>
 </template>
@@ -40,16 +40,7 @@ export default {
         }
     },
     mounted() {
-        axios.post('metadata/datafields/query', this.obj.wid, { "headers": { "content-type": "application/json" } })
-            .then((res) => {
-                if (res.status == 200 && res.data.returnStatus == 1) {
-                    this.sjzd = res.data.dataSet
-                } else {
-                    alert('获取数据字段失败')
-                }
-            }).catch((err) => {
-                    alert('获取数据字段失败')
-            })
+        
     }
 }
 </script>

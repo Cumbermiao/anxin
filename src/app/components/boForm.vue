@@ -77,9 +77,6 @@
 export default {
     data() {
         return {
-            zdm: '',
-            selected: 'selected',
-            unselected: '',
 
             wid: '',
             bz: '',
@@ -121,7 +118,7 @@ export default {
     created() {
         console.log('this.opAttr')
         console.log(this.opAttr)
-        if (this.opAttr) {
+        if (this.opAttr!={}) {
             this.wid=this.opAttr.wid
             this.bz=this.opAttr.bz
             this.sjzdWid= this.opAttr.sjzdWid
@@ -130,6 +127,7 @@ export default {
             this.ms= this.opAttr.ms
             this.zhxgr= this.opAttr.zhxgr
             this.zhxgsj= this.opAttr.zhxgsj
+            this.opArr = this.opAttr.opArr
         }
     }
     // updated() {

@@ -18,9 +18,10 @@
     bottom: 0;
   }
 }
+
 /*通用样式*/
 body{
-  min-width: 1314px;
+  min-width: 1485px;
 }
 html, body, #app {
   margin: 0;
@@ -43,6 +44,28 @@ html, body, #app {
    fill: currentColor;
    overflow: hidden;
 }
+
+.sec2{
+  min-width: 1000px;
+}
+/*table  */
+table {
+    border-collapse: collapse;
+    color: #333;
+    text-align: center;
+}
+th{
+    font-weight: 600;
+}
+th,
+td {
+    font-size: 12px;
+    border: 1px solid #cacaca;
+    padding: 8px 5px;
+    white-space: nowrap;
+}
+
+
 /*过渡效果*/
 /*模糊效果*/
 .blur-enter-active, .blur-leave-active {
@@ -131,7 +154,7 @@ textarea {
     }
     & input {
       height: 26px;
-      width: 200px;
+      width: 250px;
       padding: 0 calc(var(--padding) * 0.5);
       padding-left: 2em;
       border: 1px solid #d8dcf0;
@@ -151,8 +174,8 @@ textarea {
   background: #f17a08;
   color: white;
   padding: calc(var(--padding) * 0.5) var(--paddingMiddle);
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 26px;
   border-radius: 1px;
   vertical-align: middle;
   text-align: center;
@@ -160,6 +183,7 @@ textarea {
   text-decoration: none;
   outline: none;
   border: 0;
+  border-radius: 2px;
   &:active {
     background: color(#f57a08 blackness(20%));
   }

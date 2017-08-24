@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :sjzd='sjzd' :obj='obj' :currentId='currentId' :idModify='idModify' @modifyDO='modifyDO'></m-form>
+            <m-form :sjzd='sjzd' :obj='obj' :currentId='currentId' :isModify='isModify' @modifyDO='modifyDO'></m-form>
         </v-content>
     </div>
 </template>
@@ -19,7 +19,7 @@ export default {
             title: '数据对象管理',
             operation: '>修改',
             path: '/data/obj',
-            idModify: true,
+            isModify: true,
             sjzd: []
         }
     },
@@ -36,6 +36,7 @@ export default {
     },
     methods: {
         modifyDO(val) {
+            alert('modify')
             this.$store.dispatch('modifyDO', val)
         }
     },

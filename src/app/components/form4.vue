@@ -80,38 +80,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="lWidth">脚本入参描述
-                    <span class="required">*</span>
-                </label>
-                <textarea class="inWidth" rows="6" v-model="obj.inParamDesc"></textarea>
-                <div>
-                    <label class="lWidth"></label>
-                    <span class="invalidate">必填</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="lWidth">脚本出参描述
-                    <span class="required">*</span>
-                </label>
-                <textarea class="inWidth" rows="6" v-model="obj.outParamDesc"></textarea>
-                <div>
-                    <label class="lWidth"></label>
-                    <span class="invalidate">必填</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="lWidth">脚本配置
-                    <span class="required">*</span>
-                </label>
-                <textarea class="inWidth" rows="6" v-model="obj.outParamDesc"></textarea>
-                <div>
-                    <label class="lWidth"></label>
-                    <span class="invalidate">必填</span>
-                </div>
-            </div>
         </form>
 
         <div class="btn-group" v-show="!readonly">

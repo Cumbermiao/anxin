@@ -1,11 +1,11 @@
 <template>
     <v-content id="title" title="业务对象管理">
         <div class="home_content">
-            <section>
+            <section class="sec1">
                 <search-input placeholder="请输入对象分了名称关键词搜索" @search='searchSys'></search-input>
                 <tree-node :sysTrees='sysTrees' @changeID="changeID" @search='search' :indent='indent' :sType='sType'></tree-node>
             </section>
-            <section>
+            <section class="sec2">
                 <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
                 <button class="button" @click="toCreate">新建</button>
                 <service-list :sys='sys' :watchPath='watchPath' :modifyPath='modifyPath' :keywords='keywords' @changeOpObj='changeBOOpObj' @remove='remove'></service-list>
@@ -40,7 +40,7 @@ export default {
             watchPath: '#/data/busiObj/watchBO',
             modifyPath: '#/data/busiObj/modifyBO',
             createPath: '',
-            select: [],
+            select: [10,20,40],
             keywords: '',
             indent:0,
             sType:'bo'

@@ -38,6 +38,7 @@ const mutations = {
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')
+                    router.go(0)
                 } else {
                     alert('操作失败')
                 }
@@ -50,6 +51,7 @@ const mutations = {
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')
+                    router.go(0)
                 } else {
                     alert('操作失败')
                 }
@@ -62,6 +64,7 @@ const mutations = {
             .then((res) => {
                 if (res.status === 200 && res.data.returnStatus == 1) {
                     alert('操作成功')
+                    router.go(0)
                 } else {
                     alert('操作失败')
                 }

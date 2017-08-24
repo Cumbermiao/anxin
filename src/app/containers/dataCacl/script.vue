@@ -9,7 +9,7 @@
                 <section>
                     <search placeholder="请输入对象分了名称关键词搜索" @changeKey='changeKey' @search='search'></search>
                     <button class="button" @click="toCreate">新建</button>
-                    <service-list :sys='sys' :watchPath='watchPath' :modifyPath='modifyPath' :keywords='keywords' @changeOpObj='changeOpObj' @remove='remove'></service-list>
+                    <service-list :sys='sys' :watchPath='watchPath' :isScript='isScript' :modifyPath='modifyPath' :keywords='keywords' @changeOpObj='changeOpObj' @remove='remove'></service-list>
                     <pages :select='select' @changePageNum='skipTo' @changePageSize='changePageSize' :pageInfo='pageInfo'></pages>
                 </section>
             </div>
@@ -50,7 +50,8 @@ export default {
             sysTrees: [],
             obj: {},
             watchPath: '#/datCacl/script/watchSp',
-            modifyPath: '#/datCacl/script/modifySp'
+            modifyPath: '#/datCacl/script/modifySp',
+            isScript:true
         }
     },
     computed: {
@@ -179,12 +180,10 @@ section {
 }
 
 .home_content section:first-child {
-
     width: 25%;
 }
-
 .home_content section:last-child {
-    width: 74%;
+    width: 70%;
     border-left: 1px solid #d8dcf0;
     min-height: 851px;
 }

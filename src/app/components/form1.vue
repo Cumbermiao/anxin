@@ -136,9 +136,7 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
-import DataTable from './DataTable';
 import Content from './Content.vue';
-// import axios from '../../utils/axios';d
 export default {
     data() {
         return {
@@ -172,7 +170,6 @@ export default {
     props: ['dataSource', 'opObj','readonly'],
     components: {
         vContent: Content,
-        DataTable
     },
     computed: {
         ...mapState({

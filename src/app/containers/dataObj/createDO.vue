@@ -2,7 +2,7 @@
     <div>
         <sheader :title="title" :path='path' :operation="operation"></sheader>
         <v-content>
-            <m-form :currentId='currentId' @createDO='createDO'></m-form>
+            <m-form :currentId='currentId' :isCreate='isCreate' @createDO='createDO'></m-form>
         </v-content>
     </div>
 </template>
@@ -19,7 +19,7 @@ export default {
             title:'数据对象管理',
             operation:'>新增',
             path:'/data/obj',
-            
+            isCreate:true
         }
     },
     components:{

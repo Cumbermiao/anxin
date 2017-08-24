@@ -39,6 +39,20 @@ const actions = {
             alert('操作失败')
         }
     },
+
+    async modifyDO({ commit }, param) {
+        const { status, statusText, data } = await axios.post('/metadata/dataobject/newUpdate', param);
+        // console.log(data)
+        if (status === 200 && data.returnStatus == 1) {
+            alert('修改成功')
+            router.go(-1)
+            console.log(data)
+            commit('modifyDO', data)
+        }
+        else {
+            alert('操作失败')
+        }
+    },
 }
 
 const mutations = {
@@ -67,7 +81,9 @@ const mutations = {
     changePageNum(state, val) {
         state.pageNum = val
     },
-    
+    modifyDO(state,val){
+
+    }
 }
 
 export default {

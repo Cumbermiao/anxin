@@ -219,11 +219,12 @@ section {
 
 .home_content section:first-child {
     width: 25%;
+    border-right: 1px solid #d8dcf0;
 }
 
 .home_content section:last-child {
     width: 74%;
-    border-left: 1px solid #d8dcf0;
+    
     min-height: 851px;
 }
 

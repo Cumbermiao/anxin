@@ -37,7 +37,7 @@ export default {
             watchPath: '#/data/source/watchDS',
             modifyPath: '#/data/source/modifyDS',
             createPath: '',
-            select: [],
+            select: [10,20,40],
             keywords: '',
         }
     },

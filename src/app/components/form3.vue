@@ -33,6 +33,17 @@
             </div>
 
             <div class="form-group">
+                <label class="lWidth">中文名
+                    <span class="required">*</span>
+                </label>
+                <input class="inWidth" v-model="busiData.sjdxzwm" required type="text" :readonly='readonly'>
+                <div>
+                    <label class="lWidth"></label>
+                    <span class="invalidate">必填</span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="lWidth">描述
                 </label>
                 <input class="inWidth" v-model="busiData.ms" type="text" :readonly='readonly'>
@@ -87,8 +98,6 @@ export default {
     props: ['currentId', 'doList', "opObj", 'readonly', 'isModify', 'ywzbList'],
     data() {
         return {
-            selected: 'selected',
-            unselected: '',
             dataObjWid: 0,//数据对象id
             busiData: {
                 bz: "",
@@ -119,13 +128,7 @@ export default {
         isShow(val) {
             this.formShow = val;
         },
-        isOpen(val) {
-            if (val) {
-                this.sfqy = 1
-            } else {
-                this.sfqy = 0
-            }
-        },
+
         deepCopy: function(source) {
             var result = {};
             for (var key in source) {
@@ -244,7 +247,7 @@ export default {
         },
         modify(param) {
             console.log('param')
-            alert('modify')
+            // alert('modify')
             console.log(param)
             this.opAttr = param;
             // if (this.isModify) {

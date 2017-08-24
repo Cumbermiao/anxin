@@ -14,8 +14,10 @@ const router = new VueRouter({
     {
       path: '/home',
       component: App,
+      redirect: { name: 'realtime' },
       children: [{
-        path: '',
+        name:'realtime',
+        path: 'realtime',
         component: resolve => require(['~/app/containers/home/Home'], resolve)
       }, {
         name: 'createSS',
